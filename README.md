@@ -31,7 +31,7 @@ library(devtools)
 ```
 Finally, install the RgeoProfile package directly from GitHub by running
 ```
-install_github("emmatee1/GeoProfile")
+install_github("Emmadeeks97/GeoProfile")
 library(GeoProfile)
 ```
 Once installed, run ??GeoProfile to open the help for the package, which contains a number of worked examples.
