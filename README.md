@@ -1,7 +1,7 @@
 # GeoProfile
 Carries out geographic profiling in R using a Dirichlet process mixture model. 
 This package is an updated version of the R package *RgeoProfile*, originally developed by (https://github.com/bobverity/Rgeoprofile). Other versions, with associated tutorials, have been developed in alternative packages (https://github.com/Michael-Stevens-27/silverblaze). 
-This version of the package improves usability, by only requiring open access dependancies. 
+This version of the package, developed under the supervision of Sally Faulkner, improves usability by only requiring open access dependancies. 
 
 # Background of RgeoProfile and GeoProfile
 GeoProfile is an R package for carrying out geographic profiling - a technique derived from criminology that uses the spatial locations of linked crimes to infer the home location (or locations) from which the criminal is operating1</sup>. More recently, this method has been applied to problems in ecology<sup>2-5</sup> and infectious disease<sup>6,7</sup>, where "crimes" are now equivalent to animal observations or sites of infection, and "home locations" may be roosts or persistent sources of disease. Finding these sources is often a key priority - for example in malaria this may provide a more efficient method of carrying out targeted larval source management<sup>7</sup>.
