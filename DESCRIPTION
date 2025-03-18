@@ -7,10 +7,11 @@ Author: Robert Verity corrected by Emma Deeks
 Maintainer: Emma Deeks <e.deeks@qmul.ac.uk>
 Description: Can be used to infer multiple source locations from spatial data
     using a Dirichlet process mixture (DPM) modelling framework.
-License: GPL (>= 2)
+License: GPL-2 | GPL-3
 Encoding: UTF-8
 Imports:
-    Rcpp (>= 0.11.5),
+    Rcpp,
+    RcppArmadillo,
     fftwtools,
     ggplot2,
     leaflet,
@@ -20,7 +21,7 @@ Imports:
     sf,
     terra,
     viridis
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.3.2
 SystemRequirements:
     C++11
