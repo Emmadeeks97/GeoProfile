@@ -298,6 +298,189 @@ getZoom <- function(x,y) {
 }
 
 #------------------------------------------------
+#' Plot a map and overlay data and/or geoprofile using google maps
+#'
+#' Plots geoprofile on map, with various customisable options.
+#'
+#' @param params parameters list in the format defined by geoParams().
+#' @param data data object in the format defined by geoData().
+#' @param source potential sources object in the format defined by geoDataSource().
+#' @param surface a surface to overlay onto the map, typically a geoprofile obtained from the output of geoMCMC().
+#' @param surfaceCols vector of two or more colours to plot surface. Defaults to viridis palette.
+#' @param zoom zoom level of map. If NULL then choose optimal zoom from params.
+#' @param latLimits optional vector setting min and max latitude for zoom view.
+#' @param lonLimits optional vector setting min and max longitude for zoom view.
+#' @param mapSource which online source to use when downloading the map. Options include Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps ("stamen") and CloudMade maps ("cloudmade").
+#' @param mapType the specific type of map to plot. Options available are "terrain", "satellite", "roadmap" and "hybrid" (google maps), "terrain-background", "terrain", "watercolor" and "toner" (stamen maps) or a positive integer for cloudmade maps (see ?get_cloudmademap from the package ggmap for details).
+#' @param opacity value between 0 and 1 giving the opacity of surface colours.
+#' @param plotContours whether or not to add contours to the surface plot.
+#' @param breakPercent vector of values between 0 and 100 describing where in the surface contours appear.
+#' @param contourCol single colour to plot contour lines showing boundaries on surface.
+#' @param smoothScale should plot legend show continuous (TRUE) or discrete (FALSE) colours.
+#' @param crimeCex relative size of symbols showing crimes.
+#' @param crimeCol colour of crime symbols.
+#' @param crimeBorderCol border colour of crime symbols.
+#' @param crimeBorderWidth width of border of crime symbols.
+#' @param sourceCex relative size of symbols showing suspect sites.
+#' @param sourceCol colour of suspect sites symbols.
+#' @param gpLegend whether or not to add legend to plot.
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' # London example data
+#' d <- LondonExample_crimes
+#' s <- LondonExample_sources
+#' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
+#' m <- geoMCMC(data = d, params = p)
+#' # produce simple map
+#' geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
+#'                 breakPercent = seq(0, 50, 5), mapType = "hybrid",
+#'                 crimeCol = "black", crimeCex = 2, sourceCol = "red", sourceCex = 2)
+#'
+#' # John Snow cholera data
+#' d <- Cholera
+#' s <- WaterPumps
+#' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
+#' m <- geoMCMC(data = d, params = p, lambda=0.05)
+#' # produce simple map
+#' geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
+#'                 breakPercent = seq(0, 50, 5), mapType = "hybrid",
+#'                 crimeCol = "black", crimeCex = 2, sourceCol = "red", sourceCex = 2)
+#'
+#' # simulated data
+#' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
+#' 51.5235505, alpha=1, sigma=1, tau=3)
+#' d <- geoData(sim$longitude, sim $latitude)
+#' s <- geoDataSource(sim$source_lon, sim$source_lat)
+#' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
+#' m <- geoMCMC(data = d, params = p)
+#' # change colour palette, map type, opacity and range of geoprofile and omit legend
+#' geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
+#'                 breakPercent = seq(0, 30, 5), mapType = "terrain",
+#'                 surfaceCols = c("blue","white"), crimeCol = "black",
+#'                 crimeBorderCol = "white",crimeCex = 2, sourceCol = "red", sourceCex = 2,
+#'                 opacity = 0.7, gpLegend = FALSE)
+#' }
+
+geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols=NULL, zoom=NULL, latLimits=NULL, lonLimits=NULL, mapSource="google", mapType="hybrid", opacity=0.6, plotContours=TRUE, breakPercent=seq(0,100,l=11), contourCol= "grey50", smoothScale=TRUE, crimeCex=1.5, crimeCol='red', crimeBorderCol='white', crimeBorderWidth=0.5, sourceCex=1.5, sourceCol='blue', gpLegend=TRUE) {
+
+  # check that inputs make sense
+  geoParamsCheck(params)
+  if (!is.null(data)) { geoDataCheck(data) }
+
+  # set defaults
+  if (is.null(surfaceCols)) { surfaceCols <- viridis::plasma(100) }
+  if (is.null(latLimits)) { latLimits <- params$output$latitude_minMax }
+  if (is.null(lonLimits)) { lonLimits <- params$output$longitude_minMax }
+
+  # if zoom=="auto" then set zoom level based on params
+  if (is.null(zoom)) {
+    zoom <- getZoom(params$output$longitude_minMax, params$output$latitude_minMax)
+    cat(paste0("using zoom=", zoom, "\n"))
+  }
+
+  # make zoom level appropriate to map source
+  if (mapSource=="stamen") { zoom <- min(zoom,18) }
+
+  # download map
+  cat("downloading map\n")
+  loc <- c(mean(params$output$longitude_minMax), mean(params$output$latitude_minMax))
+  rawMap <- get_map(location=loc, zoom=zoom, source=mapSource, maptype=mapType)
+
+  # get attributes from rawMap (bounding box)
+  att <- unlist(attributes(rawMap)$bb)
+  latVec <- seq(att[3], att[1], l=nrow(rawMap))
+  lonVec <- seq(att[2], att[4], l=ncol(rawMap))
+  df_rawMap <- data.frame(lat=rep(latVec, each=ncol(rawMap)), lon=rep(lonVec, times=nrow(rawMap)))
+
+  # bind with colours from rawMap
+  df_rawMap <- cbind(df_rawMap, col=as.vector(rawMap))
+
+  # create ggplot object
+  myMap <- ggplot(df_rawMap, aes_string(x='lon', y='lat', fill='col')) + geom_raster() + scale_fill_identity()
+  myMap <- myMap + coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
+
+  # overlay geoprofile
+  if (!is.null(surface)) {
+
+    # create colour palette
+    geoCols <- colorRampPalette(rev(surfaceCols))
+    nbcol <- length(breakPercent)-1
+
+    # extract plotting ranges and determine midpoints of cells
+    longitude_minMax  <- params$output$longitude_minMax
+    latitude_minMax  <- params$output$latitude_minMax
+    longitude_cells  <- params$output$longitude_cells
+    latitude_cells  <- params$output$latitude_cells
+    longitude_cellSize <- diff(longitude_minMax)/longitude_cells
+    latitude_cellSize <- diff(latitude_minMax)/latitude_cells
+    longitude_midpoints <- longitude_minMax[1] - longitude_cellSize/2 + (1:longitude_cells)* longitude_cellSize
+    latitude_midpoints <- latitude_minMax[1] - latitude_cellSize/2 + (1:latitude_cells)* latitude_cellSize
+
+    # create data frame of x,y,z values and labels for contour level
+    df <- expand.grid(x=longitude_midpoints, y=latitude_midpoints)
+    df$z <- as.vector(t(surface))
+    labs <- paste(round(breakPercent,1)[-length(breakPercent)],"-",round(breakPercent,1)[-1],"%",sep='')
+    df$cut <- cut(df$z, breakPercent, labels=labs)
+    df$col <- rev(geoCols(nbcol))[df$cut]
+
+    # remove all entries outside of breakPercent range
+    df_noNA <- df[!is.na(df$cut),]
+
+    # convert current map into borderless background image
+    background <- myMap + theme_nothing()
+    myMap <- ggplot() + annotation_custom(grob=ggplotGrob(background), xmin=lonLimits[1], xmax=lonLimits[2], ymin=latLimits[1], ymax=latLimits[2])
+
+    # add surface and colour scale
+    if (smoothScale) {
+      myMap <- myMap + geom_raster(aes_string(x='x', y='y', fill='z'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + scale_fill_gradientn(name="Hitscore\npercentage", colours=rev(surfaceCols))
+    } else {
+      myMap <- myMap + geom_raster(aes_string(x='x', y='y', fill='col'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + scale_fill_manual(name="Hitscore\npercentage", labels=labs, values=geoCols(nbcol))
+    }
+    if (!gpLegend) {
+      myMap <- myMap + theme(legend.position="none")
+    }
+
+    # add plotting limits
+    myMap <- myMap + coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
+
+    # add contours
+    if (plotContours) {
+      myMap <- myMap + stat_contour(aes_string(x='x', y='y', z='z'), colour=contourCol, breaks=breakPercent, size=0.3, alpha=opacity, data=df)
+    }
+  }
+
+  # overlay data points
+  if (!is.null(data)) {
+    df_data <- data.frame(longitude=data$longitude, latitude=data$latitude)
+    myMap <- myMap + geom_point(aes_string(x='longitude', y='latitude'), data=df_data, pch=21, stroke=crimeBorderWidth, cex=crimeCex, fill=crimeCol, col=crimeBorderCol)
+  }
+
+  # overlay source points
+  if (!is.null(source)) {
+    df_source <- data.frame(longitude=source$longitude, latitude=source$latitude)
+    myMap <- myMap + geom_point(aes_string(x='longitude', y='latitude'), data=df_source, pch=15, cex=sourceCex, col=sourceCol, fill=NA)
+  }
+
+  # force correct aspect ratio
+  centre_lat <- mean(params$output$latitude_minMax)
+  centre_lon <- mean(params$output$longitude_minMax)
+  scale_lat <- latlon_to_bearing(centre_lat, centre_lon, centre_lat + 0.1, centre_lon)$gc_dist
+  scale_lon <- latlon_to_bearing(centre_lat, centre_lon, centre_lat, centre_lon + 0.1)$gc_dist
+  asp <- diff(latLimits)*scale_lat / (diff(lonLimits)*scale_lon)
+  myMap <- myMap +  theme(aspect.ratio=asp)
+
+  # add labels
+  myMap <- myMap +  labs(x="longitude", y="latitude")
+
+  # plot map
+  myMap
+}
+
+#------------------------------------------------
 #' Plot a map and overlay data and/or geoprofile via leaflet
 #'
 #' Plots geoprofile on map, with various customisable options.
@@ -419,7 +602,7 @@ geoPlotLeaflet <- function(params = NULL,
 
   # produce plot
   myplot <- leaflet()
-  myplot <- addProviderTiles(myplot, providers[[map_type]])
+  myplot <- addProviderTiles(myplot, provider = map_type)
 
   if(!is.null(data)){
     # add crimes markers
@@ -444,14 +627,14 @@ geoPlotLeaflet <- function(params = NULL,
 
   if(!is.null(surface)){
 
-    # Create a raster from the surface
-    surface <- rast(surface)
+    # make a raster from the surface
+    surface_matrix <- apply(surface, 2, rev)
 
-    # Set the spatial extent using the ext function
-    ext(surface) <- ext(fullExt[1], fullExt[2], fullExt[3], fullExt[4])  # xmin, xmax, ymin, ymax
-
-    # Set the CRS
-    crs(surface) <- "+proj=longlat +datum=WGS84"
+    surface <- terra::rast(
+      surface_matrix,
+      extent = terra::ext(fullExt[1], fullExt[2], fullExt[3], fullExt[4])
+    )
+    terra::crs(surface) <- "EPSG:4326"
 
     # apply smoothing
     if (smoothing > 1.0) {

@@ -849,7 +849,7 @@ geoRing <- function(params, data, source, mcmc) {
 #' map2
 #'
 #' # repeat, restricting mask to Tower Hamlets and using 'near' instead of 'inside'
-#' TH_mask <- north_london_mask[which(north_london_mask$NAME == "Tower Hamlets"),]
+#' TH_mask <- north_london_mask[which(north_london_mask$NAME == "Tower Hamlets"), ]
 #' prob_masked2 <- geoMask(probSurface = m$posteriorSurface, params = p, mask = TH_mask,
 #'                  operation = "far", scaleValue = 1)
 #' gp_masked2 <- geoProfile(prob_masked2$prob)
@@ -860,82 +860,62 @@ geoRing <- function(params, data, source, mcmc) {
 
 geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "inside", maths = "multiply") {
 
-  # check input formats
   stopifnot(inherits(mask, c("sf", "RasterLayer")))
   stopifnot(operation %in% c("inside", "outside", "near", "far", "continuous"))
   stopifnot(maths %in% c("multiply", "divide", "add", "subtract", "continuous"))
 
-  # convert mask to raster
-  if (any(class(mask) == "RasterLayer")) {
-    rf <- mask
-  } else if (any(class(mask) == "sf")) {
-    tmp <- rast(ncol = params$output$longitude_cells, nrow = params$output$latitude_cells)
-    ext(tmp) <- ext(mask)
-    rf <- rasterize(mask, tmp)
-  } else if (any(class(mask) == "sf")) {
-    tmp <- rast(ncol = params$output$longitude_cells, nrow = params$output$latitude_cells)
-    ext(tmp) <- ext(mask)
-    rf <- rasterize(mask, tmp)
-  }
-  # convert probSurface to raster
   raster_probSurface <- rast(probSurface)
   ext(raster_probSurface) <- c(params$output$longitude_minMax[1], params$output$longitude_minMax[2],
                                params$output$latitude_minMax[1], params$output$latitude_minMax[2])
   crs(raster_probSurface) <- "+proj=longlat +datum=WGS84"
 
-  # project mask onto the same coordinate system as probSurface
-  rf <- project(rf, crs(raster_probSurface))
-  ext(rf) <- ext(raster_probSurface)
-  rf <- resample(rf, raster_probSurface, method = "near")
-  # extract raster values to matrices
+  if (inherits(mask, "sf")) {
+    mask <- sf::st_transform(mask, crs = crs(raster_probSurface))  # match CRS
+
+    tmp <- rast(ncol = params$output$longitude_cells,
+                nrow = params$output$latitude_cells,
+                extent = ext(raster_probSurface),
+                crs = crs(raster_probSurface))
+
+    res(tmp) <- res(raster_probSurface)  # match resolution
+    rf <- rasterize(mask, tmp)
+  } else {
+    rf <- mask  # already raster
+  }
+
+  # extract raster values
   rf_mat <- matrix(values(rf), ncol = ncol(rf), byrow = TRUE)
   rf_mat <- rf_mat[nrow(rf_mat):1, ]
-
   p_mat <- matrix(values(raster_probSurface), ncol = ncol(raster_probSurface), byrow = TRUE)
-  #### OPERATIONS
 
-  # initialise scale matrix
   scale_mat <- NULL
 
-  # keep cells inside mask, multiplied by scaleValue
   if (operation == "inside") {
     scale_mat <- ifelse(is.na(rf_mat), 1, scaleValue)
     p_mat <- p_mat * scale_mat
   }
 
-  # keep cells outside mask, multiplied by scaleValue
   if (operation == "outside") {
     scale_mat <- ifelse(is.na(rf_mat), scaleValue, 1)
     p_mat <- p_mat * scale_mat
   }
 
-  # perform operation at all cells
   if (operation == "continuous") {
-    if (maths == "add") {
-      p_mat <- p_mat + rf_mat
-    }
-    if (maths == "subtract") {
-      p_mat <- p_mat - rf_mat
-    }
-    if (maths == "multiply") {
-      p_mat <- p_mat * rf_mat
-    }
-    if (maths == "divide") {
-      p_mat <- p_mat / rf_mat
-    }
+    if (maths == "add")      p_mat <- p_mat + rf_mat
+    if (maths == "subtract") p_mat <- p_mat - rf_mat
+    if (maths == "multiply") p_mat <- p_mat * rf_mat
+    if (maths == "divide")   p_mat <- p_mat / rf_mat
   }
 
-  # decay with distance from non-NA cells
   if (operation == "near") {
     d <- distance(rf)
     d_mat <- matrix(values(d), ncol = ncol(d), byrow = TRUE)
     d_mat <- d_mat[nrow(d_mat):1, ]
-    scale_mat <- 1/(d_mat^scaleValue)
-    scale_mat[scale_mat == "Inf"] <- 1
+    scale_mat <- 1 / (d_mat^scaleValue)
+    scale_mat[is.infinite(scale_mat)] <- 1
     p_mat <- p_mat * scale_mat
   }
 
-  # increase with distance from non-NA cells
   if (operation == "far") {
     d <- distance(rf)
     d_mat <- matrix(values(d), ncol = ncol(d), byrow = TRUE)
@@ -944,7 +924,5 @@ geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "ins
     p_mat <- p_mat * scale_mat
   }
 
-  # return list
-  ret <- list(prob = p_mat, scaleMatrix = scale_mat)
-  return(ret)
+  list(prob = p_mat, scaleMatrix = scale_mat)
 }
