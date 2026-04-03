@@ -11,21 +11,8 @@
 - Brand it (because of course)
 - Need to write some tests
 - Probably worthwhile shifting over to the cli package for much more fully-featured messaging
-- Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier. There's a few ways we can do it but 3m is not acceptable:
-
-```
-─  checking examples ... [188s] OK (3m 8.6s)
-   Examples with CPU (user + system) or elapsed time > 5s
-                       user system elapsed
-   geoPlotAllocation  35.76   2.51   38.47
-   geoPlotSigma       25.84   1.58   27.59
-   geoMCMC            22.59   1.44   24.10
-   geoProfile         21.71   1.36   23.25
-   geoPersp           21.18   1.46   23.47
-   geoPlotLorenz      17.31   1.59   19.05
-   unknownPleasures   14.52   1.25   15.80
-   geoReportHitscores  7.55   0.05    7.64
-```
+- Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier.
+- Consider shifting from shapefiles in inst/extdata to using something better and more modern [see here](http://switchfromshapefile.org/). Probably just geopackage?
 
 ## Obvious code changes
 - dRIG & dts take a bool log as an argument but then use the `log` function. This could well cause a bug either way round!!!

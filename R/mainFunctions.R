@@ -268,6 +268,7 @@ geoShapefile <- function(fileName=NULL) {
   }
 
   # load shapefile
+  # FW: Worthwhile switching to terra for this, and moving the shapefile to a geopackage
   ret <- sf::st_read(fileName, quiet = TRUE) ### MODIFICATION
 
   return(ret)
@@ -359,24 +360,32 @@ geoParamsCheck <- function(params, silent=FALSE) {
   #---------------------------------------
 
   # check that params$model contains all necessary parameters
-  if (!("sigma_mean"%in%names(params$model)))
-    stop("params$model must contain parameter 'sigma_mean'")
-  if (!("sigma_var"%in%names(params$model)))
-    stop("params$model must contain parameter 'sigma_var'")
-  if (!("sigma_squared_shape"%in%names(params$model)))
-    stop("params$model must contain parameter 'sigma_squared_shape'")
-  if (!("sigma_squared_rate"%in%names(params$model)))
-    stop("params$model must contain parameter 'sigma_squared_rate'")
-  if (!("priorMean_longitude"%in%names(params$model)))
-    stop("params$model must contain parameter 'priorMean_longitude'")
-  if (!("priorMean_latitude"%in%names(params$model)))
-    stop("params$model must contain parameter 'priorMean_latitude'")
-  if (!("tau"%in%names(params$model)))
-    stop("params$model must contain parameter 'tau'")
-  if (!("alpha_shape"%in%names(params$model)))
-    stop("params$model must contain parameter 'alpha_shape'")
-  if (!("alpha_rate"%in%names(params$model)))
-    stop("params$model must contain parameter 'alpha_rate'")
+  # FW: Rework to reduce duplicated code
+  req_params <- c("sigma_mean", "sigma_var", "sigma_squared_shape", "sigma_squared_rate", "priorMean_longitude", "priorMean_latitude", "tau", "alpha_shape", "alpha_rate")
+  missing_params <- setdiff(req_params, names(params$model))
+
+  if (length(missing_params) < 1) {
+    stop(paste0("params$model missing parameter/s: ", paste(missing_params, collapse = ", ")))
+  }
+
+  # if (!("sigma_mean"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'sigma_mean'")
+  # if (!("sigma_var"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'sigma_var'")
+  # if (!("sigma_squared_shape"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'sigma_squared_shape'")
+  # if (!("sigma_squared_rate"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'sigma_squared_rate'")
+  # if (!("priorMean_longitude"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'priorMean_longitude'")
+  # if (!("priorMean_latitude"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'priorMean_latitude'")
+  # if (!("tau"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'tau'")
+  # if (!("alpha_shape"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'alpha_shape'")
+  # if (!("alpha_rate"%in%names(params$model)))
+  #   stop("params$model must contain parameter 'alpha_rate'")
 
   # check that params$model values are correct format and range
   if (!is.numeric(params$model$sigma_mean) | !is.finite(params$model$sigma_mean))
@@ -423,16 +432,23 @@ geoParamsCheck <- function(params, silent=FALSE) {
   #---------------------------------------
 
   # check that params$MCMC contains all necessary parameters
-  if (!("chains"%in%names(params$MCMC)))
-    stop("params$MCMC must contain parameter 'chains'")
-  if (!("burnin"%in%names(params$MCMC)))
-    stop("params$MCMC must contain parameter 'burnin'")
-  if (!("samples"%in%names(params$MCMC)))
-    stop("params$MCMC must contain parameter 'samples'")
-  if (!("burnin_printConsole"%in%names(params$MCMC)))
-    stop("params$MCMC must contain parameter 'burnin_printConsole'")
-  if (!("samples_printConsole"%in%names(params$MCMC)))
-    stop("params$MCMC must contain parameter 'samples_printConsole'")
+  # FW: Rework to reduce duplicated code
+  req_params <- c("chains", "burnin", "samples", "burnin_printConsole", "samples_printConsole")
+  missing_params <- setdiff(req_params, names(params$MCMC))
+
+  if (length(missing_params) < 1) {
+    stop(paste0("params$MCMC missing parameter/s: ", paste(missing_params, collapse = ", ")))
+  }
+  # if (!("chains"%in%names(params$MCMC)))
+  #   stop("params$MCMC must contain parameter 'chains'")
+  # if (!("burnin"%in%names(params$MCMC)))
+  #   stop("params$MCMC must contain parameter 'burnin'")
+  # if (!("samples"%in%names(params$MCMC)))
+  #   stop("params$MCMC must contain parameter 'samples'")
+  # if (!("burnin_printConsole"%in%names(params$MCMC)))
+  #   stop("params$MCMC must contain parameter 'burnin_printConsole'")
+  # if (!("samples_printConsole"%in%names(params$MCMC)))
+  #   stop("params$MCMC must contain parameter 'samples_printConsole'")
 
   # check that params$MCMC values are correct format and range
   if (!is.numeric(params$MCMC$chains) | !is.finite(params$MCMC$chains))
@@ -459,14 +475,21 @@ geoParamsCheck <- function(params, silent=FALSE) {
   #---------------------------------------
 
   # check that params$output contains all necessary parameters
-  if (!("longitude_minMax"%in%names(params$output)))
-    stop("params$output must contain parameter 'longitude_minMax'")
-  if (!("latitude_minMax"%in%names(params$output)))
-    stop("params$output must contain parameter 'latitude_minMax'")
-  if (!("longitude_cells"%in%names(params$output)))
-    stop("params$output must contain parameter 'longitude_cells'")
-  if (!("latitude_cells"%in%names(params$output)))
-    stop("params$output must contain parameter 'latitude_cells'")
+  # FW: Rework to reduce duplicated code
+  req_params <- c("longitude_minMax", "latitude_minMax", "longitude_cells", "latitude_cells")
+  missing_params <- setdiff(req_params, names(params$output))
+
+  if (length(missing_params) < 1) {
+    stop(paste0("params$output missing parameter/s: ", paste(missing_params, collapse = ", ")))
+  }
+  # if (!("longitude_minMax"%in%names(params$output)))
+  #   stop("params$output must contain parameter 'longitude_minMax'")
+  # if (!("latitude_minMax"%in%names(params$output)))
+  #   stop("params$output must contain parameter 'latitude_minMax'")
+  # if (!("longitude_cells"%in%names(params$output)))
+  #   stop("params$output must contain parameter 'longitude_cells'")
+  # if (!("latitude_cells"%in%names(params$output)))
+  #   stop("params$output must contain parameter 'latitude_cells'")
 
   #---------------------------------------
 
@@ -756,6 +779,7 @@ geoRing <- function(params, data, source, mcmc) {
   latMat <- matrix(rep(latVec,length(lonVec)), length(latVec))
 
   # calculate great circle distance from every data point to every point in search grid. This list of distance matrices will be used multiple times so best to pre-compute here.
+  # FW: This can probably be vectorised for a notable speedup on large datasets.
   ret <- matrix(-Inf, nrow=nrow(lonMat), ncol=ncol(lonMat))
   for (i in 1:n) {
     neg_dist_i <- -latlon_to_bearing(data$latitude[i], data$longitude[i], latMat, lonMat)$gc_dist
