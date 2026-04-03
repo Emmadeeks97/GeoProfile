@@ -7,16 +7,16 @@
 geoRing(params, data, source, mcmc)
 }
 \arguments{
-\item{params}{Parameters list in the format defined by geoParams().}
+\item{params}{Parameters list in the format defined by \code{\link[=geoParams]{geoParams()}}.}
 
-\item{data}{Data object in the format defined by geoData().}
+\item{data}{Data object in the format defined by \code{\link[=geoData]{geoData()}}.}
 
-\item{source}{Potential sources object in the format defined by geoDataSource().}
+\item{source}{Potential sources object in the format defined by \code{\link[=geoDataSource]{geoDataSource()}}.}
 
-\item{mcmc}{mcmc object of the form produced by geoMCMC().}
+\item{mcmc}{mcmc object of the form produced by \code{\link[=geoMCMC]{geoMCMC()}}.}
 }
 \description{
-Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with geoProfile() and geoReportHitscores to produce a map and hitscores based on this strategy.
+Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with \code{\link[=geoProfile]{geoProfile()}} and \code{\link[=geoReportHitscores]{geoReportHitscores()}} to produce a map and hitscores based on this strategy.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

@@ -7,7 +7,7 @@
 geoParamsCheck(params, silent = FALSE)
 }
 \arguments{
-\item{params}{a list of parameters, as defined by geoParams().}
+\item{params}{a list of parameters, as defined by \code{\link[=geoParams]{geoParams()}}.}
 
 \item{silent}{whether to report passing check to console.}
 }

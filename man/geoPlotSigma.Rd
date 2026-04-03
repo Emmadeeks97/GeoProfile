@@ -7,11 +7,11 @@
 geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
 }
 \arguments{
-\item{params}{a list of parameters as defined by geoParams().}
+\item{params}{a list of parameters as defined by \code{\link[=geoParams]{geoParams()}}.}
 
-\item{mcmc}{stored output obtained by running geoMCMC(). Leave as NULL to plot prior only.}
+\item{mcmc}{stored output obtained by running \code{\link[=geoMCMC]{geoMCMC()}}. Leave as \code{NULL} to plot prior only.}
 
-\item{plotMax}{maximum x-axis range to plot. Leave as NULL to use default settings.}
+\item{plotMax}{maximum x-axis range to plot. Leave as \code{NULL} to use default settings.}
 }
 \description{
 Plot prior distribution of sigma as defined by current parameter values. Can optionally overlay a kernel density plot of posterior draws of sigma.

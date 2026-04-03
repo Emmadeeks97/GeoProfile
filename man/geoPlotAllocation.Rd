@@ -24,7 +24,7 @@ geoPlotAllocation(
 )
 }
 \arguments{
-\item{mcmc}{stored output obtained by running geoMCMC().}
+\item{mcmc}{stored output obtained by running \code{\link[=geoMCMC]{geoMCMC()}}.}
 
 \item{colours}{vector of colours for each allocation. If NULL then use default colour scheme.}
 
@@ -54,7 +54,7 @@ geoPlotAllocation(
 
 \item{names_size}{size of names under each bar.}
 
-\item{orderBy}{whether to order segments within each bar by "group" or by "probability". If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.}
+\item{orderBy}{whether to order segments within each bar by \code{"group"} or by \code{"probability"}. If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.}
 }
 \description{
 Produces plot of posterior allocation from output of MCMC.

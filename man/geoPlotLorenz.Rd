@@ -12,7 +12,7 @@ geoPlotLorenz(
 )
 }
 \arguments{
-\item{hit_scores}{object in the format defined by geoReportHitscores().}
+\item{hit_scores}{object in the format defined by \code{\link[=geoReportHitscores]{geoReportHitscores()}}.}
 
 \item{crimeNumbers}{optional vector with numbers of crimes per suspect site.}
 

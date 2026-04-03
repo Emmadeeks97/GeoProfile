@@ -29,9 +29,9 @@ geoParams(
 )
 }
 \arguments{
-\item{data}{observations in the format defined by geoData().}
+\item{data}{observations in the format defined by \code{\link[=geoData]{geoData()}}.}
 
-\item{sources}{observations in the format defined by geoDataSource().}
+\item{sources}{observations in the format defined by \code{\link[=geoDataSource]{geoDataSource()}}.}
 
 \item{sigma_mean}{the mean of the prior on sigma (sigma = standard deviation of the dispersal distribution) in km.}
 
@@ -41,11 +41,11 @@ geoParams(
 
 \item{sigma_squared_rate}{the rate parameter of the inverse-gamma prior on sigma^2.}
 
-\item{priorMean_longitude}{the mean longitude of the normal prior on source locations (in degrees). If NULL then defaults to the midpoint of the range of the data, or -0.1277 if no data provided.}
+\item{priorMean_longitude}{the mean longitude of the normal prior on source locations (in degrees). If \code{NULL} then defaults to the midpoint of the range of the data, or \code{-0.1277} if no data provided.}
 
-\item{priorMean_latitude}{the mean latitude of the normal prior on source locations (in degrees). If NULL then defaults to the midpoint of the range of the data, or 51.5074 if no data provided.}
+\item{priorMean_latitude}{the mean latitude of the normal prior on source locations (in degrees). If \code{NULL} then defaults to the midpoint of the range of the data, or \code{51.5074} if no data provided.}
 
-\item{tau}{the standard deviation of the normal prior on source locations, i.e. how far we expect sources to lie from the centre. If NULL then defaults to the maximum distance of any observation from the prior mean, or 10.0 if no data provided.}
+\item{tau}{the standard deviation of the normal prior on source locations, i.e. how far we expect sources to lie from the centre. If \code{NULL} then defaults to the maximum distance of any observation from the prior mean, or \code{10.0} if no data provided.}
 
 \item{alpha_shape}{shape parameter of the gamma prior on the parameter alpha.}
 
@@ -61,15 +61,15 @@ geoParams(
 
 \item{samples_printConsole}{how frequently (in iterations) to report progress to the console during the sampling phase.}
 
-\item{longitude_minMax}{vector containing minimum and maximum longitude over which to generate geoprofile. If NULL then defaults to the range of the data plus a guard rail on either side, or c(-0.1377,-0.1177) if no data provided.}
+\item{longitude_minMax}{vector containing minimum and maximum longitude over which to generate geoprofile. If \code{NULL} then defaults to the range of the data plus a guard rail on either side, or \code{c(-0.1377,-0.1177)} if no data provided.}
 
-\item{latitude_minMax}{vector containing minimum and maximum latitude over which to generate geoprofile. If NULL then defaults to the range of the data plus a guard rail on either side, or c(51.4974, 51.5174) if no data provided.}
+\item{latitude_minMax}{vector containing minimum and maximum latitude over which to generate geoprofile. If \code{NULL} then defaults to the range of the data plus a guard rail on either side, or \code{c(51.4974, 51.5174)} if no data provided.}
 
 \item{longitude_cells}{number of cells in the final geoprofile (longitude direction). Higher values generate smoother distributions, but take longer to run.}
 
 \item{latitude_cells}{number of cells in the final geoprofile (latitude direction). Higher values generate smoother distributions, but take longer to run.}
 
-\item{guardRail}{when data input is used, longitude_minMax and latitude_minMax default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of 0.05 would give an extra 5 percent on the range of the data.}
+\item{guardRail}{when data input is used, \code{longitude_minMax} and \code{latitude_minMax} default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of \code{0.05} would give an extra 5 percent on the range of the data.}
 }
 \description{
 This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.

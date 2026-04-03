@@ -241,7 +241,7 @@ bin2D <- function(x, y, x_breaks, y_breaks) {
 #------------------------------------------------
 #' Produce a smooth surface using 2D kernel density smoothing
 #'
-#' Takes lon/lat coordinates, bins in two dimensions, and smooths using kernel density smoothing. Kernel densities are computed using the fast Fourier transform method, which is many times faster than simple summation when using a large number of points. Each Kernel is student's-t distributed with 3 degrees of freedom, and scaled by the bandwidth lambda. If lambda is set to \code{NULL} then the optimal value of lambda is chosen automatically using the leave-one-out maximum likelihood method.
+#' Takes lon/lat coordinates, bins in two dimensions, and smooths using kernel density smoothing. Kernel densities are computed using the fast Fourier transform method, which is many times faster than simple summation when using a large number of points. Each Kernel is student's-t distributed with 3 degrees of freedom, and scaled by the bandwidth lambda. If lambda is set to `NULL` then the optimal value of lambda is chosen automatically using the leave-one-out maximum likelihood method.
 #'
 #' @param longitude longitude of input points
 #' @param latitude latitude of input points

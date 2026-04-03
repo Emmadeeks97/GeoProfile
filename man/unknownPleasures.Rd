@@ -14,7 +14,7 @@ unknownPleasures(
 )
 }
 \arguments{
-\item{input_matrix}{The surface to plot, usually the object $geoProfile produced by geoMCMC().}
+\item{input_matrix}{The surface to plot, usually the object \verb{$geoProfile} produced by \code{\link[=geoMCMC]{geoMCMC()}}.}
 
 \item{paper_ref}{A text string, for example a reference to a paper.}
 
@@ -27,7 +27,7 @@ unknownPleasures(
 \item{wt}{line weight}
 }
 \description{
-A frivolous alternative to geoPlotMap(), this function takes the output of geoMCMC() and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
+A frivolous alternative to \code{\link[=geoPlotMap]{geoPlotMap()}}, this function takes the output of \code{\link[=geoMCMC]{geoMCMC()}} and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

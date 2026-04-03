@@ -14,20 +14,20 @@ geoMask(
 )
 }
 \arguments{
-\item{probSurface}{the original geoprofile, usually the object $posteriorSurface produced by geoMCMC().}
+\item{probSurface}{the original geoprofile, usually the object \verb{$posteriorSurface} produced by \code{\link[=geoMCMC]{geoMCMC()}}.}
 
-\item{params}{an object produced by geoParams().}
+\item{params}{an object produced by \code{\link[=geoParams]{geoParams()}}.}
 
-\item{mask}{the spatial information to include. Must be one of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer.}
+\item{mask}{the spatial information to include. Must be one of \code{SpatialPolygonsDataFrame}, \code{SpatialLinesDataFrame} or \code{RasterLayer.}}
 
-\item{scaleValue}{different functions depending on value of "operation". For "inside' or "outside", the value by which probabilities should be multiplied inside or outside the shapefile. For "near" and "far", scaleValue is the importance of proximity to, or distance from, the object described in the SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer. Thus, the default value of scaleValue = 1 can be increased to exaggerate the importance of proximity or distance. Not used for "continuous".}
+\item{scaleValue}{different functions depending on value of \code{operation}. For \verb{"inside'} or \code{"outside"}, the value by which probabilities should be multiplied inside or outside the shapefile. For \code{"near"} and \code{"far"}, \code{scaleValue} is the importance of proximity to, or distance from, the object described in the \code{SpatialPolygonsDataFrame}, \code{SpatialLinesDataFrame} or \code{RasterLayer.} Thus, the default value of \code{scaleValue = 1} can be increased to exaggerate the importance of proximity or distance. Not used for \code{"continuous"}.}
 
-\item{operation}{how to combine the surface and the new spatial information. Must be one of "inside", "outside", "near", "far" or "continuous". The first two multiply areas inside or outside the area described in the shapefile (or raster) by scaleValue. "near" or "far" weight the geoprofile by its closeness to (or distance from) the area described in the shapefile (or raster). Finally, "continuous" uses a set of numerical values (eg altitude) to weight the geoprofile. NOTE: 'near' and 'far' can take a few minutes to run.}
+\item{operation}{how to combine the surface and the new spatial information. Must be one of \code{"inside"}, \code{"outside"}, \code{"near"}, \code{"far"} or \code{"continuous"}. The first two multiply areas inside or outside the area described in the shapefile (or raster) by scaleValue. \code{"near"} or \code{"far"} weight the geoprofile by its closeness to (or distance from) the area described in the shapefile (or raster). Finally, \code{"continuous"} uses a set of numerical values (eg altitude) to weight the geoprofile. NOTE: \code{'near'} and \code{'far'} can take a few minutes to run.}
 
-\item{maths}{one of "add", "subtract", multiply" or "divide. The mathematical operation used to combine the new spatial data with the geoprofile when operation = "continuous".}
+\item{maths}{one of \code{"add"}, \code{"subtract"}, \code{"multiply"} or \code{"divide"}. The mathematical operation used to combine the new spatial data with the geoprofile when \code{operation = "continuous"}.}
 }
 \description{
-This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a SpatialPolygonsDataFrame as produced by the package sp or a raster.
+This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a \code{SpatialPolygonsDataFrame} as produced by the package sp or a raster.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

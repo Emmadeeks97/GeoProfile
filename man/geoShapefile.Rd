@@ -7,10 +7,10 @@
 geoShapefile(fileName = NULL)
 }
 \arguments{
-\item{fileName}{the object to be imported. Must be one of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer if it is to be used with geoMask().}
+\item{fileName}{the object to be imported. Must be one of \code{SpatialPolygonsDataFrame}, \code{SpatialLinesDataFrame} or \code{RasterLayer} if it is to be used with \code{\link[=geoMask]{geoMask()}}.}
 }
 \description{
-This function imports spatial information in the form of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer for use with geoMask().
+This function imports spatial information in the form of \code{SpatialPolygonsDataFrame}, \code{SpatialLinesDataFrame} or \code{RasterLayer} for use with \code{\link[=geoMask]{geoMask()}}.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

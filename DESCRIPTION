@@ -30,3 +30,7 @@ LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.3.3
 LazyData: true
 Roxygen: list(markdown = TRUE)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

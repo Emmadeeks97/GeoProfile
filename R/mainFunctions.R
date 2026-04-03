@@ -8,7 +8,7 @@
 #------------------------------------------------
 #' Create Geoprofile data object
 #'
-#' Simple function that ensures that input data is in the correct format required by Rgeoprofile. Takes longitude and latitude as input vectors and returns these same values in list format.
+#' Simple function that ensures that input data is in the correct format required by Rgeoprofile. Takes `longitude` and `latitude` as input vectors and returns these same values in `list` format.
 #'
 #' @param longitude the locations of the observed data in degrees longitude.
 #' @param latitude the locations of the observed data in degrees latitude.
@@ -70,15 +70,15 @@ geoDataSource <- function(longitude=NULL, latitude=NULL) {
 #'
 #' This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.
 #'
-#' @param data observations in the format defined by geoData().
-#' @param sources observations in the format defined by geoDataSource().
+#' @param data observations in the format defined by [geoData()].
+#' @param sources observations in the format defined by [geoDataSource()].
 #' @param sigma_mean the mean of the prior on sigma (sigma = standard deviation of the dispersal distribution) in km.
 #' @param sigma_var the variance of the prior on sigma in km^2.
 #' @param sigma_squared_shape as an alternative to defining the prior mean and variance of sigma, it is possible to directly define the parameters of the inverse-gamma prior on sigma^2. If so, this is the shape parameter of the inverse-gamma prior.
 #' @param sigma_squared_rate the rate parameter of the inverse-gamma prior on sigma^2.
-#' @param priorMean_longitude the mean longitude of the normal prior on source locations (in degrees). If NULL then defaults to the midpoint of the range of the data, or -0.1277 if no data provided.
-#' @param priorMean_latitude the mean latitude of the normal prior on source locations (in degrees). If NULL then defaults to the midpoint of the range of the data, or 51.5074 if no data provided.
-#' @param tau the standard deviation of the normal prior on source locations, i.e. how far we expect sources to lie from the centre. If NULL then defaults to the maximum distance of any observation from the prior mean, or 10.0 if no data provided.
+#' @param priorMean_longitude the mean longitude of the normal prior on source locations (in degrees). If `NULL` then defaults to the midpoint of the range of the data, or `-0.1277` if no data provided.
+#' @param priorMean_latitude the mean latitude of the normal prior on source locations (in degrees). If `NULL` then defaults to the midpoint of the range of the data, or `51.5074` if no data provided.
+#' @param tau the standard deviation of the normal prior on source locations, i.e. how far we expect sources to lie from the centre. If `NULL` then defaults to the maximum distance of any observation from the prior mean, or `10.0` if no data provided.
 #' @param alpha_shape shape parameter of the gamma prior on the parameter alpha.
 #' @param alpha_rate rate parameter of the gamma prior on the parameter alpha.
 #' @param chains number of MCMC chains to use in the burn-in step.
@@ -86,11 +86,11 @@ geoDataSource <- function(longitude=NULL, latitude=NULL) {
 #' @param samples number of sampling iterations. These iterations are used to generate final posterior distribution.
 #' @param burnin_printConsole how frequently (in iterations) to report progress to the console during the burn-in phase.
 #' @param samples_printConsole how frequently (in iterations) to report progress to the console during the sampling phase.
-#' @param longitude_minMax vector containing minimum and maximum longitude over which to generate geoprofile. If NULL then defaults to the range of the data plus a guard rail on either side, or c(-0.1377,-0.1177) if no data provided.
-#' @param latitude_minMax vector containing minimum and maximum latitude over which to generate geoprofile. If NULL then defaults to the range of the data plus a guard rail on either side, or c(51.4974, 51.5174) if no data provided.
+#' @param longitude_minMax vector containing minimum and maximum longitude over which to generate geoprofile. If `NULL` then defaults to the range of the data plus a guard rail on either side, or `c(-0.1377,-0.1177)` if no data provided.
+#' @param latitude_minMax vector containing minimum and maximum latitude over which to generate geoprofile. If `NULL` then defaults to the range of the data plus a guard rail on either side, or `c(51.4974, 51.5174)` if no data provided.
 #' @param longitude_cells number of cells in the final geoprofile (longitude direction). Higher values generate smoother distributions, but take longer to run.
 #' @param latitude_cells number of cells in the final geoprofile (latitude direction). Higher values generate smoother distributions, but take longer to run.
-#' @param guardRail when data input is used, longitude_minMax and latitude_minMax default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of 0.05 would give an extra 5 percent on the range of the data.
+#' @param guardRail when data input is used, `longitude_minMax` and `latitude_minMax` default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of `0.05` would give an extra 5 percent on the range of the data.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -251,9 +251,9 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 #------------------------------------------------
 #' Import shapefile
 #'
-#' This function imports spatial information in the form of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer for use with geoMask().
+#' This function imports spatial information in the form of `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer` for use with [geoMask()].
 #'
-#' @param fileName the object to be imported. Must be one of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer if it is to be used with geoMask().
+#' @param fileName the object to be imported. Must be one of `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer` if it is to be used with [geoMask()].
 #'
 #' @export
 #' @examplesIf interactive()
@@ -261,6 +261,7 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 #' geoShapefile()
 
 geoShapefile <- function(fileName=NULL) {
+  # FW: Check whether these functions actually require these old data classes, or whether they use new terra-style equivalents
 
   # load north London boroughs by default
   if (is.null(fileName)) {
@@ -279,7 +280,7 @@ geoShapefile <- function(fileName=NULL) {
 #'
 #' Check that all data for use in Rgeoprofile MCMC is in the correct format.
 #'
-#' @param data a data list object, as defined by geoData().
+#' @param data a data list object, as defined by [geoData()].
 #' @param silent whether to report if data passes checks to console.
 #'
 #' @export
@@ -322,7 +323,7 @@ geoDataCheck <- function(data, silent=FALSE) {
 #'
 #' Check that all parameters for use in Rgeoprofile MCMC are in the correct format.
 #'
-#' @param params a list of parameters, as defined by geoParams().
+#' @param params a list of parameters, as defined by [geoParams()].
 #' @param silent whether to report passing check to console.
 #'
 #' @export
@@ -502,9 +503,9 @@ geoParamsCheck <- function(params, silent=FALSE) {
 #'
 #' This function carries out the main MCMC under the Rgeoprofile model. Posterior draws are smoothed to produce a posterior surface, and converted into a geoProfile. Outputs include posterior draws of alpha and sigma under the variable-sigma model.
 #'
-#' @param data input data in the format defined by geoData().
-#' @param params input parameters in the format defined by geoParams().
-#' @param lambda bandwidth to use in posterior smoothing. If NULL then optimal bandwidth is chosen automatically by maximum-likelihood.
+#' @param data input data in the format defined by [geoData()].
+#' @param params input parameters in the format defined by [geoParams()].
+#' @param lambda bandwidth to use in posterior smoothing. If `NULL` then optimal bandwidth is chosen automatically by maximum-likelihood.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -647,9 +648,9 @@ geoProfile <- function(surface) {
 #'
 #' Calculate hitscores of the potential sources for a given surface (usually the geoprofile).
 #'
-#' @param params input parameters in the format defined by geoParams().
-#' @param source longitude and latitude of one or more source locations in the format defined by geoDataSource().
-#' @param surface the surface from which to calculate hitscores. Usually an object produced by geoProfile().
+#' @param params input parameters in the format defined by [geoParams()].
+#' @param source longitude and latitude of one or more source locations in the format defined by [geoDataSource()].
+#' @param surface the surface from which to calculate hitscores. Usually an object produced by [geoProfile()].
 #'
 #' @export
 #' @examplesIf interactive()
@@ -691,12 +692,12 @@ geoReportHitscores <- function(params, source, surface) {
 }
 
 #------------------------------------------------
-#' Extract latitude and longitude of points identified as sources by geoMCMC()
+#' Extract latitude and longitude of points identified as sources by [geoMCMC()]
 #'
-#' This function takes the output of geoMCMC() and, for each 'crime', extracts the group to which it is assigned with the highest probability. For each group, the model returns the mean lat/long of all crimes assigned to that group.
+#' This function takes the output of [geoMCMC()] and, for each 'crime', extracts the group to which it is assigned with the highest probability. For each group, the model returns the mean lat/long of all crimes assigned to that group.
 #'
-#' @param mcmc Model output in the format produced by geoMCMC().
-#' @param data Crime site data, in the format produced by geoData().
+#' @param mcmc Model output in the format produced by [geoMCMC()].
+#' @param data Crime site data, in the format produced by [geoData()].
 #'
 #' @export
 #' @examplesIf interactive()
@@ -737,12 +738,12 @@ geoModelSources <- function (mcmc, data) {
 #------------------------------------------------
 #' Produces a surface based on an alternative ring-search strategy
 #'
-#' Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with geoProfile() and geoReportHitscores to produce a map and hitscores based on this strategy.
+#' Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with [geoProfile()] and [geoReportHitscores()] to produce a map and hitscores based on this strategy.
 #'
-#' @param params Parameters list in the format defined by geoParams().
-#' @param data Data object in the format defined by geoData().
-#' @param source Potential sources object in the format defined by geoDataSource().
-#' @param mcmc mcmc object of the form produced by geoMCMC().
+#' @param params Parameters list in the format defined by [geoParams()].
+#' @param data Data object in the format defined by [geoData()].
+#' @param source Potential sources object in the format defined by [geoDataSource()].
+#' @param mcmc mcmc object of the form produced by [geoMCMC()].
 #'
 #' @export
 #' @examplesIf interactive()
@@ -790,7 +791,7 @@ geoRing <- function(params, data, source, mcmc) {
   return(ret)
 }
 
-
+# FW: Can this be removed?
 ############### TRIAL
 # load London example data and set params
 #d <- LondonExample_crimes
@@ -815,14 +816,14 @@ geoRing <- function(params, data, source, mcmc) {
 #------------------------------------------------
 #' Incorporate shapefile or raster information into a geoprofile
 #'
-#' This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a SpatialPolygonsDataFrame as produced by the package sp or a raster.
+#' This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a `SpatialPolygonsDataFrame` as produced by the package sp or a raster.
 #'
-#' @param probSurface the original geoprofile, usually the object $posteriorSurface produced by geoMCMC().
-#' @param params an object produced by geoParams().
-#' @param mask the spatial information to include. Must be one of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer.
-#' @param scaleValue different functions depending on value of "operation". For "inside' or "outside", the value by which probabilities should be multiplied inside or outside the shapefile. For "near" and "far", scaleValue is the importance of proximity to, or distance from, the object described in the SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer. Thus, the default value of scaleValue = 1 can be increased to exaggerate the importance of proximity or distance. Not used for "continuous".
-#' @param operation how to combine the surface and the new spatial information. Must be one of "inside", "outside", "near", "far" or "continuous". The first two multiply areas inside or outside the area described in the shapefile (or raster) by scaleValue. "near" or "far" weight the geoprofile by its closeness to (or distance from) the area described in the shapefile (or raster). Finally, "continuous" uses a set of numerical values (eg altitude) to weight the geoprofile. NOTE: 'near' and 'far' can take a few minutes to run.
-#' @param maths one of "add", "subtract", multiply" or "divide. The mathematical operation used to combine the new spatial data with the geoprofile when operation = "continuous".
+#' @param probSurface the original geoprofile, usually the object `$posteriorSurface` produced by [geoMCMC()].
+#' @param params an object produced by [geoParams()].
+#' @param mask the spatial information to include. Must be one of `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer.`
+#' @param scaleValue different functions depending on value of `operation`. For `"inside'` or `"outside"`, the value by which probabilities should be multiplied inside or outside the shapefile. For `"near"` and `"far"`, `scaleValue` is the importance of proximity to, or distance from, the object described in the `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer.` Thus, the default value of `scaleValue = 1` can be increased to exaggerate the importance of proximity or distance. Not used for `"continuous"`.
+#' @param operation how to combine the surface and the new spatial information. Must be one of `"inside"`, `"outside"`, `"near"`, `"far"` or `"continuous"`. The first two multiply areas inside or outside the area described in the shapefile (or raster) by scaleValue. `"near"` or `"far"` weight the geoprofile by its closeness to (or distance from) the area described in the shapefile (or raster). Finally, `"continuous"` uses a set of numerical values (eg altitude) to weight the geoprofile. NOTE: `'near'` and `'far'` can take a few minutes to run.
+#' @param maths one of `"add"`, `"subtract"`, `"multiply"` or `"divide"`. The mathematical operation used to combine the new spatial data with the geoprofile when `operation = "continuous"`.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -858,7 +859,7 @@ geoRing <- function(params, data, source, mcmc) {
 #' }
 
 geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "inside", maths = "multiply") {
-
+  # FW: Again check that given a general switch over to terra, these checks and input specifications are valid
   stopifnot(inherits(mask, c("sf", "RasterLayer")))
   stopifnot(operation %in% c("inside", "outside", "near", "far", "continuous"))
   stopifnot(maths %in% c("multiply", "divide", "add", "subtract", "continuous"))

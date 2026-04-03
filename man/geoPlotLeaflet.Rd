@@ -24,13 +24,13 @@ geoPlotLeaflet(
 )
 }
 \arguments{
-\item{params}{parameters list in the format defined by geoParams().}
+\item{params}{parameters list in the format defined by \code{\link[=geoParams]{geoParams()}}.}
 
-\item{data}{data object in the format defined by geoData().}
+\item{data}{data object in the format defined by \code{\link[=geoData]{geoData()}}.}
 
-\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of geoMCMC().}
+\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of \code{\link[=geoMCMC]{geoMCMC()}}.}
 
-\item{source}{potential sources object in the format defined by geoDataSource().}
+\item{source}{potential sources object in the format defined by \code{\link[=geoDataSource]{geoDataSource()}}.}
 
 \item{surfaceCols}{vector of two or more colours to plot surface. Defaults to viridis palette.}
 
@@ -42,11 +42,11 @@ geoPlotLeaflet(
 
 \item{sourceCol}{colour of suspect sites symbols.}
 
-\item{map_type}{the specific type of map to plot. See leaflet::providers for options.}
+\item{map_type}{the specific type of map to plot. See \link[leaflet:providers]{leaflet::providers} for options.}
 
 \item{threshold}{what level of the geoprofile to display}
 
-\item{opacity}{value between 0 and 1 giving the opacity of surface colours.}
+\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
 
 \item{colOpacity}{opacity of crime and source colours}
 

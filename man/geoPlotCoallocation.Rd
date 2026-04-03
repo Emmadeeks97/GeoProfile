@@ -7,12 +7,12 @@
 geoPlotCoallocation(mcmc, cols = NULL)
 }
 \arguments{
-\item{mcmc}{object of the type output by geoMCMC().}
+\item{mcmc}{object of the type output by \code{\link[=geoMCMC]{geoMCMC()}}.}
 
 \item{cols}{colour palette to use. Defaults to viridis palette.}
 }
 \description{
-For all pairs of crimes, calculates the probability that both originate from the same source and plots a coloured half matrix representing these data. The data underlying these calculations can be accessed as the object $coAllocation produced by geoMCMC().
+For all pairs of crimes, calculates the probability that both originate from the same source and plots a coloured half matrix representing these data. The data underlying these calculations can be accessed as the object \verb{$coAllocation} produced by \code{\link[=geoMCMC]{geoMCMC()}}.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

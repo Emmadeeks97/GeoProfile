@@ -2,17 +2,17 @@
 % Please edit documentation in R/mainFunctions.R
 \name{geoModelSources}
 \alias{geoModelSources}
-\title{Extract latitude and longitude of points identified as sources by geoMCMC()}
+\title{Extract latitude and longitude of points identified as sources by \code{\link[=geoMCMC]{geoMCMC()}}}
 \usage{
 geoModelSources(mcmc, data)
 }
 \arguments{
-\item{mcmc}{Model output in the format produced by geoMCMC().}
+\item{mcmc}{Model output in the format produced by \code{\link[=geoMCMC]{geoMCMC()}}.}
 
-\item{data}{Crime site data, in the format produced by geoData().}
+\item{data}{Crime site data, in the format produced by \code{\link[=geoData]{geoData()}}.}
 }
 \description{
-This function takes the output of geoMCMC() and, for each 'crime', extracts the group to which it is assigned with the highest probability. For each group, the model returns the mean lat/long of all crimes assigned to that group.
+This function takes the output of \code{\link[=geoMCMC]{geoMCMC()}} and, for each 'crime', extracts the group to which it is assigned with the highest probability. For each group, the model returns the mean lat/long of all crimes assigned to that group.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}

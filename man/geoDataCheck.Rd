@@ -7,7 +7,7 @@
 geoDataCheck(data, silent = FALSE)
 }
 \arguments{
-\item{data}{a data list object, as defined by geoData().}
+\item{data}{a data list object, as defined by \code{\link[=geoData]{geoData()}}.}
 
 \item{silent}{whether to report if data passes checks to console.}
 }

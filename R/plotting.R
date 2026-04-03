@@ -86,9 +86,9 @@ theme_nothing <- function(font_size = 14, font_family = ""){
 #'
 #' Plot prior distribution of sigma as defined by current parameter values. Can optionally overlay a kernel density plot of posterior draws of sigma.
 #'
-#' @param params a list of parameters as defined by geoParams().
-#' @param mcmc stored output obtained by running geoMCMC(). Leave as NULL to plot prior only.
-#' @param plotMax maximum x-axis range to plot. Leave as NULL to use default settings.
+#' @param params a list of parameters as defined by [geoParams()].
+#' @param mcmc stored output obtained by running [geoMCMC()]. Leave as `NULL` to plot prior only.
+#' @param plotMax maximum x-axis range to plot. Leave as `NULL` to use default settings.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -165,7 +165,7 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 #'
 #' Produces plot of posterior allocation from output of MCMC.
 #'
-#' @param mcmc stored output obtained by running geoMCMC().
+#' @param mcmc stored output obtained by running [geoMCMC()].
 #' @param colours vector of colours for each allocation. If NULL then use default colour scheme.
 #' @param barBorderCol colour of borders around each bar. Set as NA to omit this border (useful when there are a large number of observations).
 #' @param barBorderWidth line width of borders around each bar.
@@ -180,7 +180,7 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 #' @param mainTitle main title over plot.
 #' @param names individual names of each observation, written horizontally below each bar.
 #' @param names_size size of names under each bar.
-#' @param orderBy whether to order segments within each bar by "group" or by "probability". If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.
+#' @param orderBy whether to order segments within each bar by `"group"` or by `"probability"`. If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -302,21 +302,21 @@ getZoom <- function(x,y) {
 #'
 #' Plots geoprofile on map, with various customisable options.
 #'
-#' @param params parameters list in the format defined by geoParams().
-#' @param data data object in the format defined by geoData().
-#' @param source potential sources object in the format defined by geoDataSource().
-#' @param surface a surface to overlay onto the map, typically a geoprofile obtained from the output of geoMCMC().
+#' @param params parameters list in the format defined by [geoParams()].
+#' @param data data object in the format defined by [geoData()].
+#' @param source potential sources object in the format defined by [geoDataSource()].
+#' @param surface a surface to overlay onto the map, typically a geoprofile obtained from the output of [geoMCMC()].
 #' @param surfaceCols vector of two or more colours to plot surface. Defaults to viridis palette.
-#' @param zoom zoom level of map. If NULL then choose optimal zoom from params.
+#' @param zoom zoom level of map. If `NULL` then choose optimal zoom from params.
 #' @param latLimits optional vector setting min and max latitude for zoom view.
 #' @param lonLimits optional vector setting min and max longitude for zoom view.
-#' @param mapSource which online source to use when downloading the map. Options include Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps ("stamen") and CloudMade maps ("cloudmade").
-#' @param mapType the specific type of map to plot. Options available are "terrain", "satellite", "roadmap" and "hybrid" (google maps), "terrain-background", "terrain", "watercolor" and "toner" (stamen maps) or a positive integer for cloudmade maps (see ?get_cloudmademap from the package ggmap for details).
-#' @param opacity value between 0 and 1 giving the opacity of surface colours.
+#' @param mapSource which online source to use when downloading the map. Options include Google Maps (`"google"`), OpenStreetMap (`"osm"`), Stamen Maps (`"stamen"`) and CloudMade maps (`"cloudmade"`).
+#' @param mapType the specific type of map to plot. Options available are `"terrain"`, `"satellite"`, `"roadmap"` and `"hybrid"` (google maps), `"terrain-background"`, `"terrain"`, `"watercolor"` and `"toner"` (stamen maps) or a positive integer for cloudmade maps (see [ggmap::get_cloudmademap()] for details).
+#' @param opacity value between `0` and `1` giving the opacity of surface colours.
 #' @param plotContours whether or not to add contours to the surface plot.
-#' @param breakPercent vector of values between 0 and 100 describing where in the surface contours appear.
+#' @param breakPercent vector of values between `0` and `100` describing where in the surface contours appear.
 #' @param contourCol single colour to plot contour lines showing boundaries on surface.
-#' @param smoothScale should plot legend show continuous (TRUE) or discrete (FALSE) colours.
+#' @param smoothScale should plot legend show continuous (`TRUE`) or discrete (`FALSE`) colours.
 #' @param crimeCex relative size of symbols showing crimes.
 #' @param crimeCol colour of crime symbols.
 #' @param crimeBorderCol border colour of crime symbols.
@@ -485,13 +485,13 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 #'
 #' Plots geoprofile on map, with various customisable options.
 #'
-#' @param params parameters list in the format defined by geoParams().
-#' @param data data object in the format defined by geoData().
-#' @param source potential sources object in the format defined by geoDataSource().
-#' @param surface a surface to overlay onto the map, typically a geoprofile obtained from the output of geoMCMC().
+#' @param params parameters list in the format defined by [geoParams()].
+#' @param data data object in the format defined by [geoData()].
+#' @param source potential sources object in the format defined by [geoDataSource()].
+#' @param surface a surface to overlay onto the map, typically a geoprofile obtained from the output of [geoMCMC()].
 #' @param surfaceCols vector of two or more colours to plot surface. Defaults to viridis palette.
-#' @param map_type the specific type of map to plot. See leaflet::providers for options.
-#' @param opacity value between 0 and 1 giving the opacity of surface colours.
+#' @param map_type the specific type of map to plot. See [leaflet::providers] for options.
+#' @param opacity value between `0` and `1` giving the opacity of surface colours.
 #' @param colOpacity opacity of crime and source colours
 #' @param crimeCex relative size of symbols showing crimes.
 #' @param crimeCol colour of crime symbols.
@@ -677,12 +677,12 @@ geoPlotLeaflet <- function(params = NULL,
 #'
 #' Plots persp plot of geoprofile or posterior surface (coloured according to height), reducing matrix dimensions if necessary to avoid grid lines being too close together. NB Only works with square matrix
 #'
-#' @param surface surface to plot; either the geoprofile or posteriorSurface output by geoMCMC().
+#' @param surface surface to plot; either the geoprofile or posteriorSurface output by [geoMCMC()].
 #' @param aggregate_size the number of cells to aggregate to smooth the surface.
-#' @param surface_type type of surface; should be either "gp" for geoprofile or "prob" for posteriorSurface.
+#' @param surface_type type of surface; should be either `"gp"` for geoprofile or `"prob"` for posteriorSurface.
 #' @param perspCol colour palette. Defaults to red/orange/yellow/white.
-#' @param phiGP value of phi to pass to persp().
-#' @param thetaGP value of theta to pass to persp().
+#' @param phiGP value of phi to pass to [graphics::persp()].
+#' @param thetaGP value of theta to pass to [graphics::persp()].
 #'
 #' @export
 #' @examplesIf interactive()
@@ -749,7 +749,7 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
 #' should equal the number of suspect sites. If this is present, the function calculates and returns the Gini coefficient
 #' based on the number of crimes; otherwise, this is calculated based on the number of suspect sites.
 #'
-#' @param hit_scores object in the format defined by geoReportHitscores().
+#' @param hit_scores object in the format defined by [geoReportHitscores()].
 #' @param crimeNumbers optional vector with numbers of crimes per suspect site.
 #' @param suspects_col colour to plot curve for sources.
 #' @param crimes_col colour to plot curve for crimes if crimeNumbers is supplied.
@@ -848,9 +848,9 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 #------------------------------------------------
 #' Calculate and plot probability of coallocation
 #'
-#' For all pairs of crimes, calculates the probability that both originate from the same source and plots a coloured half matrix representing these data. The data underlying these calculations can be accessed as the object $coAllocation produced by geoMCMC().
+#' For all pairs of crimes, calculates the probability that both originate from the same source and plots a coloured half matrix representing these data. The data underlying these calculations can be accessed as the object `$coAllocation` produced by [geoMCMC()].
 #'
-#' @param mcmc object of the type output by geoMCMC().
+#' @param mcmc object of the type output by [geoMCMC()].
 #' @param cols colour palette to use. Defaults to viridis palette.
 #'
 #' @export
@@ -892,9 +892,9 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
 #------------------------------------------------
 #' Unknown pleasures
 #'
-#' A frivolous alternative to geoPlotMap(), this function takes the output of geoMCMC() and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
+#' A frivolous alternative to [geoPlotMap()], this function takes the output of [geoMCMC()] and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
 #'
-#' @param input_matrix The surface to plot, usually the object $geoProfile produced by geoMCMC().
+#' @param input_matrix The surface to plot, usually the object `$geoProfile` produced by [geoMCMC()].
 #' @param nlines The number of lines (defaults to the correct number of 80).
 #' @param paper_ref A text string, for example a reference to a paper.
 #' @param bgcol Background colour

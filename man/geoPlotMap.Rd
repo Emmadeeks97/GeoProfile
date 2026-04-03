@@ -30,35 +30,35 @@ geoPlotMap(
 )
 }
 \arguments{
-\item{params}{parameters list in the format defined by geoParams().}
+\item{params}{parameters list in the format defined by \code{\link[=geoParams]{geoParams()}}.}
 
-\item{data}{data object in the format defined by geoData().}
+\item{data}{data object in the format defined by \code{\link[=geoData]{geoData()}}.}
 
-\item{source}{potential sources object in the format defined by geoDataSource().}
+\item{source}{potential sources object in the format defined by \code{\link[=geoDataSource]{geoDataSource()}}.}
 
-\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of geoMCMC().}
+\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of \code{\link[=geoMCMC]{geoMCMC()}}.}
 
 \item{surfaceCols}{vector of two or more colours to plot surface. Defaults to viridis palette.}
 
-\item{zoom}{zoom level of map. If NULL then choose optimal zoom from params.}
+\item{zoom}{zoom level of map. If \code{NULL} then choose optimal zoom from params.}
 
 \item{latLimits}{optional vector setting min and max latitude for zoom view.}
 
 \item{lonLimits}{optional vector setting min and max longitude for zoom view.}
 
-\item{mapSource}{which online source to use when downloading the map. Options include Google Maps ("google"), OpenStreetMap ("osm"), Stamen Maps ("stamen") and CloudMade maps ("cloudmade").}
+\item{mapSource}{which online source to use when downloading the map. Options include Google Maps (\code{"google"}), OpenStreetMap (\code{"osm"}), Stamen Maps (\code{"stamen"}) and CloudMade maps (\code{"cloudmade"}).}
 
-\item{mapType}{the specific type of map to plot. Options available are "terrain", "satellite", "roadmap" and "hybrid" (google maps), "terrain-background", "terrain", "watercolor" and "toner" (stamen maps) or a positive integer for cloudmade maps (see ?get_cloudmademap from the package ggmap for details).}
+\item{mapType}{the specific type of map to plot. Options available are \code{"terrain"}, \code{"satellite"}, \code{"roadmap"} and \code{"hybrid"} (google maps), \code{"terrain-background"}, \code{"terrain"}, \code{"watercolor"} and \code{"toner"} (stamen maps) or a positive integer for cloudmade maps (see \code{\link[ggmap:get_cloudmademap]{ggmap::get_cloudmademap()}} for details).}
 
-\item{opacity}{value between 0 and 1 giving the opacity of surface colours.}
+\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
 
 \item{plotContours}{whether or not to add contours to the surface plot.}
 
-\item{breakPercent}{vector of values between 0 and 100 describing where in the surface contours appear.}
+\item{breakPercent}{vector of values between \code{0} and \code{100} describing where in the surface contours appear.}
 
 \item{contourCol}{single colour to plot contour lines showing boundaries on surface.}
 
-\item{smoothScale}{should plot legend show continuous (TRUE) or discrete (FALSE) colours.}
+\item{smoothScale}{should plot legend show continuous (\code{TRUE}) or discrete (\code{FALSE}) colours.}
 
 \item{crimeCex}{relative size of symbols showing crimes.}
 

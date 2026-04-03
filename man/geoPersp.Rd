@@ -14,17 +14,17 @@ geoPersp(
 )
 }
 \arguments{
-\item{surface}{surface to plot; either the geoprofile or posteriorSurface output by geoMCMC().}
+\item{surface}{surface to plot; either the geoprofile or posteriorSurface output by \code{\link[=geoMCMC]{geoMCMC()}}.}
 
 \item{aggregate_size}{the number of cells to aggregate to smooth the surface.}
 
-\item{surface_type}{type of surface; should be either "gp" for geoprofile or "prob" for posteriorSurface.}
+\item{surface_type}{type of surface; should be either \code{"gp"} for geoprofile or \code{"prob"} for posteriorSurface.}
 
 \item{perspCol}{colour palette. Defaults to red/orange/yellow/white.}
 
-\item{phiGP}{value of phi to pass to persp().}
+\item{phiGP}{value of phi to pass to \code{\link[graphics:persp]{graphics::persp()}}.}
 
-\item{thetaGP}{value of theta to pass to persp().}
+\item{thetaGP}{value of theta to pass to \code{\link[graphics:persp]{graphics::persp()}}.}
 }
 \description{
 Plots persp plot of geoprofile or posterior surface (coloured according to height), reducing matrix dimensions if necessary to avoid grid lines being too close together. NB Only works with square matrix
