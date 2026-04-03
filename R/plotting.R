@@ -398,7 +398,7 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
   df_rawMap <- cbind(df_rawMap, col=as.vector(rawMap))
 
   # create ggplot object
-  myMap <- ggplot2::ggplot(df_rawMap, ggplot2::aes_string(x='lon', y='lat', fill='col')) + ggplot2::geom_raster() + ggplot2::scale_fill_identity()
+  myMap <- ggplot2::ggplot(df_rawMap, ggplot2::aes(x=.data$lon, y=.data$lat, fill=.data$col)) + ggplot2::geom_raster() + ggplot2::scale_fill_identity()
   myMap <- myMap + ggplot2::coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
 
   # overlay geoprofile
@@ -434,10 +434,10 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 
     # add surface and colour scale
     if (smoothScale) {
-      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes_string(x='x', y='y', fill='z'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes(x=.data$x, y=.data$y, fill=.data$z), alpha=opacity, data=df_noNA)
       myMap <- myMap + ggplot2::scale_fill_gradientn(name="Hitscore\npercentage", colours=rev(surfaceCols))
     } else {
-      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes_string(x='x', y='y', fill='col'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes(x=.data$x, y=.data$y, fill=.data$col), alpha=opacity, data=df_noNA)
       myMap <- myMap + ggplot2::scale_fill_manual(name="Hitscore\npercentage", labels=labs, values=geoCols(nbcol))
     }
     if (!gpLegend) {
@@ -449,20 +449,20 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 
     # add contours
     if (plotContours) {
-      myMap <- myMap + ggplot2::stat_contour(ggplot2::aes_string(x='x', y='y', z='z'), colour=contourCol, breaks=breakPercent, size=0.3, alpha=opacity, data=df)
+      myMap <- myMap + ggplot2::stat_contour(ggplot2::aes(x=.data$x, y=.data$y, z=.data$z), colour=contourCol, breaks=breakPercent, size=0.3, alpha=opacity, data=df)
     }
   }
 
   # overlay data points
   if (!is.null(data)) {
     df_data <- data.frame(longitude=data$longitude, latitude=data$latitude)
-    myMap <- myMap + ggplot2::geom_point(ggplot2::aes_string(x='longitude', y='latitude'), data=df_data, pch=21, stroke=crimeBorderWidth, cex=crimeCex, fill=crimeCol, col=crimeBorderCol)
+    myMap <- myMap + ggplot2::geom_point(ggplot2::aes(x=.data$longitude, y=.data$latitude), data=df_data, pch=21, stroke=crimeBorderWidth, cex=crimeCex, fill=crimeCol, col=crimeBorderCol)
   }
 
   # overlay source points
   if (!is.null(source)) {
     df_source <- data.frame(longitude=source$longitude, latitude=source$latitude)
-    myMap <- myMap + ggplot2::geom_point(ggplot2::aes_string(x='longitude', y='latitude'), data=df_source, pch=15, cex=sourceCex, col=sourceCol, fill=NA)
+    myMap <- myMap + ggplot2::geom_point(ggplot2::aes(x=.data$longitude, y=.data$latitude), data=df_source, pch=15, cex=sourceCex, col=sourceCol, fill=NA)
   }
 
   # force correct aspect ratio
@@ -884,7 +884,7 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
   df <- data.frame(x=as.vector(row(comat)), y=as.vector(col(comat)), z=as.vector(t(comat)))
 
   # produce plot
-  gg <- ggplot2::ggplot(df) + ggplot2::geom_tile(ggplot2::aes_string(x='x', y='y', fill='z')) + ggplot2::scale_fill_gradientn(colours=cols, name="Probability\nco-allocation") + ggplot2::coord_cartesian(xlim=c(0.5,n+0.5), ylim=c(0.5,n+0.5), expand=FALSE) + ggplot2::labs(x="observation", y="observation")
+  gg <- ggplot2::ggplot(df) + ggplot2::geom_tile(ggplot2::aes(x=.data$x, y=.data$y, fill=.data$z)) + ggplot2::scale_fill_gradientn(colours=cols, name="Probability\nco-allocation") + ggplot2::coord_cartesian(xlim=c(0.5,n+0.5), ylim=c(0.5,n+0.5), expand=FALSE) + ggplot2::labs(x="observation", y="observation")
 
   gg
 }

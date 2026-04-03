@@ -132,6 +132,7 @@
 ## usethis namespace: start
 #' @importFrom ggplot2 %+replace%
 #' @importFrom Rcpp evalCpp
+#' @importFrom rlang .data
 #' @useDynLib GeoProfile
 ## usethis namespace: end
 NULL
