@@ -82,7 +82,7 @@
   - `text()` -> `graphics::text()` (x1)
   - `ggplot()` -> `ggplot2::ggplot()` (x3)
   - `geom_tile()` -> `ggplot2::geom_tile()` (x1)
-  - `aes_string()` -> `ggplot2::aes_string()` (x7)
+  - `aes_string()` -> `ggplot2::aes()` (x7) [Note: `aes_string()` was deprecated in July 2018 in ggplot 3.0.0!!!!]
   - `scale_fill_gradientn()` -> `ggplot2::scale_fill_gradientn()` (x2)
   - `coord_cartesian()` -> `ggplot2::coord_cartesian()` (x3)
   - `labs()` -> `ggplot2::labs()` (x2)
@@ -119,12 +119,18 @@
   - As such, ED will have to run `use_pkgdown_github_pages()` instead. This should set up everything on the repo side, including the appropriate github config.
 - Reworked documentation to use markdown syntax (for which support has now been enabled).
   - This means there is now much more in the way of crosslinking between help pages, aiding navigation.
+- Moved example to a vignette and got to a point where it works (though there are certain parts that aren't working still due to incorrect args).
+- Added some initial explanatory text to the vignette. As I'm no-where near an expert, this probably needs some refining but I did my best.
+- Implemented new `geoSurface3D()` function to allow for interactive 3D plotting (I have a _real_ thing against static 3D plots. These should at least be more informative.)
 
 # Questions/things to investigate
 
-- I have tried to mark anything where there might be a problem with a comment starting "# FW:". You can search for that as a first port of call if something doesn't work.
+- I have tried to mark anything where there might be a problem with a comment starting "# FW:". You can search for that as a first port of call if something doesn't work, and generally it's a good idea to keep an eye on these.
 - Because of the way that imports were previously handled, many functions have been replaced with "best guesses". For example `crs()` is in the `raster`, `sf`, and `terra` packages.
 - It is very likely that most of these imports will have been from `terra` anyway, but these are super important to check!!!
 - All the base R plotting functions (provided by the `graphics` package) seem to have alternatives in terra.
 - Honestly from looking at that code, the graphics version should still call the appropriate functions (I hope) but all of the plotting is worth checking out.
 - Two functions (`rasterize()` and `distance()`) were using the raster version, when a terra version exists. They should be drop-in replacements as `terra` has fully superseded `raster` as a package. Still worth a check of functionality though.
+- I am not precisely sure what the Lorentz plot is for, and as such have not written any explanation in the vignette at present.
+- Generally speaking, all the documentation needs a chunk of work. It is not particularly intuitive to a user without a lot of background knowledge. 
+- I assume lower hitscores are better, but I don't know this for sure.
