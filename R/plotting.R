@@ -725,7 +725,6 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
       output[i,j] <- mean(as.vector(surface[breaks[i]:(breaks[i]+(aggregate_size-1)), breaks[j]:(breaks[j]+(aggregate_size-1))]))
     }
   }
-
   # Generate the desired number of colors
   colpal <- grDevices::colorRampPalette(perspCol)
   color <- colpal(100)
@@ -738,6 +737,41 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
 
   # FW: Assume this is correct, could alternatively be terra::persp, though that usually takes a SpatVector which output is not.
   graphics::persp(output, col=color[facetcol], border="black", phi=phiGP, theta=thetaGP, lwd=0.2, box=FALSE)
+}
+
+
+#' Interactive 3D plot of geoprofile or raw probabilities
+#'
+#' Plots an interactive 3D plot of geoprofile or posterior surface (coloured according to height). This requires the `plotly` package to be installed.
+#'
+#' @note
+#' Generally speaking 3D plots are not particularly useful for static data representation. As such these should only be used in decorative or interactive formats rather than as the only way of representing data.
+#' If you are looking to represent probability surfaces in a 2D medium such as a paper, heatmaps are usually easier to interpret.
+#'
+#' @param surface surface to plot; either the geoprofile or posteriorSurface output by [geoMCMC()].
+#' @param surface_type type of surface; should be either `"gp"` for geoprofile or `"prob"` for posteriorSurface.
+#'
+#' @export
+#' @examplesIf interactive()
+#' # John Snow cholera data
+#' d <- geoData(Cholera$longitude, Cholera$latitude)
+#' s <- geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
+#' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
+#' m <- geoMCMC(data = d, params = p, lambda=0.05)
+#' # raw probabilities
+#' geoSurface3D(m$posteriorSurface, surface_type = "prob")
+#' # geoprofile
+#' geoSurface3D(m$geoProfile, surface_type = "gp")
+geoSurface3D <- function(surface, surface_type="gp") {
+
+  rlang::check_installed("plotly")
+
+  # rescale and transform surface
+  scale <- 1
+  if(surface_type=="gp") { scale <- -1 }
+  surface <- t(scale*surface)
+
+  plotly::plot_ly(z = ~surface) |> plotly::add_surface()
 }
 
 #------------------------------------------------
