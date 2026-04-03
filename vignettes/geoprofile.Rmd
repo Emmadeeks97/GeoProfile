@@ -181,11 +181,38 @@ A better way of visualising data in 3D is to use an interactive plot using the `
 
 This gets around the problem of data occlusion, though is still mostly useful in a decorative scenario.
 
-_Note: geoSurface3D() requires the `plotly` package to be installed._
+_Note: `geoSurface3D()` requires the `plotly` package to be installed._
 
-```{r}
+This particular representation has been downsampled for this example to save on resources.
+
+```{r include=FALSE}
+downsample_mat <- function(m, window = 5) {
+  # Clunky function, assumes a square matrix
+  if (nrow(m) %% window != 0 || ncol(m) %% window != 0) {
+    stop("Matrix is not square or window is not a full divisor of the matrix size!")
+  }
+  
+  outmat = matrix(NA, ncol = ncol(m) / window, nrow = nrow(m) / window)
+  # Generate list of sampling points
+  startpoints <- seq(1, nrow(m), window)
+  endpoints <- startpoints + (window - 1)
+  for (i in 1:length(startpoints)) {
+    for (j in 1:length(startpoints)) {
+      outmat[i, j] <- mean(m[startpoints[i]:endpoints[i], startpoints[j]:endpoints[j]])
+    }
+  }
+  outmat / max(outmat)
+}
+downsampled <- downsample_mat(m$geoProfile, 25)
+```
+
+```r
 geoSurface3D(m$geoProfile, "gp")
 ```
+```{r echo=FALSE}
+geoSurface3D(downsampled, "gp")
+```
+
 
 We can also get the centroids of the data split by the posterior groups. This is a coarse indication of best-guess source locations.
 

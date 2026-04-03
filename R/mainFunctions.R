@@ -1,10 +1,3 @@
-
-#------------------------------------------------
-# The following commands are needed to ensure that the roxygen2 package, which deals with documenting the package, does not conflict with the Rcpp package.
-
-
-
-
 #------------------------------------------------
 #' Create Geoprofile data object
 #'
@@ -12,6 +5,7 @@
 #'
 #' @param longitude the locations of the observed data in degrees longitude.
 #' @param latitude the locations of the observed data in degrees latitude.
+#' @param call the environment for any checking errors to be emitted from. Only really useful for internal use.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -21,14 +15,14 @@
 #' # simulated data
 #' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 #' 51.5235505, alpha=1, sigma=1, tau=3)
-#' geoData(sim$longitude, sim $latitude)
+#' geoData(sim$longitude, sim$latitude)
 
-geoData <- function(longitude=NULL, latitude=NULL) {
+geoData <- function(longitude=NULL, latitude=NULL, call = rlang::current_env()) {
 
   # check input format
-  stopifnot(!is.null(longitude))
-  stopifnot(!is.null(latitude))
-  stopifnot(length(longitude)==length(latitude))
+  cli_stopif(is.null(longitude), "Longitude is NULL!", call)
+  cli_stopif(is.null(latitude), "Latitude is NULL!", call)
+  cli_stopifnot(length(longitude)==length(latitude), "Longitude and Latitude are not the same length!", call)
 
   # combine and return
   ret <- list(longitude=longitude, latitude=latitude)
@@ -42,6 +36,7 @@ geoData <- function(longitude=NULL, latitude=NULL) {
 #'
 #' @param longitude the locations of the potential sources in degrees longitude.
 #' @param latitude the locations of the potential sources in degrees latitude.
+#' @param call the environment for any checking errors to be emitted from. Only really useful for internal use.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -53,16 +48,10 @@ geoData <- function(longitude=NULL, latitude=NULL) {
 #' 51.5235505, alpha=1, sigma=1, tau=3)
 #' geoDataSource(sim$longitude, sim$latitude)
 
-geoDataSource <- function(longitude=NULL, latitude=NULL) {
-
-  # check input format
-  stopifnot(!is.null(longitude))
-  stopifnot(!is.null(latitude))
-  stopifnot(length(longitude)==length(latitude))
-
-  # combine and return
-  ret <- list(longitude=longitude, latitude=latitude)
-  return(ret)
+geoDataSource <- function(longitude=NULL, latitude=NULL, call = rlang::current_env()) {
+  # FW: This is exactly the same as above so one should be deprecated.
+  # For now call the other fn, but pass the current env for messaging purposes
+  geoData(longitude, latitude, call)
 }
 
 #------------------------------------------------
@@ -189,9 +178,9 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 
     # if using fixed sigma model then no need to calculate alpha and beta. Otherwise use values of sigma_mean and sigma_var to search for the unique alpha and beta that define the distribution
     if (sigma_var==0) {
-      cat('Using fixed sigma model')
+      cli::cli_alert_info('Using fixed sigma model')
     } else {
-      cat('Using sigma_mean and sigma_var to define prior on sigma')
+      cli::cli_alert_info('Using sigma_mean and sigma_var to define prior on sigma')
       ab <- get_alpha_beta(sigma_mean, sigma_var)
       alpha <- ab$alpha
       beta <- ab$beta
@@ -201,7 +190,7 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
   } else if (!is.null(sigma_mean) & is.null(sigma_var)) {
 
     if (!is.null(sigma_squared_shape)) {
-      cat('Using sigma_mean and sigma_squared_shape to define prior on sigma')
+      cli::cli_alert_info('Using sigma_mean and sigma_squared_shape to define prior on sigma')
       alpha <- sigma_squared_shape
       if (alpha<=1) { stop('sigma_squared_shape must be >1') }
       beta <- exp(2*log(sigma_mean) + 2*lgamma(alpha) - 2*lgamma(alpha-0.5))
@@ -213,7 +202,7 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
   } else if (is.null(sigma_mean) & is.null(sigma_var)) {
 
     if (!is.null(sigma_squared_shape) & !is.null(sigma_squared_rate)) {
-      cat('Using sigma_squared_shape and sigma_squared_rate to define prior on sigma')
+      cli::cli_alert_info('Using sigma_squared_shape and sigma_squared_rate to define prior on sigma')
       alpha <- sigma_squared_shape
       beta <- sigma_squared_rate
       sigma_mean <- sqrt(beta)*gamma(alpha-0.5)/gamma(alpha)
@@ -298,24 +287,24 @@ geoShapefile <- function(fileName=NULL) {
 geoDataCheck <- function(data, silent=FALSE) {
 
   # check that data is a list
-  stopifnot(is.list(data))
+  cli_stopifnot(is.list(data), "Data is not a list!")
 
   # check that contains longitude and latitude
-  stopifnot("longitude" %in% names(data))
-  stopifnot("latitude" %in% names(data))
+  cli_stopifnot("longitude" %in% names(data), "Longitude is not present in data!")
+  cli_stopifnot("latitude" %in% names(data), "Latitude is not present in data!")
 
   # check that data values are correct format and range
-  stopifnot(is.numeric(data$longitude))
-  stopifnot(all(is.finite(data$longitude)))
-  stopifnot(is.numeric(data$latitude))
-  stopifnot(all(is.finite(data$latitude)))
+  cli_stopifnot(is.numeric(data$longitude), "Longitude is not numeric!")
+  cli_stopifnot(all(is.finite(data$longitude)), "Longitude is not entirely finite!")
+  cli_stopifnot(is.numeric(data$latitude), "Latitude is not numeric!")
+  cli_stopifnot(all(is.finite(data$latitude)), "Latitude is not entirely finite!")
 
   # check same number of observations in logitude and latitude, and n>1
-  stopifnot(length(data$longitude)==length(data$latitude))
-  stopifnot(length(data$longitude)>1)
+  cli_stopifnot(length(data$longitude)==length(data$latitude), "Longitude & Latitude lengths do not match!")
+  cli_stopifnot(length(data$longitude)>1, "Fewer than 2 observations!")
 
   # if passed all checks
-  if (!silent) { cat("data file passed all checks\n") }
+  if (!silent) { cli::cli_alert_success("Data file passed all checks!") }
 }
 
 #------------------------------------------------
@@ -495,7 +484,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
   #---------------------------------------
 
   # if passed all checks
-  if (!silent) { cat("params file passed all checks\n") }
+  if (!silent) { cli::cli_alert_success("Params file passed all checks!") }
 }
 
 #------------------------------------------------
@@ -526,7 +515,7 @@ geoMCMC <- function(data, params, lambda=NULL) {
   # check that data and parameters in correct format
   geoDataCheck(data)
   geoParamsCheck(params)
-  cat("\n")
+  cli::cli_rule(left = "MCMC Log")
 
   # extract ranges etc. from params object
   min_lon <- params$output$longitude_minMax[1]
@@ -557,6 +546,9 @@ geoMCMC <- function(data, params, lambda=NULL) {
 
   # carry out MCMC using efficient C++ function
   rawOutput <- C_geoMCMC(data, params)
+
+  # Log delimiter
+  cli::cli_rule(left = "MCMC Log End")
 
   # extract mu draws and convert from cartesian to lat/lon coordinates
   mu_draws <- cartesian_to_latlon(params$model$priorMean_latitude, params$model$priorMean_longitude, rawOutput$mu_x, rawOutput$mu_y)
@@ -603,7 +595,6 @@ geoMCMC <- function(data, params, lambda=NULL) {
   output$allocation <- allocation
   output$bestGrouping <- bestGrouping
   output$coAllocation <- coAllocation
-
   return(output)
 }
 
@@ -633,7 +624,7 @@ geoMCMC <- function(data, params, lambda=NULL) {
 geoProfile <- function(surface) {
 
   # check that surface is in correct format
-  stopifnot(is.matrix(surface))
+  cli_stopifnot(is.matrix(surface), "Surface is not a matrix!")
 
   # create geoprofile from surface
   ret <- matrix(rank(surface, ties.method="first"), nrow=nrow(surface), byrow=FALSE)
@@ -680,7 +671,7 @@ geoReportHitscores <- function(params, source, surface) {
   # drop rows if index outside range, with warning
   df <- subset(df, index_lat>0 & index_lat<nrow(surface) & index_lon>0 & index_lon<ncol(surface))
   if (nrow(df) < length(source$longitude)) {
-    warning("some sources outside range of surface")
+    cli::cli_warn(c("Some sources outside range of surface!", "i" = "Expected {length(source$longitude)} entr{?y/ies}, got {nrow(df)}."))
   }
 
   # append hitscore percentages
@@ -860,9 +851,9 @@ geoRing <- function(params, data, source, mcmc) {
 
 geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "inside", maths = "multiply") {
   # FW: Again check that given a general switch over to terra, these checks and input specifications are valid
-  stopifnot(inherits(mask, c("sf", "RasterLayer")))
-  stopifnot(operation %in% c("inside", "outside", "near", "far", "continuous"))
-  stopifnot(maths %in% c("multiply", "divide", "add", "subtract", "continuous"))
+  cli_stopifnot(inherits(mask, c("sf", "RasterLayer")), "Mask is not an sf or RasterLayer object!")
+  rlang::arg_match0(operation, c("inside", "outside", "near", "far", "continuous"))
+  rlang::arg_match0(maths, c("multiply", "divide", "add", "subtract", "continuous"))
 
   raster_probSurface <- terra::rast(probSurface)
   terra::ext(raster_probSurface) <- c(params$output$longitude_minMax[1], params$output$longitude_minMax[2],

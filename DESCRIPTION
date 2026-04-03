@@ -23,8 +23,8 @@ Imports:
     sf,
     terra,
     viridis,
-    utils,
-    rlang
+    rlang,
+    cli
 Depends: 
     R (>= 4.1.0)
 LinkingTo: Rcpp, RcppArmadillo

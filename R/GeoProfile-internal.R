@@ -7,9 +7,7 @@ find_funs <- function(f) {
   # f: name of function for which the package(s) are to be identified.
 
 
-  if ("tidyverse" %in% rownames(installed.packages()) == FALSE) {
-    cat("tidyverse is needed for this fuction. Please install. Stopping")
-    stop()}
+  rlang::check_installed("tidyverse")
 
   suppressMessages(library(tidyverse))
 

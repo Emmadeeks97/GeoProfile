@@ -3,26 +3,20 @@
 ## General package structure changes
 
 - use_pkgdown to get a docs site
-- Rework all documentation to use the proper markdown format (which will aid with crosslinking)
 - Consider imports, see if they need to be consolidated at all
   - Why use raster, sf, AND terra? That shouldn't be needed.
   - Same for RColorBrewer & viridis. Are those needed, or should they maybe be suggestions?
-- Move/rework demo into a proper vignette
 - Consider package rename?
   - How about `geoprofileR`??
 - Brand it (because of course)
 - Need to write some tests
-- Probably worthwhile shifting over to the cli package for much more fully-featured messaging
+- Probably worthwhile shifting over to the cli package for much more fully-featured messaging - in progress!
 - Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier.
 - Consider shifting from shapefiles in inst/extdata to using something better and more modern [see here](http://switchfromshapefile.org/). Probably just geopackage?
 
 ## Obvious code changes
 - dRIG & dts take a bool log as an argument but then use the `log` function. This could well cause a bug either way round!!!
 - rDPM might be able to be optimised
-- asserts are almost certainly not necessary and are likely from someone familiar programming in another language. Can likely be replaced ad-hoc.
-  - Specifically they lead to incredibly non-idiomatic R. This is not good for maintenance.
-  - They also hide extra assertions within themselves (i.e. assert_single actually also asserts that the tested value is non-null. But NULL is nominally singular, kinda.)
-  - IN FACT on closer inspection they're all commented out anyway. As such assertions.R can and should be removed.
   
 ---
 
@@ -32,7 +26,6 @@
 
 - Added gplv3 license (in discussion with ED)
 - Set up CI checking using github actions
-- 
 - Initial R CMD CHECK. Found:
   - 1 error | 1 warning | 4 notes
   - Many clashing imports due to the use of `@import` directives.
@@ -122,15 +115,22 @@
 - Moved example to a vignette and got to a point where it works (though there are certain parts that aren't working still due to incorrect args).
 - Added some initial explanatory text to the vignette. As I'm no-where near an expert, this probably needs some refining but I did my best.
 - Implemented new `geoSurface3D()` function to allow for interactive 3D plotting (I have a _real_ thing against static 3D plots. These should at least be more informative.)
+- Migrated many user-facing messages to the `cli` package for more complete messaging.
+  - Still in the process of converting `stop()` calls.
+  - Frankly a lot of these occur in the integrity verifiers, which I suspect would benefit from a significant overhaul.
+  - I feel they should give a much more thorough report on what is wrong with the data, rather than just the first wrong thing they encounter.
+- geoSurface3D plot now represents a heavily downsampled surface to avoid bloating the package too much.
+- Overall change in dependencies thusfar: 1 removed, 2 added (`rlang` and `cli`).
+  - These are both very sensible dependencies for a modern package to have, particularly when it comes to messaging
 
 # Questions/things to investigate
 
 - I have tried to mark anything where there might be a problem with a comment starting "# FW:". You can search for that as a first port of call if something doesn't work, and generally it's a good idea to keep an eye on these.
 - Because of the way that imports were previously handled, many functions have been replaced with "best guesses". For example `crs()` is in the `raster`, `sf`, and `terra` packages.
-- It is very likely that most of these imports will have been from `terra` anyway, but these are super important to check!!!
-- All the base R plotting functions (provided by the `graphics` package) seem to have alternatives in terra.
-- Honestly from looking at that code, the graphics version should still call the appropriate functions (I hope) but all of the plotting is worth checking out.
-- Two functions (`rasterize()` and `distance()`) were using the raster version, when a terra version exists. They should be drop-in replacements as `terra` has fully superseded `raster` as a package. Still worth a check of functionality though.
+  - It is very likely that most of these imports will have been from `terra` anyway, but these are super important to check!!!
+  - All the base R plotting functions (provided by the `graphics` package) seem to have alternatives in terra.
+  - Honestly from looking at that code, the graphics version should still call the appropriate functions (I hope) but all of the plotting is worth checking out.
+  - Two functions (`rasterize()` and `distance()`) were using the raster version, when a terra version exists. They should be drop-in replacements as `terra` has fully superseded `raster` as a package. Still worth a check of functionality though.
 - I am not precisely sure what the Lorentz plot is for, and as such have not written any explanation in the vignette at present.
 - Generally speaking, all the documentation needs a chunk of work. It is not particularly intuitive to a user without a lot of background knowledge. 
 - I assume lower hitscores are better, but I don't know this for sure.

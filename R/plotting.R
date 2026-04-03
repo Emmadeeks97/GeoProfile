@@ -113,9 +113,9 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 
   # check that plotMax is sensible
   if (!is.null(plotMax)) {
-    stopifnot(is.numeric(plotMax))
-    stopifnot(is.finite(plotMax))
-    stopifnot(plotMax>0)
+    cli_stopifnot(is.numeric(plotMax), "plotMax is not numeric!")
+    cli_stopifnot(is.finite(plotMax), "plotMax is not finite!")
+    cli_stopifnot(plotMax>0, "plotMax is not a positive integer!")
   }
 
   # extract sigma parameters
@@ -125,7 +125,9 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
   beta <- params$model$sigma_squared_rate
 
   # stop if using fixed sigma model
-  if (sigma_var==0) { stop('can only produce this plot under variable-sigma model (i.e. sigma_var>0)') }
+  if (sigma_var==0) {
+    cli::cli_abort(c("x" = 'Can only produce this plot under variable-sigma model (i.e. sigma_var > 0)'))
+    }
 
   # extract sigma draws from mcmc object
   sigma_draws <- mcmc$sigma
@@ -207,16 +209,16 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 geoPlotAllocation <- function(mcmc, colours=NULL, barBorderCol=NA, barBorderWidth=0.25, mainBorderCol="black", mainBorderWidth=2, yTicks_on=TRUE, yTicks=seq(0,1,0.2), xTicks_on=FALSE, xTicks_size=1, xlab="", ylab="posterior allocation", mainTitle="", names=NA, names_size=1, orderBy="group") {
 
   # check that orderBy is either 'group' or 'probability'
-  if (!(orderBy %in% c("group","probability"))) {
-    stop("orderBy must equal 'group' or 'probability'")
-  }
+  # Will abort with an informative error if not matching
+  orderBy <- tolower(orderBy)
+  orderBy <- rlang::arg_match0(orderBy, c("group","probability"))
 
   # get allocation from mcmc object
   allocation <- mcmc$allocation
 
   # check that allocation is a data frame
   if (!is.data.frame(allocation)) {
-    stop("allocation must be a data frame, with observations in rows and groups in columns")
+    cli::cli_abort(c("x" = "{.arg mcmc$allocation} must be a data frame, with observations in rows and groups in columns!"))
   }
 
   # extract useful parameters
@@ -290,7 +292,7 @@ getZoom <- function(x,y) {
   # find the most zoomed-in level that captures all points
   zoomTest <- (min(x)>long_angle_left) & (max(x)<long_angle_right) & (min(y)>lat_angle_bot) & (max(y)<lat_angle_top)
   if (!any(zoomTest)) {
-    stop("values are outside of plotting range of earth")
+    cli::cli_abort(c("x" = "Values are outside of plotting range of earth"))
   }
   bestZoom <- z[which(zoomTest)[1]]
 
@@ -377,14 +379,14 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
   # if zoom=="auto" then set zoom level based on params
   if (is.null(zoom)) {
     zoom <- getZoom(params$output$longitude_minMax, params$output$latitude_minMax)
-    cat(paste0("using zoom=", zoom, "\n"))
+    cli::cli_alert_info("using zoom = {.val {zoom}}")
   }
 
   # make zoom level appropriate to map source
   if (mapSource=="stamen") { zoom <- min(zoom,18) }
 
   # download map
-  cat("downloading map\n")
+  cli::cli_alert_info("Downloading map")
   loc <- c(mean(params$output$longitude_minMax), mean(params$output$latitude_minMax))
   rawMap <- ggmap::get_map(location=loc, zoom=zoom, source=mapSource, maptype=mapType)
 

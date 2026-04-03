@@ -2,7 +2,6 @@
 #------------------------------------------------
 # Get alpha and beta parameters of inverse-gamma prior on sigma^2 from expectation and variance.
 # (not exported)
-
 get_alpha_beta <- function(sigma_mean,sigma_var) {
 
   # define a function that has minimum at correct value of alpha
@@ -17,8 +16,12 @@ get_alpha_beta <- function(sigma_mean,sigma_var) {
   beta <- (sigma_var+sigma_mean^2)*(alpha-1)
 
   # check that chosen alpha is not at limit of range
-  if (alpha>(1e3-1))
-    stop('unable to define prior on sigma for chosen values of sigma_mean and sigma_var. Try increasing the value of sigma_var, or alternatively setting sigma_var=0 (i.e. using fixed-sigma model)')
+  if (alpha>(1e3-1)) {
+    cli::cli_abort(c(
+      "x" = "Unable to define prior on sigma for sigma_mean = {.val {sigma_mean}} and sigma_var = {.val {sigma_var}}.",
+      "i" = "Try increasing the value of {.arg sigma_var}, or alternatively setting {.arg sigma_var = 0} (i.e. using fixed-sigma model)"
+      ))
+  }
 
   output <- list(alpha=alpha, beta=beta)
   return(output)
@@ -274,7 +277,9 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
 
   # bin lon/lat values in two dimensions and check that at least one value in chosen region
   surface_raw <- bin2D(longitude, latitude, breaks_lon, breaks_lat)$z
-  if (all(surface_raw==0)) { stop('chosen lat/long window contains no posterior draws') }
+  if (all(surface_raw==0)) {
+    cli::cli_abort(c("x" = 'Chosen lat/long window contains no posterior draws!'))
+    }
 
   # temporarily add guard rail to surface to avoid Fourier series bleeding round edges
   railSize_lon <- cells_lon
@@ -310,16 +315,10 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
   }
 
   # loop through range of values of lambda
-  cat('Smoothing posterior surface')
-  utils::flush.console()
   logLike <- -Inf
+  cli::cli_progress_bar(name = "Smoothing posterior surface", total = length(lambda_vec), format = "{cli::pb_spin} {cli::pb_name} | ETA: {cli::pb_eta}")
   for (i in 1:length(lambda_vec)) {
-
-    # print dots to screen
-    if (i>1) {
-      cat(".")
-      utils::flush.console()
-    }
+    cli::cli_progress_update()
 
     # calculate Fourier transform of kernel
     lambda_this <- lambda_vec[i]
@@ -344,10 +343,11 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
     # otherwise update logLike
     logLike <- sum(f6,na.rm=T)
   }
+  cli::cli_progress_done()
 
   # report chosen value of lambda
   if (is.null(lambda)) {
-    cat(paste('\nmaximum likelihood lambda = ', round(lambda_this,3), sep=''))
+    cli::cli_alert_info("Maximum-Likelihood lambda = {.val {round(lambda_this,3)}}")
   }
 
   # remove guard rail
@@ -356,4 +356,31 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
 
   # return surface
   return(f4)
+}
+
+
+#' Abort if any conditions is not TRUE
+#'
+#' @param condition Condition to evaluate when deciding when to error
+#' @param message Message to include in the error.
+#' @param call Environment within which to emit the error (defaults to caller environment).
+#'
+#' @keywords internal
+#'
+#' @returns Nothing
+cli_stopifnot <- function(condition, message = "condition is not TRUE", call = rlang::caller_env()) {
+  if (!all(condition)) {cli::cli_abort(c("x" = message), call = call)}
+}
+
+#' Abort if any condition is TRUE
+#'
+#' @param condition Condition to evaluate when deciding when to error
+#' @param message Message to include in the error.
+#' @param call Environment within which to emit the error (defaults to caller environment).
+#'
+#' @keywords internal
+#'
+#' @returns Nothing
+cli_stopif <- function(condition, message = "condition is not TRUE", call = rlang::caller_env()) {
+  if (any(condition)) {cli::cli_abort(c("x" = message), call = call)}
 }
