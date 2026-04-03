@@ -364,7 +364,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
   req_params <- c("sigma_mean", "sigma_var", "sigma_squared_shape", "sigma_squared_rate", "priorMean_longitude", "priorMean_latitude", "tau", "alpha_shape", "alpha_rate")
   missing_params <- setdiff(req_params, names(params$model))
 
-  if (length(missing_params) < 1) {
+  if (length(missing_params) > 0) {
     stop(paste0("params$model missing parameter/s: ", paste(missing_params, collapse = ", ")))
   }
 
@@ -436,7 +436,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
   req_params <- c("chains", "burnin", "samples", "burnin_printConsole", "samples_printConsole")
   missing_params <- setdiff(req_params, names(params$MCMC))
 
-  if (length(missing_params) < 1) {
+  if (length(missing_params) > 0) {
     stop(paste0("params$MCMC missing parameter/s: ", paste(missing_params, collapse = ", ")))
   }
   # if (!("chains"%in%names(params$MCMC)))
@@ -479,7 +479,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
   req_params <- c("longitude_minMax", "latitude_minMax", "longitude_cells", "latitude_cells")
   missing_params <- setdiff(req_params, names(params$output))
 
-  if (length(missing_params) < 1) {
+  if (length(missing_params) > 0) {
     stop(paste0("params$output missing parameter/s: ", paste(missing_params, collapse = ", ")))
   }
   # if (!("longitude_minMax"%in%names(params$output)))
