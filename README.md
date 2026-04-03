@@ -27,14 +27,13 @@ Within XCode go to Preferences : Downloads and install the Command Line Tools
   ```
   sudo apt-get install r-base-dev texlive-full
   ```
-Next, ensure that you have `devtools` installed by running
+Next, ensure that you have `pak` installed by running
 ```
-install.packages("devtools")
-library(devtools)
+install.packages("pak")
 ```
 Finally, install the RgeoProfile package directly from GitHub by running
 ```
-install_github("Emmadeeks97/GeoProfile")
+pak::pak("Emmadeeks97/GeoProfile")
 library(GeoProfile)
 ```
 Once installed, run ??GeoProfile to open the help for the package, which contains a number of worked examples.

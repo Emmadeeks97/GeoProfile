@@ -11,7 +11,6 @@
 - Brand it (because of course)
 - Need to write some tests
 - Probably worthwhile shifting over to the cli package for much more fully-featured messaging
-- Change devtools recommendation over to `pak`
 - Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier. There's a few ways we can do it but 3m is not acceptable:
 
 ```
