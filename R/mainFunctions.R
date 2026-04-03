@@ -2,33 +2,8 @@
 #------------------------------------------------
 # The following commands are needed to ensure that the roxygen2 package, which deals with documenting the package, does not conflict with the Rcpp package.
 
-# Rcpp          - allows C++ integration
-# fftwtools     - fast Fourier transform, used when smoothing posterior draws into final surface
-# ggplot2       - used to produce layered plots
-# ggmap         - needed for the get_map function, although ggmap function itself is broken
-# RColorBrewer  - used to define default colours in geoPlotAllocation
-# rgdal         - required to load shapefiles
-# raster        - required when using masks
-# viridis       - colour palettes
-# ...           - other importFrom declarations recommended by devtools::check
 
-#' @useDynLib GeoProfile
-#' @importFrom Rcpp evalCpp
-#' @importFrom ggmap inset
-#' @importFrom utils head tail
-#' @import fftwtools
-#' @import ggplot2
-#' @import leaflet
-#' @import RColorBrewer
-#' @import sf
-#' @import leaflet
-#' @importFrom raster raster extent extent<- rasterize projectRaster distance
-#' @import viridis
-#' @importFrom grDevices colorRampPalette
-#' @import graphics
-#' @import stats
-#' @import terra
-NULL
+
 
 #------------------------------------------------
 #' Create Geoprofile data object
@@ -39,7 +14,7 @@ NULL
 #' @param latitude the locations of the observed data in degrees latitude.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' geoData(Cholera$longitude, Cholera$latitude)
 #'
@@ -69,7 +44,7 @@ geoData <- function(longitude=NULL, latitude=NULL) {
 #' @param latitude the locations of the potential sources in degrees latitude.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
 #'
@@ -118,7 +93,7 @@ geoDataSource <- function(longitude=NULL, latitude=NULL) {
 #' @param guardRail when data input is used, longitude_minMax and latitude_minMax default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of 0.05 would give an extra 5 percent on the range of the data.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' # define parameters such that the model fits sigma from the data
@@ -281,7 +256,7 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 #' @param fileName the object to be imported. Must be one of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer if it is to be used with geoMask().
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # load London boroughs by default
 #' geoShapefile()
 
@@ -307,7 +282,7 @@ geoShapefile <- function(fileName=NULL) {
 #' @param silent whether to report if data passes checks to console.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' geoDataCheck(d)
@@ -350,7 +325,7 @@ geoDataCheck <- function(data, silent=FALSE) {
 #' @param silent whether to report passing check to console.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -509,7 +484,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
 #' @param lambda bandwidth to use in posterior smoothing. If NULL then optimal bandwidth is chosen automatically by maximum-likelihood.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -569,7 +544,7 @@ geoMCMC <- function(data, params, lambda=NULL) {
   cart <-latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, mids_lat_mat, mids_lon_mat)
 
   # produce prior matrix. Note that each cell of this matrix contains the probability density at that point multiplied by the size of that cell, meaning the total sum of the matrix from -infinity to +infinity would equal 1. However, as the matrix is limited to the region specified by the limits, in reality this matrix will usually sum to less than 1.
-  priorMat <- dnorm(cart$x, sd=params$model$tau) * dnorm(cart$y, sd=params$model$tau) * (cellSize_lon*cellSize_lat)
+  priorMat <- stats::dnorm(cart$x, sd=params$model$tau) * stats::dnorm(cart$y, sd=params$model$tau) * (cellSize_lon*cellSize_lat)
 
   # combine prior surface with stored posterior surface (the prior never fully goes away under the DPM model)
   n <- length(data$longitude)
@@ -616,7 +591,7 @@ geoMCMC <- function(data, params, lambda=NULL) {
 #' @param surface matrix to convert to geoprofile
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -654,7 +629,7 @@ geoProfile <- function(surface) {
 #' @param surface the surface from which to calculate hitscores. Usually an object produced by geoProfile().
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' s <- geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
@@ -701,7 +676,7 @@ geoReportHitscores <- function(params, source, surface) {
 #' @param data Crime site data, in the format produced by geoData().
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \donttest{
 #' # simulated data
 #' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
@@ -747,7 +722,7 @@ geoModelSources <- function (mcmc, data) {
 #' @param mcmc mcmc object of the form produced by geoMCMC().
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \donttest{
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -826,7 +801,7 @@ geoRing <- function(params, data, source, mcmc) {
 #' @param maths one of "add", "subtract", multiply" or "divide. The mathematical operation used to combine the new spatial data with the geoprofile when operation = "continuous".
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \donttest{
 #' # load London example data and set params
 #' d <- LondonExample_crimes
@@ -864,29 +839,30 @@ geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "ins
   stopifnot(operation %in% c("inside", "outside", "near", "far", "continuous"))
   stopifnot(maths %in% c("multiply", "divide", "add", "subtract", "continuous"))
 
-  raster_probSurface <- rast(probSurface)
-  ext(raster_probSurface) <- c(params$output$longitude_minMax[1], params$output$longitude_minMax[2],
+  raster_probSurface <- terra::rast(probSurface)
+  terra::ext(raster_probSurface) <- c(params$output$longitude_minMax[1], params$output$longitude_minMax[2],
                                params$output$latitude_minMax[1], params$output$latitude_minMax[2])
-  crs(raster_probSurface) <- "+proj=longlat +datum=WGS84"
+  terra::crs(raster_probSurface) <- "+proj=longlat +datum=WGS84"
 
   if (inherits(mask, "sf")) {
-    mask <- sf::st_transform(mask, crs = crs(raster_probSurface))  # match CRS
+    mask <- sf::st_transform(mask, crs = terra::crs(raster_probSurface))  # match CRS
 
-    tmp <- rast(ncol = params$output$longitude_cells,
+    tmp <- terra::rast(ncol = params$output$longitude_cells,
                 nrow = params$output$latitude_cells,
-                extent = ext(raster_probSurface),
-                crs = crs(raster_probSurface))
+                extent = terra::ext(raster_probSurface),
+                crs = terra::crs(raster_probSurface))
 
-    res(tmp) <- res(raster_probSurface)  # match resolution
-    rf <- rasterize(mask, tmp)
+    terra::res(tmp) <- terra::res(raster_probSurface)  # match resolution
+    # FW: This was using a raster function, but the terra func should do the same job!
+    rf <- terra::rasterize(mask, tmp)
   } else {
     rf <- mask  # already raster
   }
 
   # extract raster values
-  rf_mat <- matrix(values(rf), ncol = ncol(rf), byrow = TRUE)
+  rf_mat <- matrix(terra::values(rf), ncol = ncol(rf), byrow = TRUE)
   rf_mat <- rf_mat[nrow(rf_mat):1, ]
-  p_mat <- matrix(values(raster_probSurface), ncol = ncol(raster_probSurface), byrow = TRUE)
+  p_mat <- matrix(terra::values(raster_probSurface), ncol = ncol(raster_probSurface), byrow = TRUE)
 
   scale_mat <- NULL
 
@@ -908,8 +884,9 @@ geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "ins
   }
 
   if (operation == "near") {
-    d <- distance(rf)
-    d_mat <- matrix(values(d), ncol = ncol(d), byrow = TRUE)
+    # FW: This was using a raster function, but the terra func should do the same job!
+    d <- terra::distance(rf)
+    d_mat <- matrix(terra::values(d), ncol = ncol(d), byrow = TRUE)
     d_mat <- d_mat[nrow(d_mat):1, ]
     scale_mat <- 1 / (d_mat^scaleValue)
     scale_mat[is.infinite(scale_mat)] <- 1
@@ -917,8 +894,9 @@ geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "ins
   }
 
   if (operation == "far") {
-    d <- distance(rf)
-    d_mat <- matrix(values(d), ncol = ncol(d), byrow = TRUE)
+    # FW: This was using a raster function, but the terra func should do the same job!
+    d <- terra::distance(rf)
+    d_mat <- matrix(terra::values(d), ncol = ncol(d), byrow = TRUE)
     d_mat <- d_mat[nrow(d_mat):1,]
     scale_mat <- d_mat^scaleValue
     p_mat <- p_mat * scale_mat

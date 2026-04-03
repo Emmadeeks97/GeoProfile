@@ -13,6 +13,8 @@ geoShapefile(fileName = NULL)
 This function imports spatial information in the form of SpatialPolygonsDataFrame, SpatialLinesDataFrame or RasterLayer for use with geoMask().
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # load London boroughs by default
 geoShapefile()
+\dontshow{\}) # examplesIf}
 }

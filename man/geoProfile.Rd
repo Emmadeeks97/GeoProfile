@@ -13,6 +13,7 @@ geoProfile(surface)
 Converts surface to hitscore percentage
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -26,4 +27,5 @@ d <- geoData(sim$longitude, sim $latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
 gp <- geoProfile(m$posteriorSurface)
+\dontshow{\}) # examplesIf}
 }

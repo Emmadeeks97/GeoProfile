@@ -30,6 +30,7 @@ geoMask(
 This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a SpatialPolygonsDataFrame as produced by the package sp or a raster.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
 # load London example data and set params
 d <- LondonExample_crimes
@@ -60,4 +61,5 @@ gp_masked2 <- geoProfile(prob_masked2$prob)
 map3 <- geoPlotLeaflet(params = p, data = d, source = s, surface = gp_masked2)
 map3
 }
+\dontshow{\}) # examplesIf}
 }

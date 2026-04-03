@@ -28,6 +28,7 @@ should equal the number of suspect sites. If this is present, the function calcu
 based on the number of crimes; otherwise, this is calculated based on the number of suspect sites.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # London example data
 d <- LondonExample_crimes
 s <- LondonExample_sources
@@ -41,4 +42,5 @@ geoPlotLorenz(hs)
 # extract numbers of crimes allocated per source as a proxy
 cn <- as.vector(table(m$bestGrouping))
 geoPlotLorenz(hs, crimeNumbers = cn)
+\dontshow{\}) # examplesIf}
 }

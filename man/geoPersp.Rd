@@ -30,6 +30,7 @@ geoPersp(
 Plots persp plot of geoprofile or posterior surface (coloured according to height), reducing matrix dimensions if necessary to avoid grid lines being too close together. NB Only works with square matrix
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
 s <- geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
@@ -51,4 +52,5 @@ m <- geoMCMC(data = d, params = p)
 geoPersp(m$posteriorSurface, surface_type = "prob")
 # geoprofile
 geoPersp(surface = m$geoProfile, aggregate_size = 3, surface_type = "gp")
+\dontshow{\}) # examplesIf}
 }

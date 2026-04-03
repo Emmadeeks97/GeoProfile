@@ -14,7 +14,9 @@ data(LondonExample_crimes)
 Dummy crime sites simulated using rDPM() and centred on Queen Mary University of London.
 }
 \examples{
-plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 
+plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
+\dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

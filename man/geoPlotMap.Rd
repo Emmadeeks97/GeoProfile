@@ -78,6 +78,7 @@ geoPlotMap(
 Plots geoprofile on map, with various customisable options.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \dontrun{
 # London example data
 d <- LondonExample_crimes
@@ -113,4 +114,5 @@ geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
                 crimeBorderCol = "white",crimeCex = 2, sourceCol = "red", sourceCex = 2,
                 opacity = 0.7, gpLegend = FALSE)
 }
+\dontshow{\}) # examplesIf}
 }

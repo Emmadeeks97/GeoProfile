@@ -75,6 +75,7 @@ geoParams(
 This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
 # define parameters such that the model fits sigma from the data
@@ -88,4 +89,5 @@ d <- geoData(sim$longitude, sim $latitude)
 # use a fixed value of sigma
 geoParams(data = d, sigma_mean = 1.0, sigma_var = 0,
 chains=10, burnin=1000, samples = 10000, guardRail = 0.1)
+\dontshow{\}) # examplesIf}
 }

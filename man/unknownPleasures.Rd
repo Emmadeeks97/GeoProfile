@@ -30,6 +30,7 @@ unknownPleasures(
 A frivolous alternative to geoPlotMap(), this function takes the output of geoMCMC() and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # simulated data
 sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 51.5235505, alpha=10, sigma=1, tau=3)
@@ -38,4 +39,5 @@ s <- geoDataSource(sim$source_lon, sim$source_lat)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
 unknownPleasures(m$geoProfile, paper_ref = "Rgeoprofile v2.1.0")
+\dontshow{\}) # examplesIf}
 }

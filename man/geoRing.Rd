@@ -19,6 +19,7 @@ geoRing(params, data, source, mcmc)
 Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with geoProfile() and geoReportHitscores to produce a map and hitscores based on this strategy.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \donttest{
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -34,4 +35,5 @@ map <- geoPlotLeaflet(params = p,
                       opacity = 1)
 map
 }
+\dontshow{\}) # examplesIf}
 }

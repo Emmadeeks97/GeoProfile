@@ -58,6 +58,7 @@ geoPlotLeaflet(
 Plots geoprofile on map, with various customisable options.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \dontrun{
 # London example data
 d <- LondonExample_crimes
@@ -112,4 +113,5 @@ geoPlotLeaflet(params = p,
                opacity = 0.7,
                gpLegend = FALSE)
 }
+\dontshow{\}) # examplesIf}
 }

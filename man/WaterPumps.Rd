@@ -14,8 +14,9 @@ data(WaterPumps)
 Locations of the neighbourhood water pumps near the site of the 1854 cholera outbreak. The Broad Street pump was the source of the outbreak.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
 points(WaterPumps$latitude, WaterPumps$longitude,  pch = 15, col = "blue")
-
+\dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

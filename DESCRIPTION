@@ -1,13 +1,16 @@
 Package: GeoProfile
-Type: Package
 Title: Geographic profiling in R
 Version: 0.1.0
-Date: 2025-01-07
-Author: Robert Verity corrected by Emma Deeks
-Maintainer: Emma Deeks <e.deeks@qmul.ac.uk>
+Authors@R: c(
+    person("Emma", "Deeks", email = "e.deeks@qmul.ac.uk", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0003-2552-7848")),
+    person("Robert", "Verity", role = c("aut")),
+    person("Francis", "Windram", email = "francis.windram17@imperial.ac.uk", role = c("aut"),
+           comment = c(ORCID = "0000-0002-2129-826X"))
+  )
 Description: Can be used to infer multiple source locations from spatial data
     using a Dirichlet process mixture (DPM) modelling framework.
-License: GPL-2 | GPL-3
+License: GPL (>= 3)
 Encoding: UTF-8
 Imports:
     Rcpp,
@@ -17,12 +20,13 @@ Imports:
     leaflet,
     ggmap,
     RColorBrewer,
-    raster,
     sf,
     terra,
-    viridis
+    viridis,
+    utils
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 SystemRequirements:
     C++11
 LazyData: true
+Roxygen: list(markdown = TRUE)

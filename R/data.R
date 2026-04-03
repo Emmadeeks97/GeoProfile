@@ -10,9 +10,10 @@
 #'
 #' @usage data(LondonExample_crimes)
 #'
-#' @examples
+#' @examplesIf interactive()
+#'
 #' plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
-#' 
+#'
 "LondonExample_crimes"
 
 #------------------------------------------------
@@ -25,11 +26,11 @@
 #' @format an object of class \code{list}.
 #'
 #' @usage data(LondonExample_sources)
-#' 
-#' @examples
+#'
+#' @examplesIf interactive()
 #' plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
 #' points(LondonExample_sources$latitude, LondonExample_sources$longitude, pch = 15, col = "blue")
-#' 
+#'
 "LondonExample_sources"
 
 #------------------------------------------------
@@ -38,14 +39,14 @@
 #' Locations of cases of cholera from the 1854 cholera outbreak made famous by John Snow.
 #'
 #' @docType data
-#' 
+#'
 #' @format an object of class \code{list}.
 #'
 #' @usage data(Cholera)
-#' 
-#' @examples
+#'
+#' @examplesIf interactive()
 #' plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
-#' 
+#'
 "Cholera"
 
 #------------------------------------------------
@@ -59,10 +60,10 @@
 #' @format an object of class \code{list}.
 #'
 #' @usage data(WaterPumps)
-#' 
-#' @examples
+#'
+#' @examplesIf interactive()
 #' plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
 #' points(WaterPumps$latitude, WaterPumps$longitude,  pch = 15, col = "blue")
-#' 
+#'
 "WaterPumps"
 

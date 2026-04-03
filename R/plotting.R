@@ -5,77 +5,77 @@
 # (not exported)
 
 theme_nothing <- function(font_size = 14, font_family = ""){
-  theme_void(base_size = font_size, base_family = font_family) %+replace%
-    theme(
-      line = element_blank(),
-      rect = element_blank(),
-      text = element_text(
+  ggplot2::theme_void(base_size = font_size, base_family = font_family) %+replace%
+    ggplot2::theme(
+      line = ggplot2::element_blank(),
+      rect = ggplot2::element_blank(),
+      text = ggplot2::element_text(
         family = font_family, face = "plain",
         colour = "black", size = font_size,
         lineheight = 0.9, hjust = 0.5, vjust = 0.5, angle = 0,
-        margin = margin(), debug = FALSE
+        margin = ggplot2::margin(), debug = FALSE
       ),
 
-      axis.line =          element_blank(),
+      axis.line =          ggplot2::element_blank(),
       axis.line.x =        NULL,
       axis.line.y =        NULL,
-      axis.text =          element_blank(),
-      axis.text.x =        element_blank(),
-      axis.text.x.top =    element_blank(),
-      axis.text.y =        element_blank(),
-      axis.text.y.right =  element_blank(),
-      axis.ticks =         element_blank(),
-      axis.ticks.length =  unit(0, "pt"),
-      axis.title.x =       element_blank(),
-      axis.title.x.top =   element_blank(),
-      axis.title.y =       element_blank(),
-      axis.title.y.right = element_blank(),
+      axis.text =          ggplot2::element_blank(),
+      axis.text.x =        ggplot2::element_blank(),
+      axis.text.x.top =    ggplot2::element_blank(),
+      axis.text.y =        ggplot2::element_blank(),
+      axis.text.y.right =  ggplot2::element_blank(),
+      axis.ticks =         ggplot2::element_blank(),
+      axis.ticks.length =  ggplot2::unit(0, "pt"),
+      axis.title.x =       ggplot2::element_blank(),
+      axis.title.x.top =   ggplot2::element_blank(),
+      axis.title.y =       ggplot2::element_blank(),
+      axis.title.y.right = ggplot2::element_blank(),
 
-      legend.background =  element_blank(),
-      legend.spacing =     unit(0.4, "cm"),
+      legend.background =  ggplot2::element_blank(),
+      legend.spacing =     ggplot2::unit(0.4, "cm"),
       legend.spacing.x =   NULL,
       legend.spacing.y =   NULL,
-      legend.margin =      margin(0.2, 0.2, 0.2, 0.2, "cm"),
-      legend.key =         element_blank(),
-      legend.key.size =    unit(1.2, "lines"),
+      legend.margin =      ggplot2::margin(0.2, 0.2, 0.2, 0.2, "cm"),
+      legend.key =         ggplot2::element_blank(),
+      legend.key.size =    ggplot2::unit(1.2, "lines"),
       legend.key.height =  NULL,
       legend.key.width =   NULL,
-      legend.text =        element_text(size = rel(0.8)),
+      legend.text =        ggplot2::element_text(size = ggplot2::rel(0.8)),
       legend.text.align =  NULL,
-      legend.title =       element_text(hjust = 0),
+      legend.title =       ggplot2::element_text(hjust = 0),
       legend.title.align = NULL,
       legend.position =    "none",
       legend.direction =   NULL,
       legend.justification = "center",
       legend.box =         NULL,
-      legend.box.margin =  margin(0, 0, 0, 0, "cm"),
-      legend.box.background = element_blank(),
-      legend.box.spacing = unit(0.4, "cm"),
+      legend.box.margin =  ggplot2::margin(0, 0, 0, 0, "cm"),
+      legend.box.background = ggplot2::element_blank(),
+      legend.box.spacing = ggplot2::unit(0.4, "cm"),
 
-      panel.background =   element_blank(),
-      panel.border =       element_blank(),
-      panel.grid.major =   element_blank(),
-      panel.grid.minor =   element_blank(),
-      panel.spacing =      unit(0, "pt"),
+      panel.background =   ggplot2::element_blank(),
+      panel.border =       ggplot2::element_blank(),
+      panel.grid.major =   ggplot2::element_blank(),
+      panel.grid.minor =   ggplot2::element_blank(),
+      panel.spacing =      ggplot2::unit(0, "pt"),
       panel.spacing.x =    NULL,
       panel.spacing.y =    NULL,
       panel.ontop    =     FALSE,
 
-      strip.background =   element_blank(),
-      strip.text =         element_blank(),
-      strip.text.x =       element_blank(),
-      strip.text.y =       element_blank(),
+      strip.background =   ggplot2::element_blank(),
+      strip.text =         ggplot2::element_blank(),
+      strip.text.x =       ggplot2::element_blank(),
+      strip.text.y =       ggplot2::element_blank(),
       strip.placement =    "inside",
       strip.placement.x =  NULL,
       strip.placement.y =  NULL,
-      strip.switch.pad.grid = unit(0., "cm"),
-      strip.switch.pad.wrap = unit(0., "cm"),
+      strip.switch.pad.grid = ggplot2::unit(0., "cm"),
+      strip.switch.pad.wrap = ggplot2::unit(0., "cm"),
 
-      plot.background =    element_blank(),
-      plot.title =         element_blank(),
-      plot.subtitle =      element_blank(),
-      plot.caption =       element_blank(),
-      plot.margin =        margin(0, 0, 0, 0),
+      plot.background =    ggplot2::element_blank(),
+      plot.title =         ggplot2::element_blank(),
+      plot.subtitle =      ggplot2::element_blank(),
+      plot.caption =       ggplot2::element_blank(),
+      plot.margin =        ggplot2::margin(0, 0, 0, 0),
 
       complete = TRUE
     )
@@ -91,7 +91,7 @@ theme_nothing <- function(font_size = 14, font_family = ""){
 #' @param plotMax maximum x-axis range to plot. Leave as NULL to use default settings.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' p <- geoParams(data = d, sigma_mean = 0.2, sigma_squared_shape = 2)
@@ -146,16 +146,16 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
   if (is.null(sigma_draws)) {
 
     plot(sigma_vec, sigma_prior, type='l', lty=1, xlab='sigma (km)', ylab='probability density', main='')
-    legend(x='topright', legend='prior', lty=1)
+    graphics::legend(x='topright', legend='prior', lty=1)
 
   } else {
 
-    sigma_posterior <- density(sigma_draws, from=0, to=plotMax)
+    sigma_posterior <- stats::density(sigma_draws, from=0, to=plotMax)
     y_max <- max(sigma_posterior$y, na.rm=TRUE)
 
     plot(sigma_vec, sigma_prior, type='l', lty=1, ylim=c(0,y_max), xlab='sigma (km)', ylab='probability density', main='')
-    lines(sigma_posterior, lty=2)
-    legend(x='topright', legend=c('prior','posterior'), lty=c(1,2))
+    graphics::lines(sigma_posterior, lty=2)
+    graphics::legend(x='topright', legend=c('prior','posterior'), lty=c(1,2))
   }
 
 }
@@ -183,7 +183,7 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 #' @param orderBy whether to order segments within each bar by "group" or by "probability". If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # London example data
 #' d <- LondonExample_crimes
 #' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -226,7 +226,7 @@ geoPlotAllocation <- function(mcmc, colours=NULL, barBorderCol=NA, barBorderWidt
   # replace colours if default
   if (is.null(colours)) {
     rawCols <- RColorBrewer::brewer.pal(n=11,name="RdYlBu")
-    myPal <- colorRampPalette(rawCols)
+    myPal <- grDevices::colorRampPalette(rawCols)
     colours <- myPal(k)
     colours <- colours[c(2*(1:ceiling(k/2))-1,2*(1:floor(k/2)))]
   }
@@ -235,11 +235,11 @@ geoPlotAllocation <- function(mcmc, colours=NULL, barBorderCol=NA, barBorderWidt
   if (orderBy=="group") {
 
     plot(0, type='n', xlim=c(0,n), ylim=c(0,1), xlab=xlab, ylab=ylab, xaxs="i", yaxs="i",axes=FALSE, main=mainTitle)
-    barplot(t(allocation), col=colours, space=0, border=NA, axes=FALSE, add=TRUE)
-    segments(0:n,c(0,0),0:n,c(1,1), col=barBorderCol, lwd=barBorderWidth)
-    box(col=mainBorderCol, lwd=mainBorderWidth)
-    axis(2, tick=yTicks_on, labels=yTicks_on, at=yTicks)
-    axis(1, at=1:n-0.5, tick=xTicks_on, lwd.ticks=xTicks_size, labels=names, las=2, cex.axis=names_size)
+    graphics::barplot(t(allocation), col=colours, space=0, border=NA, axes=FALSE, add=TRUE)
+    graphics::segments(0:n,c(0,0),0:n,c(1,1), col=barBorderCol, lwd=barBorderWidth)
+    graphics::box(col=mainBorderCol, lwd=mainBorderWidth)
+    graphics::axis(2, tick=yTicks_on, labels=yTicks_on, at=yTicks)
+    graphics::axis(1, at=1:n-0.5, tick=xTicks_on, lwd.ticks=xTicks_size, labels=names, las=2, cex.axis=names_size)
   }
 
   # if ordered by probability
@@ -251,12 +251,12 @@ geoPlotAllocation <- function(mcmc, colours=NULL, barBorderCol=NA, barBorderWidt
       temp <- tM
       temp[,-i] <- NA
       temp_order <- order(temp[,i],decreasing=TRUE)
-      barplot(temp[temp_order,], col=colours[temp_order], space=0, border=NA, axes=FALSE, add=TRUE)
+      graphics::barplot(temp[temp_order,], col=colours[temp_order], space=0, border=NA, axes=FALSE, add=TRUE)
     }
-    segments(0:n,c(0,0),0:n,c(1,1), col=barBorderCol, lwd=barBorderWidth)
-    box(col=mainBorderCol, lwd=mainBorderWidth)
-    axis(2, tick=yTicks_on, labels=yTicks_on, at=yTicks)
-    axis(1, at=1:n-0.5, tick=xTicks_on, lwd.ticks=xTicks_size, labels=names, las=2, cex.axis=names_size)
+    graphics::segments(0:n,c(0,0),0:n,c(1,1), col=barBorderCol, lwd=barBorderWidth)
+    graphics::box(col=mainBorderCol, lwd=mainBorderWidth)
+    graphics::axis(2, tick=yTicks_on, labels=yTicks_on, at=yTicks)
+    graphics::axis(1, at=1:n-0.5, tick=xTicks_on, lwd.ticks=xTicks_size, labels=names, las=2, cex.axis=names_size)
   }
 
 }
@@ -326,7 +326,7 @@ getZoom <- function(x,y) {
 #' @param gpLegend whether or not to add legend to plot.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \dontrun{
 #' # London example data
 #' d <- LondonExample_crimes
@@ -386,7 +386,7 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
   # download map
   cat("downloading map\n")
   loc <- c(mean(params$output$longitude_minMax), mean(params$output$latitude_minMax))
-  rawMap <- get_map(location=loc, zoom=zoom, source=mapSource, maptype=mapType)
+  rawMap <- ggmap::get_map(location=loc, zoom=zoom, source=mapSource, maptype=mapType)
 
   # get attributes from rawMap (bounding box)
   att <- unlist(attributes(rawMap)$bb)
@@ -398,14 +398,14 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
   df_rawMap <- cbind(df_rawMap, col=as.vector(rawMap))
 
   # create ggplot object
-  myMap <- ggplot(df_rawMap, aes_string(x='lon', y='lat', fill='col')) + geom_raster() + scale_fill_identity()
-  myMap <- myMap + coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
+  myMap <- ggplot2::ggplot(df_rawMap, ggplot2::aes_string(x='lon', y='lat', fill='col')) + ggplot2::geom_raster() + ggplot2::scale_fill_identity()
+  myMap <- myMap + ggplot2::coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
 
   # overlay geoprofile
   if (!is.null(surface)) {
 
     # create colour palette
-    geoCols <- colorRampPalette(rev(surfaceCols))
+    geoCols <- grDevices::colorRampPalette(rev(surfaceCols))
     nbcol <- length(breakPercent)-1
 
     # extract plotting ranges and determine midpoints of cells
@@ -430,39 +430,39 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 
     # convert current map into borderless background image
     background <- myMap + theme_nothing()
-    myMap <- ggplot() + annotation_custom(grob=ggplotGrob(background), xmin=lonLimits[1], xmax=lonLimits[2], ymin=latLimits[1], ymax=latLimits[2])
+    myMap <- ggplot2::ggplot() + ggplot2::annotation_custom(grob=ggplot2::ggplotGrob(background), xmin=lonLimits[1], xmax=lonLimits[2], ymin=latLimits[1], ymax=latLimits[2])
 
     # add surface and colour scale
     if (smoothScale) {
-      myMap <- myMap + geom_raster(aes_string(x='x', y='y', fill='z'), alpha=opacity, data=df_noNA)
-      myMap <- myMap + scale_fill_gradientn(name="Hitscore\npercentage", colours=rev(surfaceCols))
+      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes_string(x='x', y='y', fill='z'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + ggplot2::scale_fill_gradientn(name="Hitscore\npercentage", colours=rev(surfaceCols))
     } else {
-      myMap <- myMap + geom_raster(aes_string(x='x', y='y', fill='col'), alpha=opacity, data=df_noNA)
-      myMap <- myMap + scale_fill_manual(name="Hitscore\npercentage", labels=labs, values=geoCols(nbcol))
+      myMap <- myMap + ggplot2::geom_raster(ggplot2::aes_string(x='x', y='y', fill='col'), alpha=opacity, data=df_noNA)
+      myMap <- myMap + ggplot2::scale_fill_manual(name="Hitscore\npercentage", labels=labs, values=geoCols(nbcol))
     }
     if (!gpLegend) {
-      myMap <- myMap + theme(legend.position="none")
+      myMap <- myMap + ggplot2::theme(legend.position="none")
     }
 
     # add plotting limits
-    myMap <- myMap + coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
+    myMap <- myMap + ggplot2::coord_cartesian(xlim=lonLimits, ylim=latLimits, expand=FALSE)
 
     # add contours
     if (plotContours) {
-      myMap <- myMap + stat_contour(aes_string(x='x', y='y', z='z'), colour=contourCol, breaks=breakPercent, size=0.3, alpha=opacity, data=df)
+      myMap <- myMap + ggplot2::stat_contour(ggplot2::aes_string(x='x', y='y', z='z'), colour=contourCol, breaks=breakPercent, size=0.3, alpha=opacity, data=df)
     }
   }
 
   # overlay data points
   if (!is.null(data)) {
     df_data <- data.frame(longitude=data$longitude, latitude=data$latitude)
-    myMap <- myMap + geom_point(aes_string(x='longitude', y='latitude'), data=df_data, pch=21, stroke=crimeBorderWidth, cex=crimeCex, fill=crimeCol, col=crimeBorderCol)
+    myMap <- myMap + ggplot2::geom_point(ggplot2::aes_string(x='longitude', y='latitude'), data=df_data, pch=21, stroke=crimeBorderWidth, cex=crimeCex, fill=crimeCol, col=crimeBorderCol)
   }
 
   # overlay source points
   if (!is.null(source)) {
     df_source <- data.frame(longitude=source$longitude, latitude=source$latitude)
-    myMap <- myMap + geom_point(aes_string(x='longitude', y='latitude'), data=df_source, pch=15, cex=sourceCex, col=sourceCol, fill=NA)
+    myMap <- myMap + ggplot2::geom_point(ggplot2::aes_string(x='longitude', y='latitude'), data=df_source, pch=15, cex=sourceCex, col=sourceCol, fill=NA)
   }
 
   # force correct aspect ratio
@@ -471,10 +471,10 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
   scale_lat <- latlon_to_bearing(centre_lat, centre_lon, centre_lat + 0.1, centre_lon)$gc_dist
   scale_lon <- latlon_to_bearing(centre_lat, centre_lon, centre_lat, centre_lon + 0.1)$gc_dist
   asp <- diff(latLimits)*scale_lat / (diff(lonLimits)*scale_lon)
-  myMap <- myMap +  theme(aspect.ratio=asp)
+  myMap <- myMap +  ggplot2::theme(aspect.ratio=asp)
 
   # add labels
-  myMap <- myMap +  labs(x="longitude", y="latitude")
+  myMap <- myMap +  ggplot2::labs(x="longitude", y="latitude")
 
   # plot map
   myMap
@@ -502,7 +502,7 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 #' @param threshold what level of the geoprofile to display
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \dontrun{
 #' # London example data
 #' d <- LondonExample_crimes
@@ -601,12 +601,12 @@ geoPlotLeaflet <- function(params = NULL,
   }
 
   # produce plot
-  myplot <- leaflet()
-  myplot <- addProviderTiles(myplot, provider = map_type)
+  myplot <- leaflet::leaflet()
+  myplot <- leaflet::addProviderTiles(myplot, provider = map_type)
 
   if(!is.null(data)){
     # add crimes markers
-    myplot <- addCircleMarkers(myplot,
+    myplot <- leaflet::addCircleMarkers(myplot,
                                lng = data$longitude,
                                lat = data$latitude,
                                radius = crimeCex,
@@ -616,7 +616,7 @@ geoPlotLeaflet <- function(params = NULL,
   }
   if(!is.null(source)){
     # add crimes markers
-    myplot <- addCircleMarkers(myplot,
+    myplot <- leaflet::addCircleMarkers(myplot,
                                lng = source$longitude,
                                lat = source$latitude,
                                radius = sourceCex,
@@ -638,32 +638,33 @@ geoPlotLeaflet <- function(params = NULL,
 
     # apply smoothing
     if (smoothing > 1.0) {
-      surface <- disaggregate(surface, smoothing, method = "bilinear")
+      # FW: This is actually a function name change. terra::disagg looks like the exact same function as raster::disaggregate, but it is worth a check!
+      surface <- terra::disagg(surface, smoothing, method = "bilinear")
     }
 
     # apply threshold
-    geoprofile_mat <- matrix(values(surface), nrow(surface), byrow = TRUE)
+    geoprofile_mat <- matrix(terra::values(surface), nrow(surface), byrow = TRUE)
     geoprofile_mat[geoprofile_mat > threshold*100] <- NA
-    surface <- setValues(surface, geoprofile_mat)
+    surface <- terra::setValues(surface, geoprofile_mat)
 
     # overlay raster
-    myplot <- addRasterImage(myplot, x = surface, colors = surfaceCols, opacity = opacity, project = FALSE)
+    myplot <- leaflet::addRasterImage(myplot, x = surface, colors = surfaceCols, opacity = opacity, project = FALSE)
 
     # add bounding rect
-    myplot <- addRectangles(myplot,
-                            xmin(surface),
-                            ymin(surface),
-                            xmax(surface),
-                            ymax(surface),
+    myplot <- leaflet::addRectangles(myplot,
+                            terra::xmin(surface),
+                            terra::ymin(surface),
+                            terra::xmax(surface),
+                            terra::ymax(surface),
                             fill = FALSE,
                             weight = 2,
-                            color = grey(0.2))
+                            color = grDevices::grey(0.2))
 
     # add hitscore legend
     if (gpLegend == TRUE) {
       hitscore_sequence <- seq(0, threshold, threshold / (length(surfaceCols) - 1))
-      pal <- colorNumeric(palette = surfaceCols, domain = hitscore_sequence)
-      myplot <- addLegend(myplot, "bottomright", pal = pal, values = hitscore_sequence, title = "Hit score", opacity = 1)
+      pal <- leaflet::colorNumeric(palette = surfaceCols, domain = hitscore_sequence)
+      myplot <- leaflet::addLegend(myplot, "bottomright", pal = pal, values = hitscore_sequence, title = "Hit score", opacity = 1)
     }
   }
 
@@ -684,7 +685,7 @@ geoPlotLeaflet <- function(params = NULL,
 #' @param thetaGP value of theta to pass to persp().
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
 #' s <- geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
@@ -726,7 +727,7 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
   }
 
   # Generate the desired number of colors
-  colpal <- colorRampPalette(perspCol)
+  colpal <- grDevices::colorRampPalette(perspCol)
   color <- colpal(100)
 
   # Compute the z-value at the facet centres
@@ -735,7 +736,8 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
   zfacet <- output[-1, -1] + output[-1, -ncz] + output[-nrz, -1] + output[-nrz, -ncz]
   facetcol <- cut(zfacet, length(color))
 
-  persp(output, col=color[facetcol], border="black", phi=phiGP, theta=thetaGP, lwd=0.2, box=FALSE)
+  # FW: Assume this is correct, could alternatively be terra::persp, though that usually takes a SpatVector which output is not.
+  graphics::persp(output, col=color[facetcol], border="black", phi=phiGP, theta=thetaGP, lwd=0.2, box=FALSE)
 }
 
 #------------------------------------------------
@@ -753,7 +755,7 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
 #' @param crimes_col colour to plot curve for crimes if crimeNumbers is supplied.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # London example data
 #' d <- LondonExample_crimes
 #' s <- LondonExample_sources
@@ -803,14 +805,14 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 
     # plot
     plot(0, type="n", xlim=c(0,100), ylim=c(0,1), xlab="hit score percentage", ylab="proportion identified")
-    abline(h=seq(0,1,0.2), v=seq(0,100,20), col="lightgray", lwd=0.4)
-    abline(0, 0.01, col="gray")
-    lines(hs, cum_suspect_sites, col=suspects_col)
+    graphics::abline(h=seq(0,1,0.2), v=seq(0,100,20), col="lightgray", lwd=0.4)
+    graphics::abline(0, 0.01, col="gray")
+    graphics::lines(hs, cum_suspect_sites, col=suspects_col)
 
     # add Gini value text and legend
     Gini_text <- paste0("G (sources) = ",G_sources)
-    legend(60, 0.4, Gini_text, cex=0.8, bty="n")
-    legend(65, 0.25, c("sources"), col=c(suspects_col), lwd=1, cex=0.8)
+    graphics::legend(60, 0.4, Gini_text, cex=0.8, bty="n")
+    graphics::legend(65, 0.25, c("sources"), col=c(suspects_col), lwd=1, cex=0.8)
 
     # return Gini value(s) silently
     invisible(c(G_sources=G_sources))
@@ -827,15 +829,15 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 
     # plot
     plot(0, type="n", xlim=c(0,100), ylim=c(0,1), xlab="hit score percentage", ylab="proportion identified")
-    abline(h=seq(0,1,0.2), v=seq(0,100,20), col="lightgray", lwd=0.4)
-    abline(0, 0.01, col="gray")
-    lines(hs, cum_suspect_sites, col=suspects_col)
-    lines(hs, cum_crimes, col=crimes_col)
+    graphics::abline(h=seq(0,1,0.2), v=seq(0,100,20), col="lightgray", lwd=0.4)
+    graphics::abline(0, 0.01, col="gray")
+    graphics::lines(hs, cum_suspect_sites, col=suspects_col)
+    graphics::lines(hs, cum_crimes, col=crimes_col)
 
     # add Gini value text and legend
     Gini_text <- c(paste0("G (sources) = ",G_sources), paste0("G (incidents) = ",G_crimes))
-    legend(60, 0.5, Gini_text, cex=0.8, bty="n")
-    legend(65, 0.25, c("sources","incidents"), col=c(suspects_col,crimes_col), lwd=1, cex=0.8)
+    graphics::legend(60, 0.5, Gini_text, cex=0.8, bty="n")
+    graphics::legend(65, 0.25, c("sources","incidents"), col=c(suspects_col,crimes_col), lwd=1, cex=0.8)
 
     # return Gini value(s) silently
     invisible(c(G_sources=G_sources, G_incidents=G_crimes))
@@ -852,7 +854,7 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 #' @param cols colour palette to use. Defaults to viridis palette.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' \donttest{
 #' # London example data
 #' d <- LondonExample_crimes
@@ -882,7 +884,7 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
   df <- data.frame(x=as.vector(row(comat)), y=as.vector(col(comat)), z=as.vector(t(comat)))
 
   # produce plot
-  gg <- ggplot(df) + geom_tile(aes_string(x='x', y='y', fill='z')) + scale_fill_gradientn(colours=cols, name="Probability\nco-allocation") + coord_cartesian(xlim=c(0.5,n+0.5), ylim=c(0.5,n+0.5), expand=FALSE) + labs(x="observation", y="observation")
+  gg <- ggplot2::ggplot(df) + ggplot2::geom_tile(ggplot2::aes_string(x='x', y='y', fill='z')) + ggplot2::scale_fill_gradientn(colours=cols, name="Probability\nco-allocation") + ggplot2::coord_cartesian(xlim=c(0.5,n+0.5), ylim=c(0.5,n+0.5), expand=FALSE) + ggplot2::labs(x="observation", y="observation")
 
   gg
 }
@@ -900,7 +902,7 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
 #' @param wt line weight
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # simulated data
 #' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 #' 51.5235505, alpha=10, sigma=1, tau=3)
@@ -952,14 +954,14 @@ unknownPleasures <- function(input_matrix, paper_ref = NULL, nlines = 80, bgcol 
   yvals <- seq(0, 1,length = nlines)
 
   # plot
-  oldPar <- par(bg = bgcol)
-  on.exit(par(oldPar))
+  oldPar <- graphics::par(bg = bgcol)
+  on.exit(graphics::par(oldPar))
 
   plot(1:ncols, reduced_mat[nlines,]+yvals[nlines], type="l", ylim=c(-1,max(yvals)+0.5), axes=FALSE, xlab="", ylab="", col=fgcol)
 
   for (i in nlines:1) {
-    polygon(c(min(reduced_mat[i,]), reduced_mat[i,]+yvals[i], min(reduced_mat[i,])), col=bgcol, border=bgcol)
-    points(1:ncol(reduced_mat), reduced_mat[i,]+yvals[i], type="l", col=fgcol, lwd=wt)
+    graphics::polygon(c(min(reduced_mat[i,]), reduced_mat[i,]+yvals[i], min(reduced_mat[i,])), col=bgcol, border=bgcol)
+    graphics::points(1:ncol(reduced_mat), reduced_mat[i,]+yvals[i], type="l", col=fgcol, lwd=wt)
   }
-  text(0,-0.6,citation,adj=0,col=fgcol)
+  graphics::text(0,-0.6,citation,adj=0,col=fgcol)
 }

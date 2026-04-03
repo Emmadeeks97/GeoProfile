@@ -15,6 +15,7 @@ geoDataCheck(data, silent = FALSE)
 Check that all data for use in Rgeoprofile MCMC is in the correct format.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
 geoDataCheck(d)
@@ -24,4 +25,5 @@ sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 51.5235505, alpha=1, sigma=1, tau=3)
 d <- geoData(sim$longitude, sim $latitude)
 geoDataCheck(d)
+\dontshow{\}) # examplesIf}
 }

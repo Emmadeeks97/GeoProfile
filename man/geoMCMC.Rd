@@ -17,6 +17,7 @@ geoMCMC(data, params, lambda = NULL)
 This function carries out the main MCMC under the Rgeoprofile model. Posterior draws are smoothed to produce a posterior surface, and converted into a geoProfile. Outputs include posterior draws of alpha and sigma under the variable-sigma model.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # John Snow cholera data
 d <- geoData(Cholera$longitude, Cholera$latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -28,4 +29,5 @@ sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 d <- geoData(sim$longitude, sim $latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
+\dontshow{\}) # examplesIf}
 }

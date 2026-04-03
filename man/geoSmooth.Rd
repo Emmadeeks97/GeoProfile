@@ -21,6 +21,7 @@ geoSmooth(longitude, latitude, breaks_lon, breaks_lat, lambda = NULL)
 Takes lon/lat coordinates, bins in two dimensions, and smooths using kernel density smoothing. Kernel densities are computed using the fast Fourier transform method, which is many times faster than simple summation when using a large number of points. Each Kernel is student's-t distributed with 3 degrees of freedom, and scaled by the bandwidth lambda. If lambda is set to \code{NULL} then the optimal value of lambda is chosen automatically using the leave-one-out maximum likelihood method.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # create smooth surface based on raw LondonExample_crimes
 breaks_lon <- seq(-0.25,0.05,l=101)
 breaks_lat <- seq(51.45,51.6,l=101)
@@ -30,6 +31,7 @@ m <- geoSmooth(LondonExample_crimes$longitude, LondonExample_crimes$latitude,
 # produce image plot of surface and overlay points
 image(breaks_lon, breaks_lat, t(m), xlab="longitude", ylab="latitude")
 points(LondonExample_crimes$longitude, LondonExample_crimes$latitude)
+\dontshow{\}) # examplesIf}
 }
 \references{
 Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.

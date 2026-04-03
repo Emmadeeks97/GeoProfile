@@ -14,7 +14,8 @@ data(Cholera)
 Locations of cases of cholera from the 1854 cholera outbreak made famous by John Snow.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
-
+\dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

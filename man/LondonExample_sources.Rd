@@ -14,8 +14,9 @@ data(LondonExample_sources)
 Dummy sources associated with the crimes in LondonExample_crimes.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
 points(LondonExample_sources$latitude, LondonExample_sources$longitude, pch = 15, col = "blue")
-
+\dontshow{\}) # examplesIf}
 }
 \keyword{datasets}

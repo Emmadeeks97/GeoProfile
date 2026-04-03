@@ -60,6 +60,7 @@ geoPlotAllocation(
 Produces plot of posterior allocation from output of MCMC.
 }
 \examples{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # London example data
 d <- LondonExample_crimes
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
@@ -79,4 +80,5 @@ d <- geoData(sim$longitude, sim $latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
 geoPlotAllocation(m)
+\dontshow{\}) # examplesIf}
 }

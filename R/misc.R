@@ -4,22 +4,22 @@
 # (not exported)
 
 get_alpha_beta <- function(sigma_mean,sigma_var) {
-  
+
   # define a function that has minimum at correct value of alpha
   f_alpha <- function(alpha) {
     (sqrt((sigma_var+sigma_mean^2)*(alpha-1))*exp(lgamma(alpha-0.5)-lgamma(alpha))-sigma_mean)^2
   }
-  
+
   # search for alpha
-  alpha <- optim(2,f_alpha,method='Brent',lower=1,upper=1e3)$par
-  
+  alpha <- stats::optim(2,f_alpha,method='Brent',lower=1,upper=1e3)$par
+
   # solve for beta
   beta <- (sigma_var+sigma_mean^2)*(alpha-1)
-  
+
   # check that chosen alpha is not at limit of range
   if (alpha>(1e3-1))
     stop('unable to define prior on sigma for chosen values of sigma_mean and sigma_var. Try increasing the value of sigma_var, or alternatively setting sigma_var=0 (i.e. using fixed-sigma model)')
-  
+
   output <- list(alpha=alpha, beta=beta)
   return(output)
 }
@@ -35,25 +35,25 @@ get_alpha_beta <- function(sigma_mean,sigma_var) {
 #' @param dest_lon longitude of destination point
 
 latlon_to_bearing <- function(origin_lat, origin_lon, dest_lat, dest_lon) {
-  
-  # convert input arguments to radians	
+
+  # convert input arguments to radians
   origin_lat <- origin_lat*2*pi/360
   dest_lat <- dest_lat*2*pi/360
   origin_lon <- origin_lon*2*pi/360
   dest_lon <- dest_lon*2*pi/360
-  
+
   delta_lon <- dest_lon-origin_lon
-  
+
   # calculate bearing and great circle distance
   bearing <- atan2(sin(delta_lon)*cos(dest_lat), cos(origin_lat)*sin(dest_lat)-sin(origin_lat)*cos(dest_lat)*cos(delta_lon))
   gc_angle <- acos(sin(origin_lat)*sin(dest_lat) + cos(origin_lat)*cos(dest_lat)*cos(delta_lon))
-  
+
   # convert bearing from radians to degrees measured clockwise from due north, and convert gc_angle to great circle distance via radius of earth (km)
   bearing <- bearing*360/(2*pi)
   bearing <- (bearing+360)%%360
   earthRad <- 6371
   gc_dist <- earthRad*gc_angle
-  
+
   return(list(bearing=bearing, gc_dist=gc_dist))
 }
 
@@ -62,16 +62,16 @@ latlon_to_bearing <- function(origin_lat, origin_lon, dest_lat, dest_lon) {
 # (not exported)
 
 latlon_to_cartesian <- function(centre_lat, centre_lon, data_lat, data_lon) {
-  
+
   # calculate bearing and great circle distance of data relative to centre
   data_trans <- latlon_to_bearing(centre_lat, centre_lon, data_lat, data_lon)
-  
+
   # use bearing and distance to calculate cartesian coordinates
   theta <- data_trans$bearing*2*pi/360
   d <- data_trans$gc_dist
   data_x <- d*sin(theta)
   data_y <- d*cos(theta)
-  
+
   return(list(x=data_x, y=data_y))
 }
 
@@ -81,21 +81,21 @@ latlon_to_cartesian <- function(centre_lat, centre_lon, data_lat, data_lon) {
 # (not exported)
 
 bearing_to_latlon <- function(origin_lat, origin_lon, bearing, gc_dist) {
-  
+
   # convert origin_lat, origin_lon and bearing from degrees to radians
   origin_lat <- origin_lat*2*pi/360
   origin_lon <- origin_lon*2*pi/360
   bearing <- bearing*2*pi/360
-  
+
   # calculate new lat/lon using great circle distance
   earthRad <- 6371
   new_lat <- asin(sin(origin_lat)*cos(gc_dist/earthRad) + cos(origin_lat)*sin(gc_dist/earthRad)*cos(bearing))
   new_lon <- origin_lon + atan2(sin(bearing)*sin(gc_dist/earthRad)*cos(origin_lat), cos(gc_dist/earthRad)-sin(origin_lat)*sin(new_lat))
-  
+
   # convert new_lat and new_lon from radians to degrees
   new_lat <- new_lat*360/(2*pi)
   new_lon <- new_lon*360/(2*pi)
-  
+
   return(list(longitude=new_lon, latitude=new_lat))
 }
 
@@ -104,18 +104,18 @@ bearing_to_latlon <- function(origin_lat, origin_lon, bearing, gc_dist) {
 # (not exported)
 
 cartesian_to_latlon <- function(centre_lat, centre_lon, data_x, data_y) {
-  
+
   # calculate angle and euclidian distance of all points relative to origin
   d <- sqrt(data_x^2+data_y^2)
   theta <- atan2(data_y,data_x)
-  
+
   # convert theta to bearing relative to due north
   theta <- theta*360/(2*pi)
   theta <- (90-theta)%%360
-  
+
   # use bearing and great circle distance to calculate lat/lon relative to an origin point
   data_trans <- bearing_to_latlon(centre_lat, centre_lon, theta, d)
-  
+
   return(list(longitude=data_trans$longitude, latitude=data_trans$latitude))
 }
 
@@ -156,19 +156,19 @@ dts <- function(x, df, scale=1, log=FALSE) {
 #' @param alpha concentration parameter of Dirichlet process model. Large alpha implies many distinct sources, while small alpha implies only a few sources.
 #'
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # produces clusters of points from sources centred on QMUL
-#' rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude = 51.5235505, 
-#' alpha=1, sigma=1, tau=3) 
+#' rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude = 51.5235505,
+#' alpha=1, sigma=1, tau=3)
 #' # same, but increasing alpha to generate more clusters
-#' rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude = 51.5235505, 
+#' rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude = 51.5235505,
 #' alpha=5, sigma=1, tau=3)
 
 rDPM <- function(n, sigma=1, tau=10, priorMean_longitude=-0.1277, priorMean_latitude=51.5074, alpha=1) {
-  
+
   # force n to be a scalar integer
   n <- floor(n[1])
-  
+
   # draw grouping
   group <- rep(1,n)
   freqs <- 1
@@ -181,13 +181,13 @@ rDPM <- function(n, sigma=1, tau=10, priorMean_longitude=-0.1277, priorMean_lati
     }
   }
   group <- sort(group)
-  
+
   # draw source locations
   source <- rnorm_sphere(length(freqs), priorMean_latitude, priorMean_longitude, tau)
-  
+
   # draw crime locations from sources
   crime <- rnorm_sphere(n, source$latitude[group], source$longitude[group], sigma)
-  
+
   # return results
   return(list(longitude=crime$longitude, latitude=crime$latitude, group=group, source_lon=source$longitude, source_lat=source$latitude))
 }
@@ -197,8 +197,8 @@ rDPM <- function(n, sigma=1, tau=10, priorMean_longitude=-0.1277, priorMean_lati
 # (not exported)
 
 rnorm_sphere <- function(n, centre_lat, centre_lon, sigma) {
-  x <- rnorm(n,sd=sigma)
-  y <- rnorm(n,sd=sigma)
+  x <- stats::rnorm(n,sd=sigma)
+  y <- stats::rnorm(n,sd=sigma)
   output <- cartesian_to_latlon(centre_lat, centre_lon, x, y)
   return(output)
 }
@@ -208,31 +208,31 @@ rnorm_sphere <- function(n, centre_lat, centre_lon, sigma) {
 # (not exported)
 
 bin2D <- function(x, y, x_breaks, y_breaks) {
-  
+
   # get number of breaks in each dimension
   nx <- length(x_breaks)
   ny <- length(y_breaks)
-  
+
   # create table of binned values
   tab1 <- table(findInterval(x, x_breaks), findInterval(y, y_breaks))
-  
+
   # convert to dataframe and force numeric
   df1 <- as.data.frame(tab1, stringsAsFactors=FALSE)
   names(df1) <- c("x", "y", "count")
   df1$x <- as.numeric(df1$x)
   df1$y <- as.numeric(df1$y)
-  
+
   # subset to within breaks range
   df2 <- subset(df1, x>0 & x<nx & y>0 & y<ny)
-  
+
   # fill in matrix
   mat1 <- matrix(0,ny-1,nx-1)
   mat1[cbind(df2$y, df2$x)] <- df2$count
-  
+
   # calculate cell midpoints
   x_mids <- (x_breaks[-1]+x_breaks[-nx])/2
   y_mids <- (y_breaks[-1]+y_breaks[-ny])/2
-  
+
   # return output as list
   output <- list(x_mids=x_mids, y_mids=y_mids, z=mat1)
   return(output)
@@ -251,19 +251,19 @@ bin2D <- function(x, y, x_breaks, y_breaks) {
 #'
 #' @references Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.
 #' @export
-#' @examples
+#' @examplesIf interactive()
 #' # create smooth surface based on raw LondonExample_crimes
 #' breaks_lon <- seq(-0.25,0.05,l=101)
 #' breaks_lat <- seq(51.45,51.6,l=101)
 #' m <- geoSmooth(LondonExample_crimes$longitude, LondonExample_crimes$latitude,
 #'                  breaks_lon, breaks_lat)
-#' 
+#'
 #' # produce image plot of surface and overlay points
 #' image(breaks_lon, breaks_lat, t(m), xlab="longitude", ylab="latitude")
 #' points(LondonExample_crimes$longitude, LondonExample_crimes$latitude)
 
 geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) {
-  
+
   # get properties of cells in each dimension
   cells_lon <- length(breaks_lon) - 1
   cells_lat <- length(breaks_lat) - 1
@@ -271,36 +271,36 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
   centre_lat <- mean(breaks_lat)
   cellSize_lon <- diff(breaks_lon[1:2])
   cellSize_lat <- diff(breaks_lat[1:2])
-  
+
   # bin lon/lat values in two dimensions and check that at least one value in chosen region
   surface_raw <- bin2D(longitude, latitude, breaks_lon, breaks_lat)$z
   if (all(surface_raw==0)) { stop('chosen lat/long window contains no posterior draws') }
-  
+
   # temporarily add guard rail to surface to avoid Fourier series bleeding round edges
   railSize_lon <- cells_lon
   railSize_lat <- cells_lat
   railMat_lon <- matrix(0, cells_lat, railSize_lon)
   railMat_lat <- matrix(0, railSize_lat, cells_lon + 2*railSize_lon)
-  
+
   surface_normalised <- surface_raw/sum(surface_raw)
   surface_normalised <- cbind(railMat_lon, surface_normalised, railMat_lon)
   surface_normalised <- rbind(railMat_lat, surface_normalised, railMat_lat)
-  
+
   # calculate Fourier transform of posterior surface
-  f1 = fftw2d(surface_normalised)
-  
+  f1 = fftwtools::fftw2d(surface_normalised)
+
   # calculate x and y size of one cell in cartesian space. Because of transformation, this size will technically be different for each cell, but use centre of space to get a middling value
   cellSize_trans <- latlon_to_cartesian(centre_lat, centre_lon, centre_lat + cellSize_lat, centre_lon + cellSize_lon)
   cellSize_trans_lon <- cellSize_trans$x
   cellSize_trans_lat <- cellSize_trans$y
-  
+
   # produce surface over which kernel will be calculated. This surface wraps around in both x and y (i.e. the kernel is actually defined over a torus).
   kernel_lon <- cellSize_trans_lon * c(0:floor(ncol(surface_normalised)/2), floor((ncol(surface_normalised) - 1)/2):1)
   kernel_lat <- cellSize_trans_lat * c(0:floor(nrow(surface_normalised)/2), floor((nrow(surface_normalised) - 1)/2):1)
   kernel_lon_mat <- outer(rep(1,length(kernel_lat)), kernel_lon)
   kernel_lat_mat <- outer(kernel_lat, rep(1,length(kernel_lon)))
   kernel_s_mat <- sqrt(kernel_lon_mat^2 + kernel_lat_mat^2)
-  
+
   # set lambda (bandwidth) range to be explored
   if (is.null(lambda)) {
     lambda_step <- min(cellSize_trans_lon, cellSize_trans_lat)/5
@@ -308,52 +308,52 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
   } else {
     lambda_vec <- lambda
   }
-  
+
   # loop through range of values of lambda
   cat('Smoothing posterior surface')
-  flush.console()
+  utils::flush.console()
   logLike <- -Inf
   for (i in 1:length(lambda_vec)) {
-    
+
     # print dots to screen
     if (i>1) {
       cat(".")
-      flush.console()
+      utils::flush.console()
     }
-    
+
     # calculate Fourier transform of kernel
     lambda_this <- lambda_vec[i]
     kernel <- dts(kernel_s_mat, df=3, scale=lambda_this)
-    f2 = fftw2d(kernel)
-    
+    f2 = fftwtools::fftw2d(kernel)
+
     # combine Fourier transformed surfaces and take inverse. f4 will ultimately become the main surface of interest.
     f3 = f1*f2
-    f4 = Re(fftw2d(f3,inverse=T))/length(surface_normalised)
-    
+    f4 = Re(fftwtools::fftw2d(f3,inverse=T))/length(surface_normalised)
+
     # subtract from f4 the probability density of each point measured from itself. In other words, move towards a leave-one-out kernel density method
     f5 <- f4 - surface_normalised*dts(0, df=3, scale=lambda_this)
     f5[f5<0] <- 0
     f5 <- f5/sum(f4)
-    
+
     # calculate leave-one-out log-likelihood at each point on surface
     f6 <- surface_normalised*log(f5)
-    
+
     # break if total log-likelihood is at a local maximum
     if (sum(f6,na.rm=T)<logLike) { break() }
-    
+
     # otherwise update logLike
     logLike <- sum(f6,na.rm=T)
   }
-  
+
   # report chosen value of lambda
   if (is.null(lambda)) {
     cat(paste('\nmaximum likelihood lambda = ', round(lambda_this,3), sep=''))
   }
-  
+
   # remove guard rail
   f4 <- f4[,(railSize_lon+1):(ncol(f4)-railSize_lon)]
   f4 <- f4[(railSize_lat+1):(nrow(f4)-railSize_lat),]
-  
+
   # return surface
   return(f4)
 }
