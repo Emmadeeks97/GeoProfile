@@ -4,7 +4,14 @@
 \alias{geoSmooth}
 \title{Produce a smooth surface using 2D kernel density smoothing}
 \usage{
-geoSmooth(longitude, latitude, breaks_lon, breaks_lat, lambda = NULL)
+geoSmooth(
+  longitude,
+  latitude,
+  breaks_lon,
+  breaks_lat,
+  lambda = NULL,
+  smoothprogress = TRUE
+)
 }
 \arguments{
 \item{longitude}{longitude of input points}
@@ -16,6 +23,8 @@ geoSmooth(longitude, latitude, breaks_lon, breaks_lat, lambda = NULL)
 \item{breaks_lat}{positions of latitude breaks}
 
 \item{lambda}{bandwidth to use in posterior smoothing. If NULL then optimal bandwidth is chosen automatically by maximum-likelihood.}
+
+\item{smoothprogress}{whether to include a progress spinner.}
 }
 \description{
 Takes lon/lat coordinates, bins in two dimensions, and smooths using kernel density smoothing. Kernel densities are computed using the fast Fourier transform method, which is many times faster than simple summation when using a large number of points. Each Kernel is student's-t distributed with 3 degrees of freedom, and scaled by the bandwidth lambda. If lambda is set to \code{NULL} then the optimal value of lambda is chosen automatically using the leave-one-out maximum likelihood method.

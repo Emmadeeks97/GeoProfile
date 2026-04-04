@@ -251,6 +251,7 @@ bin2D <- function(x, y, x_breaks, y_breaks) {
 #' @param breaks_lon positions of longitude breaks
 #' @param breaks_lat positions of latitude breaks
 #' @param lambda bandwidth to use in posterior smoothing. If NULL then optimal bandwidth is chosen automatically by maximum-likelihood.
+#' @param smoothprogress whether to include a progress spinner.
 #'
 #' @references Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.
 #' @export
@@ -265,7 +266,7 @@ bin2D <- function(x, y, x_breaks, y_breaks) {
 #' image(breaks_lon, breaks_lat, t(m), xlab="longitude", ylab="latitude")
 #' points(LondonExample_crimes$longitude, LondonExample_crimes$latitude)
 
-geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) {
+geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL, smoothprogress = TRUE) {
 
   # get properties of cells in each dimension
   cells_lon <- length(breaks_lon) - 1
@@ -316,9 +317,16 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
 
   # loop through range of values of lambda
   logLike <- -Inf
-  cli::cli_progress_bar(name = "Smoothing posterior surface", total = length(lambda_vec), format = "{cli::pb_spin} {cli::pb_name} | ETA: {cli::pb_eta}")
+  if (smoothprogress) {
+    cli::cli_progress_bar(name = "Smoothing posterior surface", total = length(lambda_vec), format = "{cli::pb_spin} {cli::pb_name} | ETA: {cli::pb_eta}")
+  } else {
+    cli::cli_alert_info("Smoothing posterior surface...")
+  }
+
   for (i in 1:length(lambda_vec)) {
-    cli::cli_progress_update()
+    if (smoothprogress) {
+      cli::cli_progress_update()
+    }
 
     # calculate Fourier transform of kernel
     lambda_this <- lambda_vec[i]
@@ -343,11 +351,14 @@ geoSmooth <- function(longitude, latitude, breaks_lon, breaks_lat, lambda=NULL) 
     # otherwise update logLike
     logLike <- sum(f6,na.rm=T)
   }
-  cli::cli_progress_done()
+  if (smoothprogress) {
+    cli::cli_progress_done()
+  }
+
 
   # report chosen value of lambda
   if (is.null(lambda)) {
-    cli::cli_alert_info("Maximum-Likelihood lambda = {.val {round(lambda_this,3)}}")
+    cli::cli_alert_success("Maximum-Likelihood lambda = {.val {round(lambda_this,3)}}")
   }
 
   # remove guard rail

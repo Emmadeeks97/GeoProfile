@@ -13,6 +13,7 @@
 - Probably worthwhile shifting over to the cli package for much more fully-featured messaging - in progress!
 - Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier.
 - Consider shifting from shapefiles in inst/extdata to using something better and more modern [see here](http://switchfromshapefile.org/). Probably just geopackage?
+- Eventually remove the pretty 3D vis from the vignette again. Sadly this is too large for a package to really contain in a vignette :'(
 
 ## Obvious code changes
 - dRIG & dts take a bool log as an argument but then use the `log` function. This could well cause a bug either way round!!!
@@ -120,7 +121,7 @@
   - Frankly a lot of these occur in the integrity verifiers, which I suspect would benefit from a significant overhaul.
   - I feel they should give a much more thorough report on what is wrong with the data, rather than just the first wrong thing they encounter.
 - geoSurface3D plot now represents a heavily downsampled surface to avoid bloating the package too much.
-- Overall change in dependencies thusfar: 1 removed, 2 added (`rlang` and `cli`).
+- Overall change in dependencies thusfar: 2 removed (`utils` and `raster`), 2 added (`rlang` and `cli`).
   - These are both very sensible dependencies for a modern package to have, particularly when it comes to messaging
 
 # Questions/things to investigate
@@ -134,3 +135,4 @@
 - I am not precisely sure what the Lorentz plot is for, and as such have not written any explanation in the vignette at present.
 - Generally speaking, all the documentation needs a chunk of work. It is not particularly intuitive to a user without a lot of background knowledge. 
 - I assume lower hitscores are better, but I don't know this for sure.
+- Sadly the pretty 3D vis in the vignette will probably have to be removed. It makes the package way too large for something like CRAN to like. I'm leaving it in for now though just as an example.

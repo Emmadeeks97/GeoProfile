@@ -4,7 +4,7 @@
 \alias{geoMCMC}
 \title{MCMC under Rgeoprofile model}
 \usage{
-geoMCMC(data, params, lambda = NULL)
+geoMCMC(data, params, lambda = NULL, smoothprogress = TRUE)
 }
 \arguments{
 \item{data}{input data in the format defined by \code{\link[=geoData]{geoData()}}.}
@@ -12,6 +12,8 @@ geoMCMC(data, params, lambda = NULL)
 \item{params}{input parameters in the format defined by \code{\link[=geoParams]{geoParams()}}.}
 
 \item{lambda}{bandwidth to use in posterior smoothing. If \code{NULL} then optimal bandwidth is chosen automatically by maximum-likelihood.}
+
+\item{smoothprogress}{whether to include a progress spinner for the smoothing stage.}
 }
 \description{
 This function carries out the main MCMC under the Rgeoprofile model. Posterior draws are smoothed to produce a posterior surface, and converted into a geoProfile. Outputs include posterior draws of alpha and sigma under the variable-sigma model.

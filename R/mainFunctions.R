@@ -495,6 +495,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
 #' @param data input data in the format defined by [geoData()].
 #' @param params input parameters in the format defined by [geoParams()].
 #' @param lambda bandwidth to use in posterior smoothing. If `NULL` then optimal bandwidth is chosen automatically by maximum-likelihood.
+#' @param smoothprogress whether to include a progress spinner for the smoothing stage.
 #'
 #' @export
 #' @examplesIf interactive()
@@ -510,7 +511,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
 #' p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 #' m <- geoMCMC(data = d, params = p)
 
-geoMCMC <- function(data, params, lambda=NULL) {
+geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
 
   # check that data and parameters in correct format
   geoDataCheck(data)
@@ -554,7 +555,7 @@ geoMCMC <- function(data, params, lambda=NULL) {
   mu_draws <- cartesian_to_latlon(params$model$priorMean_latitude, params$model$priorMean_longitude, rawOutput$mu_x, rawOutput$mu_y)
 
   # produce smoothed surface
-  mu_smooth <- geoSmooth(mu_draws$longitude, mu_draws$latitude, breaks_lon, breaks_lat, lambda)
+  mu_smooth <- geoSmooth(mu_draws$longitude, mu_draws$latitude, breaks_lon, breaks_lat, lambda, smoothprogress)
 
   # calculate coordinates of lat/lon matrix in original cartesian coordinates
   cart <-latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, mids_lat_mat, mids_lon_mat)

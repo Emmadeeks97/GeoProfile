@@ -101,8 +101,12 @@ Now we are ready to actually fit the geoprofile model using an MCMC approach.
 Posterior draws are smoothed to produce a posterior surface, and converted into a geoProfile.
 
 The outputs of this function include posterior draws of alpha and sigma under the variable-sigma model.
-``` {r}
+``` r
 m = geoMCMC(data = d, params = p)
+```
+
+```{r echo=FALSE}
+m = geoMCMC(data = d, params = p, smoothprogress = FALSE)
 ```
 
 _Note: we can control the bandwidth of the posterior smoothing by specifying the `lambda` argument. If this is not specified, the optimal bandwidth is chosen via maximum-likelihood._
