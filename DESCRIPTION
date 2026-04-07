@@ -36,3 +36,4 @@ Suggests:
     plotly,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://emmadeeks97.github.io/GeoProfile/
