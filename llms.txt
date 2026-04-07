@@ -1,0 +1,218 @@
+# GeoProfile
+
+# Background of RgeoProfile and GeoProfile
+
+GeoProfile is an R package for carrying out geographic profiling - a
+technique derived from criminology that uses the spatial locations of
+linked crimes to infer the home location (or locations) from which the
+criminal is operating1. More recently, this method has been applied to
+problems in ecology²⁻⁵ and infectious disease^(6,7), where “crimes” are
+now equivalent to animal observations or sites of infection, and “home
+locations” may be roosts or persistent sources of disease. Finding these
+sources is often a key priority - for example in malaria this may
+provide a more efficient method of carrying out targeted larval source
+management⁷.
+
+The RgeoProfile package uses the Dirichlet Process Mixture (DPM)
+modelling framework of Verity et al.⁷, which was designed to place
+geographic profiling in a Bayesian framework and to deal with the issue
+of multiple sources. In simple terms, the DPM model assumes a large
+(strictly infinite) number of potential source locations, although some
+of these sources are assumed to be more “active” than others. The
+RgeoProfile algorithm then attempts to infer the number of active
+sources (i.e. the number of sources that gave rise to the observed
+data), along with the spatial locations of these sources. It does this
+using Markov chain Monte Carlo (MCMC) - a statistical technique that
+provides estimates of unknown parameters by iteratively updating our
+guess.
+
+RgeoProfile is written in R, and links to C++ through the Rcpp package.
+The required data is nothing more than the longitude/latitude of
+observed “crimes”. The user is also required to define a series of
+parameters, for example defining prior beliefs about the average
+distance of a crime from a source. After running the main MCMC
+algorithm, a large number of plotting functions are available for
+exploring the output and, for evaluating the efficiency of the search
+strategy.
+
+# Installation
+
+RgeoProfile relies on the Rcpp package, which requires the following
+OS-specific steps:
+
+- Windows
+
+  - Download and install the appropriate version of
+    [Rtools](https://cran.rstudio.com/bin/windows/Rtools/) for your
+    version of R. On installation, ensure you check the box to arrange
+    your system PATH as recommended by Rtools
+
+- Mac OS X
+
+  - Download and install
+    [XCode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+    Within XCode go to Preferences : Downloads and install the Command
+    Line Tools
+
+- Linux (Debian/Ubuntu)
+
+  - Install the core software development utilities required for R
+    package development as well as LaTeX by executing
+
+  ``` bash
+  sudo apt-get install r-base-dev texlive-full
+  ```
+
+  Next, ensure that you have `pak` installed by running
+
+  ``` r
+  install.packages("pak")
+  ```
+
+  Finally, install the RgeoProfile package directly from GitHub by
+  running
+
+  ``` r
+  pak::pak("Emmadeeks97/GeoProfile")
+  library(GeoProfile)
+  ```
+
+  Once installed, run ??GeoProfile to open the help for the package,
+  which contains a number of worked examples.
+
+# References
+
+¹ Rossmo, D.K., 1999. Geographic profiling. CRC press. The theory of
+geographic profiling, including the Criminal Geographic Targeting (CGT)
+algorithm used in criminology.
+
+² Verity R, Stevenson MD, Rossmo DK, Nichols RA, Le Comber SC (2014).
+Spatial targeting of infectious disease control: Identifying multiple,
+unknown sources. Methods in Ecology and Evolution vol. 5 (7), 647-655.
+DOI: 10.1111/2041-210X.12190 Introducing the Dirichlet Process Mixture
+(DPM) model of geographic profiling.
+
+³ Faulkner SC, Verity R, Roberts D, Roy SS, Robertson PA, Stevenson MD,
+Le Comber SC (2016). Using geographic profiling to compare the value of
+sightings vs trap data in a biological invasion. Diversity and
+Distributions 23 (1), 104-112. DOI: 10.1111/ddi.12498 Using citizen
+science data with geographic profiling, and extending the DPM model to
+fit sigma, the dispersal parameter.
+
+⁴ Faulkner SC, Stevens MCA, Romañach SS, Lindsey PA, Le Comber SC
+(2018). A spatial approach to combatting wildlife crime. Conservation
+Biology 32 (3), 685-693. DOI: 10.1111/cobi.13027 A study of poaching in
+Zimbabwe showing how geospatial information can be incorporated within
+the GP framework.
+
+⁵ Struebig MJ, Linkie M, Deere N, Martyr DJ, Millyanawati B, Faulkner
+SC, Le Comber SC, Mangunjaya FM, Fachruddin M, Leader-Williams N, McKay
+JE, St John FAV (2018). Addressing human-tiger conflict using
+socio-ecological information on tolerance and risk. Nature
+Communications 9 (1), article 3455. DOI: 10.1038/s41467-018-05983-y A
+recent paper using geographic profiling to improve predictions of
+human-tiger conflict.
+
+⁶ Rossmo DK, Lutermann H, Stevenson MD, Le Comber SC (2014). Geographic
+profiling in Nazi Berlin: fact and fiction. Geospatial Intelligence
+Review (Fall 2014). Applying geographic profiling to a case of German
+resistance to the Nazis which formed the basis of the classic novel,
+‘Alone in Berlin’.
+
+# Package index
+
+## All functions
+
+- [`Cholera`](https://emmadeeks97.github.io/GeoProfile/reference/Cholera.md)
+  : Cholera data
+
+- [`LondonExample_crimes`](https://emmadeeks97.github.io/GeoProfile/reference/LondonExample_crimes.md)
+  : Example London crimes
+
+- [`LondonExample_sources`](https://emmadeeks97.github.io/GeoProfile/reference/LondonExample_sources.md)
+  : Example London sources
+
+- [`WaterPumps`](https://emmadeeks97.github.io/GeoProfile/reference/WaterPumps.md)
+  : Cholera sources
+
+- [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md)
+  : Create Geoprofile data object
+
+- [`geoDataCheck()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataCheck.md)
+  : Check data
+
+- [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataSource.md)
+  : Create sources data object in same format as observations
+
+- [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
+  : MCMC under Rgeoprofile model
+
+- [`geoMask()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMask.md)
+  : Incorporate shapefile or raster information into a geoprofile
+
+- [`geoModelSources()`](https://emmadeeks97.github.io/GeoProfile/reference/geoModelSources.md)
+  :
+
+  Extract latitude and longitude of points identified as sources by
+  [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
+
+- [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md)
+  : Create Rgeoprofile parameters object
+
+- [`geoParamsCheck()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParamsCheck.md)
+  : Check parameters
+
+- [`geoPersp()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPersp.md)
+  : Perspective plot of geoprofile or raw probabilities
+
+- [`geoPlotAllocation()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotAllocation.md)
+  : Plot posterior allocation
+
+- [`geoPlotCoallocation()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotCoallocation.md)
+  : Calculate and plot probability of coallocation
+
+- [`geoPlotLeaflet()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotLeaflet.md)
+  : Plot a map and overlay data and/or geoprofile via leaflet
+
+- [`geoPlotLorenz()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotLorenz.md)
+  : Produce Lorenz Plot
+
+- [`geoPlotMap()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotMap.md)
+  : Plot a map and overlay data and/or geoprofile using google maps
+
+- [`geoPlotSigma()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotSigma.md)
+  : Plot prior and posterior distributions of sigma.
+
+- [`geoProfile()`](https://emmadeeks97.github.io/GeoProfile/reference/geoProfile.md)
+  : Calculate geoprofile from surface
+
+- [`geoReportHitscores()`](https://emmadeeks97.github.io/GeoProfile/reference/geoReportHitscores.md)
+  : Calculate hitscores
+
+- [`geoRing()`](https://emmadeeks97.github.io/GeoProfile/reference/geoRing.md)
+  : Produces a surface based on an alternative ring-search strategy
+
+- [`geoShapefile()`](https://emmadeeks97.github.io/GeoProfile/reference/geoShapefile.md)
+  : Import shapefile
+
+- [`geoSmooth()`](https://emmadeeks97.github.io/GeoProfile/reference/geoSmooth.md)
+  : Produce a smooth surface using 2D kernel density smoothing
+
+- [`geoSurface3D()`](https://emmadeeks97.github.io/GeoProfile/reference/geoSurface3D.md)
+  : Interactive 3D plot of geoprofile or raw probabilities
+
+- [`latlon_to_bearing()`](https://emmadeeks97.github.io/GeoProfile/reference/latlon_to_bearing.md)
+  : Convert lat-lon to bearing
+
+- [`rDPM()`](https://emmadeeks97.github.io/GeoProfile/reference/rDPM.md)
+  : Draw from Dirichlet process mixture model
+
+- [`unknownPleasures()`](https://emmadeeks97.github.io/GeoProfile/reference/unknownPleasures.md)
+  : Unknown pleasures
+
+# Articles
+
+### All vignettes
+
+- [Using
+  GeoProfile](https://emmadeeks97.github.io/GeoProfile/articles/geoprofile.md):
