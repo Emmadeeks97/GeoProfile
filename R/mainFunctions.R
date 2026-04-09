@@ -55,187 +55,12 @@ geoDataSource <- function(longitude=NULL, latitude=NULL, call = rlang::current_e
 }
 
 #------------------------------------------------
-#' Create Rgeoprofile parameters object
-#'
-#' This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.
-#'
-#' @param data observations in the format defined by [geoData()].
-#' @param sources observations in the format defined by [geoDataSource()].
-#' @param sigma_mean the mean of the prior on sigma (sigma = standard deviation of the dispersal distribution) in km.
-#' @param sigma_var the variance of the prior on sigma in km^2.
-#' @param sigma_squared_shape as an alternative to defining the prior mean and variance of sigma, it is possible to directly define the parameters of the inverse-gamma prior on sigma^2. If so, this is the shape parameter of the inverse-gamma prior.
-#' @param sigma_squared_rate the rate parameter of the inverse-gamma prior on sigma^2.
-#' @param priorMean_longitude the mean longitude of the normal prior on source locations (in degrees). If `NULL` then defaults to the midpoint of the range of the data, or `-0.1277` if no data provided.
-#' @param priorMean_latitude the mean latitude of the normal prior on source locations (in degrees). If `NULL` then defaults to the midpoint of the range of the data, or `51.5074` if no data provided.
-#' @param tau the standard deviation of the normal prior on source locations, i.e. how far we expect sources to lie from the centre. If `NULL` then defaults to the maximum distance of any observation from the prior mean, or `10.0` if no data provided.
-#' @param alpha_shape shape parameter of the gamma prior on the parameter alpha.
-#' @param alpha_rate rate parameter of the gamma prior on the parameter alpha.
-#' @param chains number of MCMC chains to use in the burn-in step.
-#' @param burnin number of burn-in iterations to be discarded at start of MCMC.
-#' @param samples number of sampling iterations. These iterations are used to generate final posterior distribution.
-#' @param burnin_printConsole how frequently (in iterations) to report progress to the console during the burn-in phase.
-#' @param samples_printConsole how frequently (in iterations) to report progress to the console during the sampling phase.
-#' @param longitude_minMax vector containing minimum and maximum longitude over which to generate geoprofile. If `NULL` then defaults to the range of the data plus a guard rail on either side, or `c(-0.1377,-0.1177)` if no data provided.
-#' @param latitude_minMax vector containing minimum and maximum latitude over which to generate geoprofile. If `NULL` then defaults to the range of the data plus a guard rail on either side, or `c(51.4974, 51.5174)` if no data provided.
-#' @param longitude_cells number of cells in the final geoprofile (longitude direction). Higher values generate smoother distributions, but take longer to run.
-#' @param latitude_cells number of cells in the final geoprofile (latitude direction). Higher values generate smoother distributions, but take longer to run.
-#' @param guardRail when data input is used, `longitude_minMax` and `latitude_minMax` default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of `0.05` would give an extra 5 percent on the range of the data.
-#'
+#' @rdname gp.params
 #' @export
-#' @examplesIf interactive()
-#' # John Snow cholera data
-#' d <- geoData(Cholera$longitude, Cholera$latitude)
-#' # define parameters such that the model fits sigma from the data
-#' geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2,
-#' chains = 10, burnin = 1000, samples = 10000, guardRail = 0.1)
-#'
-#' # simulated data
-#' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
-#' 51.5235505, alpha=1, sigma=1, tau=3)
-#' d <- geoData(sim$longitude, sim $latitude)
-#' # use a fixed value of sigma
-#' geoParams(data = d, sigma_mean = 1.0, sigma_var = 0,
-#' chains=10, burnin=1000, samples = 10000, guardRail = 0.1)
 
 geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sigma_squared_shape=NULL, sigma_squared_rate=NULL, priorMean_longitude=NULL, priorMean_latitude=NULL, tau=NULL, alpha_shape=0.1, alpha_rate=0.1, chains=10, burnin=1e3, samples=1e4, burnin_printConsole=100, samples_printConsole=1000, longitude_minMax=NULL, latitude_minMax=NULL, longitude_cells=500, latitude_cells=500, guardRail=0.05) {
-
-  # if data or sources arguments used then get defaults from these values
-  if (!is.null(data) | !is.null(sources)) {
-
-    # check correct format of data
-    geoDataCheck(data, silent=TRUE)
-
-    # if prior mean not defined then set as midpoint of data (if present), otherwise midpoint of sources
-    if (is.null(priorMean_longitude)) {
-      if (is.null(data)) {
-        priorMean_longitude <- sum(range(sources$longitude))/2
-      } else {
-        priorMean_longitude <- sum(range(data$longitude))/2
-      }
-    }
-    if (is.null(priorMean_latitude)) {
-      if (is.null(data)) {
-        priorMean_latitude <- sum(range(sources$latitude))/2
-      } else {
-        priorMean_latitude <- sum(range(data$latitude))/2
-      }
-    }
-
-    # convert data to bearing and great circle distance, and extract maximum great circle distance to any point. Use maximum distance as default value of tau
-    if (!is.null(data) & is.null(tau)) {
-      data_trans <- latlon_to_bearing(priorMean_latitude, priorMean_longitude, data$latitude, data$longitude)
-      tau <- max(data_trans$gc_dist)
-    }
-
-    # combine data and sources into single object for convenience
-    data_sources <- list(longitude = c(data$longitude, sources$longitude), latitude = c(data$latitude, sources$latitude))
-
-    # set map limits based on data, sources, or both
-    if (is.null(longitude_minMax)) {
-      lon_range <- diff(range(data_sources$longitude))
-      lon_min <- min(data_sources$longitude) - guardRail*lon_range
-      lon_max <- max(data_sources$longitude) + guardRail*lon_range
-      longitude_minMax <- c(lon_min, lon_max)
-    }
-    if (is.null(latitude_minMax)) {
-      lat_range <- diff(range(data_sources$latitude))
-      lat_min <- min(data_sources$latitude) - guardRail*lat_range
-      lat_max <- max(data_sources$latitude) + guardRail*lat_range
-      latitude_minMax <- c(lat_min, lat_max)
-    }
-  }
-
-  # if data and sources arguments not used then set defaults manually
-  if (is.null(data) & is.null(sources)) {
-    if (is.null(priorMean_longitude)) {
-      priorMean_longitude <- -0.1277
-    }
-    if (is.null(priorMean_latitude)) {
-      priorMean_latitude <- 51.5074
-    }
-    if (is.null(longitude_minMax)) {
-      longitude_minMax <- priorMean_longitude + c(-0.01,0.01)
-    }
-    if (is.null(latitude_minMax)) {
-      latitude_minMax <- priorMean_latitude + c(-0.01,0.01)
-    }
-    if (is.null(tau)) {
-      tau <- 10
-    }
-  }
-
-  # initialise shape and rate parameters for prior on sigma^2
-  alpha <- NULL
-  beta <- NULL
-
-  # calculate shape and rate parameters of prior on sigma-squared (ie. alpha and beta) from input arguments. The user has several options:
-  #   1) specify sigma_mean and sigma_var, in which case alpha and beta are calculated from these values
-  #   2) specify sigma_mean but not sigma_var, in which case alpha must also be specified
-  #   3) specify neither sigma_mean nor sigma_var, in which case alpha and beta must be specified
-
-  #-------- option 1
-  if (!is.null(sigma_mean) & !is.null(sigma_var)) {
-
-    # if using fixed sigma model then no need to calculate alpha and beta. Otherwise use values of sigma_mean and sigma_var to search for the unique alpha and beta that define the distribution
-    if (sigma_var==0) {
-      cli::cli_alert_info('Using fixed sigma model')
-    } else {
-      cli::cli_alert_info('Using sigma_mean and sigma_var to define prior on sigma')
-      ab <- get_alpha_beta(sigma_mean, sigma_var)
-      alpha <- ab$alpha
-      beta <- ab$beta
-    }
-
-    #-------- option 2
-  } else if (!is.null(sigma_mean) & is.null(sigma_var)) {
-
-    if (!is.null(sigma_squared_shape)) {
-      cli::cli_alert_info('Using sigma_mean and sigma_squared_shape to define prior on sigma')
-      alpha <- sigma_squared_shape
-      if (alpha<=1) { stop('sigma_squared_shape must be >1') }
-      beta <- exp(2*log(sigma_mean) + 2*lgamma(alpha) - 2*lgamma(alpha-0.5))
-      epsilon <- sqrt(beta)*gamma(alpha-0.5)/gamma(alpha)
-      sigma_var <- beta/(alpha-1)-epsilon^2
-    }
-
-    #-------- option 3
-  } else if (is.null(sigma_mean) & is.null(sigma_var)) {
-
-    if (!is.null(sigma_squared_shape) & !is.null(sigma_squared_rate)) {
-      cli::cli_alert_info('Using sigma_squared_shape and sigma_squared_rate to define prior on sigma')
-      alpha <- sigma_squared_shape
-      beta <- sigma_squared_rate
-      sigma_mean <- sqrt(beta)*gamma(alpha-0.5)/gamma(alpha)
-      sigma_var <- beta/(alpha-1)-sigma_mean^2
-    }
-
-  }
-
-  # check that chosen inputs do in fact uniquely define the distribution. At this stage alpha and beta are only allowed to be NULL under the fixed-sigma model
-  if (is.null(alpha) | is.null(beta)) {
-    returnError <- TRUE
-    if (!is.null(sigma_var)) {
-      if (sigma_var==0) {
-        returnError <- FALSE
-      }
-    }
-    if (returnError) {
-      stop("Current prior parameters on sigma do not fully specify the distribution. Must specify either 1) a prior mean and variance on sigma, 2) a prior mean on sigma and a prior shape on sigma^2, 3) a prior shape and prior rate on sigma^2.")
-    }
-  }
-
-  # set model parameters
-  model <- list(sigma_mean=sigma_mean, sigma_var=sigma_var, sigma_squared_shape=alpha, sigma_squared_rate=beta, priorMean_longitude=priorMean_longitude, priorMean_latitude=priorMean_latitude, tau=tau, alpha_shape=alpha_shape, alpha_rate=alpha_rate)
-
-  # set MCMC parameters
-  MCMC <- list(chains=chains, burnin=burnin, samples=samples, burnin_printConsole=burnin_printConsole, samples_printConsole=samples_printConsole)
-
-  # set output parameters
-  output <- list(longitude_minMax=longitude_minMax, latitude_minMax=latitude_minMax, longitude_cells=longitude_cells, latitude_cells=latitude_cells)
-
-  # combine and return
-  ret <- list(model=model, MCMC=MCMC, output=output)
-  return(ret)
+  cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead"))
+  return(gp.params(data, sources, sigma_mean, sigma_var, sigma_squared_shape, sigma_squared_rate, priorMean_longitude, priorMean_latitude, tau, alpha_shape, alpha_rate, chains, burnin, samples, burnin_printConsole, samples_printConsole, longitude_minMax, latitude_minMax, longitude_cells, latitude_cells, guardRail))
 }
 #------------------------------------------------
 #' Import shapefile
@@ -484,7 +309,7 @@ geoParamsCheck <- function(params, silent=FALSE) {
   #---------------------------------------
 
   # if passed all checks
-  if (!silent) { cli::cli_alert_success("Params file passed all checks!") }
+  if (!silent) { cli::cli_alert_success("Params object passed all checks!") }
 }
 
 #------------------------------------------------

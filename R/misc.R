@@ -395,3 +395,80 @@ cli_stopifnot <- function(condition, message = "condition is not TRUE", call = r
 cli_stopif <- function(condition, message = "condition is TRUE", call = rlang::caller_env()) {
   if (any(condition)) {cli::cli_abort(c("x" = message), call = call)}
 }
+
+# Infer the guarded minimum and maximum values of a vector (such as longitude)
+infer_minmax <- function(v, guardRail = 0.05) {
+  range(v) + (c(-1,1) * (guardRail * diff(range(v))))
+}
+
+# Calculate sigma model parameters for a given set of inputs.
+calc_sigma_params <- function(sigma_mean=1, sigma_var=NULL, sigma_squared_shape=NULL, sigma_squared_rate=NULL) {
+  # initialise shape and rate parameters for prior on sigma^2
+  alpha <- NULL
+  beta <- NULL
+
+  # calculate shape and rate parameters of prior on sigma-squared (ie. alpha and beta) from input arguments. The user has several options:
+  #   1) specify sigma_mean and sigma_var, in which case alpha and beta are calculated from these values
+  #   2) specify sigma_mean but not sigma_var, in which case alpha must also be specified
+  #   3) specify neither sigma_mean nor sigma_var, in which case alpha and beta must be specified
+
+  #-------- option 1
+  if (!is.null(sigma_mean) & !is.null(sigma_var)) {
+
+    # if using fixed sigma model then no need to calculate alpha and beta. Otherwise use values of sigma_mean and sigma_var to search for the unique alpha and beta that define the distribution
+    if (sigma_var==0) {
+      cli::cli_alert_info('Using fixed sigma model')
+    } else {
+      cli::cli_alert_info('Using sigma_mean and sigma_var to define prior on sigma')
+      ab <- get_alpha_beta(sigma_mean, sigma_var)
+      alpha <- ab$alpha
+      beta <- ab$beta
+    }
+
+    #-------- option 2
+  } else if (!is.null(sigma_mean) & is.null(sigma_var)) {
+
+    if (!is.null(sigma_squared_shape)) {
+      cli::cli_alert_info('Using sigma_mean and sigma_squared_shape to define prior on sigma')
+      alpha <- sigma_squared_shape
+      if (alpha<=1) { stop('sigma_squared_shape must be >1') }
+      beta <- exp(2*log(sigma_mean) + 2*lgamma(alpha) - 2*lgamma(alpha-0.5))
+      epsilon <- sqrt(beta)*gamma(alpha-0.5)/gamma(alpha)
+      sigma_var <- beta/(alpha-1)-epsilon^2
+    }
+
+    #-------- option 3
+  } else if (is.null(sigma_mean) & is.null(sigma_var)) {
+
+    if (!is.null(sigma_squared_shape) & !is.null(sigma_squared_rate)) {
+      cli::cli_alert_info('Using sigma_squared_shape and sigma_squared_rate to define prior on sigma')
+      alpha <- sigma_squared_shape
+      beta <- sigma_squared_rate
+      sigma_mean <- sqrt(beta)*gamma(alpha-0.5)/gamma(alpha)
+      sigma_var <- beta/(alpha-1)-sigma_mean^2
+    }
+
+  }
+
+  # check that chosen inputs do in fact uniquely define the distribution. At this stage alpha and beta are only allowed to be NULL under the fixed-sigma model
+  if (is.null(alpha) | is.null(beta)) {
+    returnError <- TRUE
+    if (!is.null(sigma_var)) {
+      if (sigma_var==0) {
+        returnError <- FALSE
+      }
+    }
+    if (returnError) {
+      stop("Current prior parameters on sigma do not fully specify the distribution. Must specify either 1) a prior mean and variance on sigma, 2) a prior mean on sigma and a prior shape on sigma^2, 3) a prior shape and prior rate on sigma^2.")
+    }
+  }
+
+  sigma_squared_shape <- alpha
+  sigma_squared_rate <- beta
+  return(list(sigma_mean = sigma_mean, sigma_var = sigma_var, sigma_squared_shape = sigma_squared_shape, sigma_squared_rate = sigma_squared_rate))
+}
+
+# A more sensible name for cli::pluralize() which is basically glue::glue() with extra bits.
+format_printstr <- function(..., .envir = parent.frame()) {
+  cli::pluralize(..., .envir = .envir)
+}

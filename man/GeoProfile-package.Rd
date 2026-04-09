@@ -134,6 +134,13 @@ hs_mask
 }
 \dontshow{\}) # examplesIf}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://emmadeeks97.github.io/GeoProfile/}
+}
+
+}
 \author{
 \strong{Maintainer}: Emma Deeks \email{e.deeks@qmul.ac.uk} (\href{https://orcid.org/0000-0003-2552-7848}{ORCID}) [copyright holder]
 

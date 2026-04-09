@@ -133,6 +133,8 @@
 #' @importFrom ggplot2 %+replace%
 #' @importFrom Rcpp evalCpp
 #' @importFrom rlang .data
+# %||% is base R as of 4.4.0, however until that's more commonly used, we should import from rlang
+#' @importFrom rlang %||%
 #' @useDynLib GeoProfile
 ## usethis namespace: end
 NULL

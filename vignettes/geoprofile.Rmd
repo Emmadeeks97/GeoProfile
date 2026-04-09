@@ -84,7 +84,7 @@ For the MCMC we'll use 5 chains, discarding 1,000 iterations of burnin and sampl
 
 ``` {r}
 # set model and MCMC parameters
-p = geoParams(
+p = gp.params(
   data = d,
   sigma_mean = 1,
   sigma_squared_shape = 2,
@@ -93,6 +93,13 @@ p = geoParams(
   samples = 1e4
   )
 ```
+
+And let's just check to see what our full parameters object looks like:
+
+```{r}
+p
+```
+
 
 ## Running the MCMC model
 

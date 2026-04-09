@@ -123,8 +123,14 @@
   - Frankly a lot of these occur in the integrity verifiers, which I suspect would benefit from a significant overhaul.
   - I feel they should give a much more thorough report on what is wrong with the data, rather than just the first wrong thing they encounter.
 - geoSurface3D plot now represents a heavily downsampled surface to avoid bloating the package too much.
-- Overall change in dependencies thusfar: 2 removed (`utils` and `raster`), 2 added (`rlang` and `cli`).
-  - These are both very sensible dependencies for a modern package to have, particularly when it comes to messaging
+- Overall change in dependencies thusfar: 2 removed (`utils` and `raster`), 3 added (`rlang` , and `cli`).
+  - These are all very sensible dependencies for a modern package to have, particularly when it comes to messaging.
+
+## 09/04/26
+
+- Started to move functionality over to an [S3 class system](https://adv-r.hadley.nz/s3.html).
+  - Currently all parameter objects have been moved across to a new `gp.params` class
+  - This is a drop-in replacement for the old list returned by geoParams.
 
 # Questions/things to investigate
 
