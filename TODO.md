@@ -18,7 +18,6 @@
   - Could use S3 or R6
 
 ## Obvious code changes
-- dRIG & dts take a bool log as an argument but then use the `log` function. This could well cause a bug either way round!!!
 - rDPM might be able to be optimised
   
 ---
@@ -129,8 +128,12 @@
 ## 09/04/26
 
 - Started to move functionality over to an [S3 class system](https://adv-r.hadley.nz/s3.html).
-  - Currently all parameter objects have been moved across to a new `gp.params` class
+  - All parameter objects have been moved across to a new `gp.params` class
   - This is a drop-in replacement for the old list returned by geoParams.
+  
+- Fixed unspecified behaviour around log arg in dts and dRIG
+  - These likely only worked due to the way that R calls primitives vs regular r variables
+  - Looks like it didn't actually have an effect on the code, but the functionality is now more explicit (by replacing the `log` arg with a `logspace` arg).
 
 # Questions/things to investigate
 

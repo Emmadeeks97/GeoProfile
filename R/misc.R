@@ -127,9 +127,9 @@ cartesian_to_latlon <- function(centre_lat, centre_lon, data_x, data_y) {
 # If an inverse gamma distribution has shape alpha and rate beta, and hence mean beta/(alpha-1) and variance beta^2/((alpha-1)^2*(alpha-2)), then the square root of this random variable has mean epsilon=sqrt(beta)*gamma(alpha-0.5)/gamma(alpha) and variance v=beta/(alpha-1)-epsilon^2. The variance can also be written purely in terms of alpha and epsilon as follows: v=epsilon^2*(gamma(alpha-1)*gamma(alpha)/gamma(alpha-0.5)^2 - 1).
 # (not exported)
 
-dRIG <- function(x,alpha,beta,log=FALSE) {
+dRIG <- function(x,alpha,beta,logspace=FALSE) {
   output <- log(2)+alpha*log(beta)-lgamma(alpha)-(2*alpha+1)*log(x)-beta/x^2
-  if (!log)
+  if (!logspace)
     output <- exp(output)
   return(output)
 }
@@ -138,9 +138,9 @@ dRIG <- function(x,alpha,beta,log=FALSE) {
 # Scaled Student's t distribution. Used in kernel density smoothing.
 # (not exported)
 
-dts <- function(x, df, scale=1, log=FALSE) {
+dts <- function(x, df, scale=1, logspace=FALSE) {
   ret <- lgamma((df+1)/2)-lgamma(df/2)-0.5*log(pi*df*scale^2) - ((df+1)/2)*log(1 + x^2/(df*scale^2))
-  if (!log) { ret <- exp(ret) }
+  if (!logspace) { ret <- exp(ret) }
   return(ret)
 }
 
