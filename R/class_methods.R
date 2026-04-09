@@ -19,7 +19,7 @@ print.gp.params.MCMC <- function(x, ...) {
 
 #' @export
 print.gp.params.output <- function(x, ..., digits = 4) {
-  outstr <- format_printstr("Longitude range: {round(x$longitude_minMax[1], digits)}°:{round(x$longitude_minMax[2], digits)}°\nLatitude range:  {round(x$latitude_minMax[1], digits)}°:{round(x$latitude_minMax[2], digits)}°\nCells: {x$longitude_cells}x{x$latitude_cells}\n")
+  outstr <- format_printstr("Longitude range: {round(x$longitude_minMax[1], digits)}\u00B0:{round(x$longitude_minMax[2], digits)}\u00B0\nLatitude range:  {round(x$latitude_minMax[1], digits)}\u00B0:{round(x$latitude_minMax[2], digits)}\u00B0\nCells: {x$longitude_cells}x{x$latitude_cells}\n")
   cat(outstr)
   invisible(x)
 }
