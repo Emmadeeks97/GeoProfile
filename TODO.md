@@ -14,6 +14,8 @@
 - Examples take a HUGE amount of time to run. This needs to be fixed to make development significantly easier.
 - Consider shifting from shapefiles in inst/extdata to using something better and more modern [see here](http://switchfromshapefile.org/). Probably just geopackage?
 - Eventually remove the pretty 3D vis from the vignette again. Sadly this is too large for a package to really contain in a vignette :'(
+- Consider switching over to a class-based system for organising the internal workings of geoprofile.
+  - Could use S3 or R6
 
 ## Obvious code changes
 - dRIG & dts take a bool log as an argument but then use the `log` function. This could well cause a bug either way round!!!

@@ -392,6 +392,6 @@ cli_stopifnot <- function(condition, message = "condition is not TRUE", call = r
 #' @keywords internal
 #'
 #' @returns Nothing
-cli_stopif <- function(condition, message = "condition is not TRUE", call = rlang::caller_env()) {
+cli_stopif <- function(condition, message = "condition is TRUE", call = rlang::caller_env()) {
   if (any(condition)) {cli::cli_abort(c("x" = message), call = call)}
 }
