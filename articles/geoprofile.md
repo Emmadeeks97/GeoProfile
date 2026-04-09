@@ -133,7 +133,7 @@ m = geoMCMC(data = d, params = p)
     #>   iteration: 9000
     #>   iteration: 10000
     #> 
-    #> MCMC completed in 0.47 seconds
+    #> MCMC completed in 0.469 seconds
     #> ── MCMC Log End ────────────────────────────────────────────────────────────────
     #> ℹ Smoothing posterior surface...
     #> ✔ Maximum-Likelihood lambda = 0.069

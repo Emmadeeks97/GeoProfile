@@ -20,6 +20,9 @@
   Probably just geopackage?
 - Eventually remove the pretty 3D vis from the vignette again. Sadly
   this is too large for a package to really contain in a vignette :’(
+- Consider switching over to a class-based system for organising the
+  internal workings of geoprofile.
+  - Could use S3 or R6
 
 ## Obvious code changes
 

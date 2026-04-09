@@ -7,7 +7,7 @@ Abort if any condition is TRUE
 ``` r
 cli_stopif(
   condition,
-  message = "condition is not TRUE",
+  message = "condition is TRUE",
   call = rlang::caller_env()
 )
 ```
