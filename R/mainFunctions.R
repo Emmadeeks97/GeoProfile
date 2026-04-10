@@ -1,6 +1,6 @@
 #' @rdname gp.data
 geoData <- function(longitude=NULL, latitude=NULL) {
-  cli::cli_warn(c("{.fn GeoProfile::geoData} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} instead."))
+  cli::cli_warn(c("{.fn GeoProfile::geoData} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} instead."), .frequency = "regularly", .frequency_id = "geoData_deprecation")
   return(gp.data(longitude, latitude))
 }
 
@@ -8,7 +8,7 @@ geoData <- function(longitude=NULL, latitude=NULL) {
 geoDataSource <- function(longitude=NULL, latitude=NULL) {
   # FW: This is exactly the same as above so one should be deprecated.
   # For now call the other fn, but pass the current env for messaging purposes
-  cli::cli_warn(c("{.fn GeoProfile::geoDataSource} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} with {.arg is.source = TRUE} instead."))
+  cli::cli_warn(c("{.fn GeoProfile::geoDataSource} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} with {.arg is.source = TRUE} instead."), .frequency = "regularly", .frequency_id = "geoDataSource_deprecation")
   return(gp.data(longitude, latitude, is.source = TRUE))
 }
 
@@ -17,7 +17,7 @@ geoDataSource <- function(longitude=NULL, latitude=NULL) {
 #' @export
 
 geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sigma_squared_shape=NULL, sigma_squared_rate=NULL, priorMean_longitude=NULL, priorMean_latitude=NULL, tau=NULL, alpha_shape=0.1, alpha_rate=0.1, chains=10, burnin=1e3, samples=1e4, burnin_printConsole=100, samples_printConsole=1000, longitude_minMax=NULL, latitude_minMax=NULL, longitude_cells=500, latitude_cells=500, guardRail=0.05) {
-  cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead."))
+  cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead."), .frequency = "regularly", .frequency_id = "geoParams_deprecation")
   return(gp.params(data, sources, sigma_mean, sigma_var, sigma_squared_shape, sigma_squared_rate, priorMean_longitude, priorMean_latitude, tau, alpha_shape, alpha_rate, chains, burnin, samples, burnin_printConsole, samples_printConsole, longitude_minMax, latitude_minMax, longitude_cells, latitude_cells, guardRail))
 }
 #------------------------------------------------
@@ -28,6 +28,9 @@ geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 #' @param fileName the object to be imported. Must be one of `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer` if it is to be used with [geoMask()].
 #'
 #' @export
+#'
+#' @concept spec
+#'
 #' @examplesIf interactive()
 #' # load London boroughs by default
 #' geoShapefile()
@@ -56,6 +59,9 @@ geoShapefile <- function(fileName=NULL) {
 #' @param silent whether to report if data passes checks to console.
 #'
 #' @export
+#'
+#' @concept spec
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -101,6 +107,9 @@ geoDataCheck <- function(data, silent=FALSE) {
 #' @param silent whether to report passing check to console.
 #'
 #' @export
+#'
+#' @concept spec
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -283,6 +292,9 @@ geoParamsCheck <- function(params, silent=FALSE) {
 #' @param smoothprogress whether to include a progress spinner for the smoothing stage.
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -380,6 +392,9 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
 #' @param surface matrix to convert to geoprofile
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -418,6 +433,9 @@ geoProfile <- function(surface) {
 #' @param surface the surface from which to calculate hitscores. Usually an object produced by [geoProfile()].
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -465,6 +483,9 @@ geoReportHitscores <- function(params, source, surface) {
 #' @param data Crime site data, in the format produced by [geoData()].
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' \donttest{
 #' # simulated data
@@ -511,6 +532,9 @@ geoModelSources <- function (mcmc, data) {
 #' @param mcmc mcmc object of the form produced by [geoMCMC()].
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' \donttest{
 #' # John Snow cholera data
@@ -591,6 +615,9 @@ geoRing <- function(params, data, source, mcmc) {
 #' @param maths one of `"add"`, `"subtract"`, `"multiply"` or `"divide"`. The mathematical operation used to combine the new spatial data with the geoprofile when `operation = "continuous"`.
 #'
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' \donttest{
 #' # load London example data and set params

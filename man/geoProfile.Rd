@@ -29,3 +29,4 @@ m <- geoMCMC(data = d, params = p)
 gp <- geoProfile(m$posteriorSurface)
 \dontshow{\}) # examplesIf}
 }
+\concept{profiling}

@@ -45,3 +45,4 @@ points(LondonExample_crimes$longitude, LondonExample_crimes$latitude)
 \references{
 Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.
 }
+\concept{profiling}

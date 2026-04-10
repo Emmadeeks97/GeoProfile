@@ -119,3 +119,4 @@ gp.params(data = d, sigma_mean = 1.0, sigma_var = 0,
 chains=10, burnin=1000, samples = 10000, guardRail = 0.1)
 \dontshow{\}) # examplesIf}
 }
+\concept{spec}

@@ -27,3 +27,4 @@ d <- geoData(sim$longitude, sim $latitude)
 geoDataCheck(d)
 \dontshow{\}) # examplesIf}
 }
+\concept{spec}

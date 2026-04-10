@@ -29,3 +29,4 @@ p <- geoParams(data = d, sigma_mean = 1.0, sigma_var=0)
 geoParamsCheck(p)
 \dontshow{\}) # examplesIf}
 }
+\concept{spec}

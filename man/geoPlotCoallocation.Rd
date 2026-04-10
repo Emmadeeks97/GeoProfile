@@ -31,3 +31,4 @@ geoPlotCoallocation(m)
 }
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

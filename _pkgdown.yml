@@ -2,3 +2,28 @@ url: https://emmadeeks97.github.io/GeoProfile/
 template:
   bootstrap: 5
   light-switch: true
+reference:
+- title: Specification
+  desc: Functions for specifying a geoprofiling task.
+- contents:
+  - has_concept("spec")
+- title: Profiling and Processing
+  desc: Functions for performing geoprofiling and processing the results.
+- contents:
+  - has_concept("profiling")
+- title: Plotting
+  desc: Methods of visualising geoprofiles.
+- contents:
+  - has_concept("plotting)
+- title: Data
+  desc: Provided datasets.
+- contents:
+  - has_concept("data")
+- title: Deprecated
+  desc: Functions that are deprecated and will be removed in future versions.
+- contents:
+  - has_concept("deprecated")
+- title: Other
+  desc: Miscellaneous functions.
+- contents:
+  - lacks_concepts(c("spec", "profiling", "plotting", "data", "deprecated"))

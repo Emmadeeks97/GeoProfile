@@ -18,3 +18,4 @@ latlon_to_bearing(origin_lat, origin_lon, dest_lat, dest_lon)
 \description{
 Calculate bearing and great circle distance between an origin and one or more destination points
 }
+\keyword{internal}

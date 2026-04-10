@@ -19,4 +19,5 @@ Dummy crime sites simulated using rDPM() and centred on Queen Mary University of
 plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
 \dontshow{\}) # examplesIf}
 }
+\concept{data}
 \keyword{datasets}

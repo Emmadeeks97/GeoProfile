@@ -31,3 +31,4 @@ geoSurface3D(m$posteriorSurface, surface_type = "prob")
 geoSurface3D(m$geoProfile, surface_type = "gp")
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

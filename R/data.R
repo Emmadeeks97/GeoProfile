@@ -10,6 +10,8 @@
 #'
 #' @usage data(LondonExample_crimes)
 #'
+#' @concept data
+#'
 #' @examplesIf interactive()
 #'
 #' plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
@@ -26,6 +28,8 @@
 #' @format an object of class \code{list}.
 #'
 #' @usage data(LondonExample_sources)
+#'
+#' @concept data
 #'
 #' @examplesIf interactive()
 #' plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon", ylab = "lat")
@@ -44,6 +48,8 @@
 #'
 #' @usage data(Cholera)
 #'
+#' @concept data
+#'
 #' @examplesIf interactive()
 #' plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
 #'
@@ -60,6 +66,8 @@
 #' @format an object of class \code{list}.
 #'
 #' @usage data(WaterPumps)
+#'
+#' @concept data
 #'
 #' @examplesIf interactive()
 #' plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")

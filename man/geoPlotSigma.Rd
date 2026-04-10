@@ -33,3 +33,4 @@ m <- geoMCMC(data = d, params = p)
 geoPlotSigma(params = p, mcmc = m)
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

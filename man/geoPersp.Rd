@@ -54,3 +54,4 @@ geoPersp(m$posteriorSurface, surface_type = "prob")
 geoPersp(surface = m$geoProfile, aggregate_size = 3, surface_type = "gp")
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

@@ -91,6 +91,9 @@ theme_nothing <- function(font_size = 14, font_family = ""){
 #' @param plotMax maximum x-axis range to plot. Leave as `NULL` to use default settings.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -185,6 +188,9 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 #' @param orderBy whether to order segments within each bar by `"group"` or by `"probability"`. If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # London example data
 #' d <- LondonExample_crimes
@@ -328,6 +334,9 @@ getZoom <- function(x,y) {
 #' @param gpLegend whether or not to add legend to plot.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' \dontrun{
 #' # London example data
@@ -504,6 +513,9 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 #' @param threshold what level of the geoprofile to display
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' \dontrun{
 #' # London example data
@@ -687,6 +699,9 @@ geoPlotLeaflet <- function(params = NULL,
 #' @param thetaGP value of theta to pass to [graphics::persp()].
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -754,6 +769,9 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
 #' @param surface_type type of surface; should be either `"gp"` for geoprofile or `"prob"` for posteriorSurface.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # John Snow cholera data
 #' d <- geoData(Cholera$longitude, Cholera$latitude)
@@ -791,6 +809,9 @@ geoSurface3D <- function(surface, surface_type="gp") {
 #' @param crimes_col colour to plot curve for crimes if crimeNumbers is supplied.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # London example data
 #' d <- LondonExample_crimes
@@ -890,6 +911,9 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 #' @param cols colour palette to use. Defaults to viridis palette.
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' \donttest{
 #' # London example data
@@ -938,6 +962,9 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
 #' @param wt line weight
 #'
 #' @export
+#'
+#' @concept plotting
+#'
 #' @examplesIf interactive()
 #' # simulated data
 #' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =

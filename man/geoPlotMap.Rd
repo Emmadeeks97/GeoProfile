@@ -116,3 +116,4 @@ geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
 }
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

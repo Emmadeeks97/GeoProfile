@@ -41,3 +41,4 @@ m <- geoMCMC(data = d, params = p)
 unknownPleasures(m$geoProfile, paper_ref = "Rgeoprofile v2.1.0")
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

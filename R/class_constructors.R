@@ -90,6 +90,8 @@ new_gp.data <- function(longitude, latitude = NULL, lonname = "longitude", latna
 #'
 #' @rdname gp.params
 #'
+#' @concept spec
+#'
 #' @returns A `gp.params` object containing the model, MCMC, and output parameters.
 #'
 #' @export
@@ -178,6 +180,8 @@ gp.params <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
 #' @returns A `gp.data` dataframe containing the data.
 #'
 #' @rdname gp.data
+#'
+#' @concept spec
 #'
 #' @export
 #'

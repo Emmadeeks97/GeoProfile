@@ -36,6 +36,8 @@ get_alpha_beta <- function(sigma_mean,sigma_var) {
 #' @param origin_lon longitude of origin point
 #' @param dest_lat latitude of destination point
 #' @param dest_lon longitude of destination point
+#'
+#' @keywords internal
 
 latlon_to_bearing <- function(origin_lat, origin_lon, dest_lat, dest_lon) {
 
@@ -255,6 +257,9 @@ bin2D <- function(x, y, x_breaks, y_breaks) {
 #'
 #' @references Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.
 #' @export
+#'
+#' @concept profiling
+#'
 #' @examplesIf interactive()
 #' # create smooth surface based on raw LondonExample_crimes
 #' breaks_lon <- seq(-0.25,0.05,l=101)

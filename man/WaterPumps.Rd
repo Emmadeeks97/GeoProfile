@@ -19,4 +19,5 @@ plot(Cholera$latitude, Cholera$longitude, xlab = "lon", ylab = "lat")
 points(WaterPumps$latitude, WaterPumps$longitude,  pch = 15, col = "blue")
 \dontshow{\}) # examplesIf}
 }
+\concept{data}
 \keyword{datasets}

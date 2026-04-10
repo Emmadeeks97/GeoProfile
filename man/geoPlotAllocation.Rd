@@ -82,3 +82,4 @@ m <- geoMCMC(data = d, params = p)
 geoPlotAllocation(m)
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

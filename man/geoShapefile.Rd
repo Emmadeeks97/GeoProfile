@@ -18,3 +18,4 @@ This function imports spatial information in the form of \code{SpatialPolygonsDa
 geoShapefile()
 \dontshow{\}) # examplesIf}
 }
+\concept{spec}

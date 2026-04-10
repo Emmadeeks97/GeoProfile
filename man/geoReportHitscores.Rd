@@ -26,3 +26,4 @@ m <- geoMCMC(data = d, params = p, lambda=0.05)
 geoReportHitscores(params = p, source = s, surface = m$geoProfile)
 \dontshow{\}) # examplesIf}
 }
+\concept{profiling}

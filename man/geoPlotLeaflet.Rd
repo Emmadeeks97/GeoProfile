@@ -115,3 +115,4 @@ geoPlotLeaflet(params = p,
 }
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

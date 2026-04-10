@@ -42,3 +42,4 @@ ms <- geoModelSources(mcmc = m, data = d)
 }
 \dontshow{\}) # examplesIf}
 }
+\concept{profiling}

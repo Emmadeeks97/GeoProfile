@@ -19,4 +19,5 @@ plot(LondonExample_crimes$latitude, LondonExample_crimes$longitude, xlab = "lon"
 points(LondonExample_sources$latitude, LondonExample_sources$longitude, pch = 15, col = "blue")
 \dontshow{\}) # examplesIf}
 }
+\concept{data}
 \keyword{datasets}

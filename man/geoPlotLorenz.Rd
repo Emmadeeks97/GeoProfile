@@ -44,3 +44,4 @@ cn <- as.vector(table(m$bestGrouping))
 geoPlotLorenz(hs, crimeNumbers = cn)
 \dontshow{\}) # examplesIf}
 }
+\concept{plotting}

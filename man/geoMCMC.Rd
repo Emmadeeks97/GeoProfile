@@ -33,3 +33,4 @@ p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
 \dontshow{\}) # examplesIf}
 }
+\concept{profiling}
