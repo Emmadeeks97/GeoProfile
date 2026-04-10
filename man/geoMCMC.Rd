@@ -15,6 +15,9 @@ geoMCMC(data, params, lambda = NULL, smoothprogress = TRUE)
 
 \item{smoothprogress}{whether to include a progress spinner for the smoothing stage.}
 }
+\value{
+A \code{gp.profile} object containing the fit geoprofile, prior/posterior rasters, allocations, groupings, and other parameters/outputs of the model.
+}
 \description{
 This function carries out the main MCMC under the Rgeoprofile model. Posterior draws are smoothed to produce a posterior surface, and converted into a geoProfile. Outputs include posterior draws of alpha and sigma under the variable-sigma model.
 }

@@ -58,6 +58,8 @@ geoShapefile <- function(fileName=NULL) {
 #' @param data a data list object, as defined by [geoData()].
 #' @param silent whether to report if data passes checks to console.
 #'
+#' @returns Nothing (throws an error if check fails)
+#'
 #' @export
 #'
 #' @concept spec
@@ -105,6 +107,8 @@ geoDataCheck <- function(data, silent=FALSE) {
 #'
 #' @param params a list of parameters, as defined by [geoParams()].
 #' @param silent whether to report passing check to console.
+#'
+#' @returns Nothing (throws an error if check fails)
 #'
 #' @export
 #'

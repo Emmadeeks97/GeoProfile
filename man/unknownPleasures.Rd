@@ -26,6 +26,9 @@ unknownPleasures(
 
 \item{wt}{line weight}
 }
+\value{
+Nothing (called for plotting)
+}
 \description{
 A frivolous alternative to \code{\link[=geoPlotMap]{geoPlotMap()}}, this function takes the output of \code{\link[=geoMCMC]{geoMCMC()}} and plots the resulting geoprofile in the style of the cover of Joy Division's 'Unknown pleasures' album.
 }

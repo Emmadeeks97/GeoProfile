@@ -11,6 +11,9 @@ geoDataCheck(data, silent = FALSE)
 
 \item{silent}{whether to report if data passes checks to console.}
 }
+\value{
+Nothing (throws an error if check fails)
+}
 \description{
 Check that all data for use in Rgeoprofile MCMC is in the correct format.
 }

@@ -13,6 +13,9 @@ geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
 
 \item{plotMax}{maximum x-axis range to plot. Leave as \code{NULL} to use default settings.}
 }
+\value{
+Nothing (called for plotting)
+}
 \description{
 Plot prior distribution of sigma as defined by current parameter values. Can optionally overlay a kernel density plot of posterior draws of sigma.
 }

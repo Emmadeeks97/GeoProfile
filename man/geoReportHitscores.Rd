@@ -13,6 +13,9 @@ geoReportHitscores(params, source, surface)
 
 \item{surface}{the surface from which to calculate hitscores. Usually an object produced by \code{\link[=geoProfile]{geoProfile()}}.}
 }
+\value{
+A \code{data.frame} of hitscored of the input sources given the input surface.
+}
 \description{
 Calculate hitscores of the potential sources for a given surface (usually the geoprofile).
 }

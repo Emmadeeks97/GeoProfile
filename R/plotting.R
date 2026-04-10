@@ -90,6 +90,8 @@ theme_nothing <- function(font_size = 14, font_family = ""){
 #' @param mcmc stored output obtained by running [geoMCMC()]. Leave as `NULL` to plot prior only.
 #' @param plotMax maximum x-axis range to plot. Leave as `NULL` to use default settings.
 #'
+#' @returns Nothing (called for plotting)
+#'
 #' @export
 #'
 #' @concept plotting
@@ -186,6 +188,8 @@ geoPlotSigma <- function(params, mcmc=NULL, plotMax=NULL) {
 #' @param names individual names of each observation, written horizontally below each bar.
 #' @param names_size size of names under each bar.
 #' @param orderBy whether to order segments within each bar by `"group"` or by `"probability"`. If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.
+#'
+#' @returns Nothing (called for plotting)
 #'
 #' @export
 #'
@@ -332,6 +336,8 @@ getZoom <- function(x,y) {
 #' @param sourceCex relative size of symbols showing suspect sites.
 #' @param sourceCol colour of suspect sites symbols.
 #' @param gpLegend whether or not to add legend to plot.
+#'
+#' @returns A `ggplot2` plot object.
 #'
 #' @export
 #'
@@ -511,6 +517,8 @@ geoPlotMap <- function(params, data=NULL, source=NULL, surface=NULL, surfaceCols
 #' @param gpLegend whether or not to add legend to plot.
 #' @param smoothing smooth profile
 #' @param threshold what level of the geoprofile to display
+#'
+#' @returns A `leaflet` plot object.
 #'
 #' @export
 #'
@@ -698,6 +706,8 @@ geoPlotLeaflet <- function(params = NULL,
 #' @param phiGP value of phi to pass to [graphics::persp()].
 #' @param thetaGP value of theta to pass to [graphics::persp()].
 #'
+#' @returns Nothing (called for plotting)
+#'
 #' @export
 #'
 #' @concept plotting
@@ -768,6 +778,8 @@ geoPersp <- function(surface, aggregate_size=3, surface_type="gp", perspCol=c("r
 #' @param surface surface to plot; either the geoprofile or posteriorSurface output by [geoMCMC()].
 #' @param surface_type type of surface; should be either `"gp"` for geoprofile or `"prob"` for posteriorSurface.
 #'
+#' @returns Nothing (called for plotting)
+#'
 #' @export
 #'
 #' @concept plotting
@@ -807,6 +819,8 @@ geoSurface3D <- function(surface, surface_type="gp") {
 #' @param crimeNumbers optional vector with numbers of crimes per suspect site.
 #' @param suspects_col colour to plot curve for sources.
 #' @param crimes_col colour to plot curve for crimes if crimeNumbers is supplied.
+#'
+#' @returns The Gini values (invisibly)
 #'
 #' @export
 #'
@@ -910,6 +924,8 @@ geoPlotLorenz <- function(hit_scores, crimeNumbers=NULL, suspects_col="red", cri
 #' @param mcmc object of the type output by [geoMCMC()].
 #' @param cols colour palette to use. Defaults to viridis palette.
 #'
+#' @returns A `ggplot2` plot object.
+#'
 #' @export
 #'
 #' @concept plotting
@@ -960,6 +976,8 @@ geoPlotCoallocation <- function(mcmc, cols=NULL) {
 #' @param bgcol Background colour
 #' @param fgcol Foreground colour
 #' @param wt line weight
+#'
+#' @returns Nothing (called for plotting)
 #'
 #' @export
 #'

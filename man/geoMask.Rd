@@ -26,6 +26,9 @@ geoMask(
 
 \item{maths}{one of \code{"add"}, \code{"subtract"}, \code{"multiply"} or \code{"divide"}. The mathematical operation used to combine the new spatial data with the geoprofile when \code{operation = "continuous"}.}
 }
+\value{
+A \code{list} of the probability and scale of the reprocessed probability surface
+}
 \description{
 This function allows information from a shapefile or raster to be incorporated within the geoprofile. For example, we might wish to exclude areas not on land, or weight the probabilities within a specific postcode differently. The spatial object used should be a \code{SpatialPolygonsDataFrame} as produced by the package sp or a raster.
 }

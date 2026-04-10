@@ -151,6 +151,7 @@
 - `geoData()`, `geoDataSources()` and `gp.data()` now return data.frame objects rather than lists. This should be a more sensible approach that should fail earlier if data is not in the correct format.
 - `geoMCMC()` now returns a `gp.profile` object
 - Added nice printing for `gp.profile` objects to make for nicer summaries.
+- Added return values to the docs of (hopefully) all exported functions.
 
 # Questions/things to investigate
 

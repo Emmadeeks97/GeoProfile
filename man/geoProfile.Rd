@@ -9,6 +9,9 @@ geoProfile(surface)
 \arguments{
 \item{surface}{matrix to convert to geoprofile}
 }
+\value{
+A \code{matrix} of the geoprofile of the surface
+}
 \description{
 Converts surface to hitscore percentage
 }

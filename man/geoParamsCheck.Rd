@@ -11,6 +11,9 @@ geoParamsCheck(params, silent = FALSE)
 
 \item{silent}{whether to report passing check to console.}
 }
+\value{
+Nothing (throws an error if check fails)
+}
 \description{
 Check that all parameters for use in Rgeoprofile MCMC are in the correct format.
 }

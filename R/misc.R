@@ -160,6 +160,8 @@ dts <- function(x, df, scale=1, logspace=FALSE) {
 #' @param priorMean_latitude location of prior mean on source locations in degrees latitude.
 #' @param alpha concentration parameter of Dirichlet process model. Large alpha implies many distinct sources, while small alpha implies only a few sources.
 #'
+#' @returns A `list` containing the latlongs of events and sources alongside their groupings.
+#'
 #' @export
 #' @examplesIf interactive()
 #' # produces clusters of points from sources centred on QMUL

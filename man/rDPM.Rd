@@ -26,6 +26,9 @@ rDPM(
 
 \item{alpha}{concentration parameter of Dirichlet process model. Large alpha implies many distinct sources, while small alpha implies only a few sources.}
 }
+\value{
+A \code{list} containing the latlongs of events and sources alongside their groupings.
+}
 \description{
 Provides random draws from a 2D spatial Dirichlet process mixture model. Both sigma and tau are defined in units of kilometres, representing the average distance that an observations lies from a source, and the average distance that a source lies from the centre point respectively. In contrast, the location of the centre point and the locations of the final output crime sites are defined in units of degrees lat/long to facilitate spatial analysis.
 }

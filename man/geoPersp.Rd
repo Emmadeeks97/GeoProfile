@@ -26,6 +26,9 @@ geoPersp(
 
 \item{thetaGP}{value of theta to pass to \code{\link[graphics:persp]{graphics::persp()}}.}
 }
+\value{
+Nothing (called for plotting)
+}
 \description{
 Plots persp plot of geoprofile or posterior surface (coloured according to height), reducing matrix dimensions if necessary to avoid grid lines being too close together. NB Only works with square matrix
 }

@@ -11,6 +11,9 @@ geoSurface3D(surface, surface_type = "gp")
 
 \item{surface_type}{type of surface; should be either \code{"gp"} for geoprofile or \code{"prob"} for posteriorSurface.}
 }
+\value{
+Nothing (called for plotting)
+}
 \description{
 Plots an interactive 3D plot of geoprofile or posterior surface (coloured according to height). This requires the \code{plotly} package to be installed.
 }

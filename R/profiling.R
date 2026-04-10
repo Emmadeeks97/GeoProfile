@@ -8,6 +8,8 @@
 #' @param lambda bandwidth to use in posterior smoothing. If `NULL` then optimal bandwidth is chosen automatically by maximum-likelihood.
 #' @param smoothprogress whether to include a progress spinner for the smoothing stage.
 #'
+#' @returns A `gp.profile` object containing the fit geoprofile, prior/posterior rasters, allocations, groupings, and other parameters/outputs of the model.
+#'
 #' @export
 #'
 #' @concept profiling
@@ -112,6 +114,8 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
 #'
 #' @param surface matrix to convert to geoprofile
 #'
+#' @returns A `matrix` of the geoprofile of the surface
+#'
 #' @export
 #'
 #' @concept profiling
@@ -152,6 +156,8 @@ geoProfile <- function(surface) {
 #' @param params input parameters in the format defined by [geoParams()].
 #' @param source longitude and latitude of one or more source locations in the format defined by [geoDataSource()].
 #' @param surface the surface from which to calculate hitscores. Usually an object produced by [geoProfile()].
+#'
+#' @returns A `data.frame` of hitscored of the input sources given the input surface.
 #'
 #' @export
 #'
@@ -244,7 +250,7 @@ geoModelSources <- function (mcmc, data) {
   return(data.frame(longitude=lon, latitude=lat))
 }
 
-#------------------------------------------------
+
 #' Produces a surface based on an alternative ring-search strategy
 #'
 #' Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with [geoProfile()] and [geoReportHitscores()] to produce a map and hitscores based on this strategy.
@@ -253,6 +259,8 @@ geoModelSources <- function (mcmc, data) {
 #' @param data Data object in the format defined by [geoData()].
 #' @param source Potential sources object in the format defined by [geoDataSource()].
 #' @param mcmc mcmc object of the form produced by [geoMCMC()].
+#'
+#' @returns A `matrix` containing a surface based on a ring-search strategy.
 #'
 #' @export
 #'
@@ -274,8 +282,6 @@ geoModelSources <- function (mcmc, data) {
 #'                       opacity = 1)
 #' map
 #' }
-
-
 geoRing <- function(params, data, source, mcmc) {
 
   # Calculates the percentage of the grid that must be searched before reaching each source under a ring search strategy. This search strategy assumes that we start from a given crime and search outwards in a circle of increasing radius until we reach a source. As there are multiple crimes the strategy assumes a separate individual searching from each crime simultaneously at an equal rate.
@@ -314,6 +320,8 @@ geoRing <- function(params, data, source, mcmc) {
 #' @param scaleValue different functions depending on value of `operation`. For `"inside'` or `"outside"`, the value by which probabilities should be multiplied inside or outside the shapefile. For `"near"` and `"far"`, `scaleValue` is the importance of proximity to, or distance from, the object described in the `SpatialPolygonsDataFrame`, `SpatialLinesDataFrame` or `RasterLayer.` Thus, the default value of `scaleValue = 1` can be increased to exaggerate the importance of proximity or distance. Not used for `"continuous"`.
 #' @param operation how to combine the surface and the new spatial information. Must be one of `"inside"`, `"outside"`, `"near"`, `"far"` or `"continuous"`. The first two multiply areas inside or outside the area described in the shapefile (or raster) by scaleValue. `"near"` or `"far"` weight the geoprofile by its closeness to (or distance from) the area described in the shapefile (or raster). Finally, `"continuous"` uses a set of numerical values (eg altitude) to weight the geoprofile. NOTE: `'near'` and `'far'` can take a few minutes to run.
 #' @param maths one of `"add"`, `"subtract"`, `"multiply"` or `"divide"`. The mathematical operation used to combine the new spatial data with the geoprofile when `operation = "continuous"`.
+#'
+#' @returns A `list` of the probability and scale of the reprocessed probability surface
 #'
 #' @export
 #'
@@ -434,6 +442,8 @@ geoMask <- function (probSurface, params, mask, scaleValue = 1, operation = "ins
 #' @param breaks_lat positions of latitude breaks
 #' @param lambda bandwidth to use in posterior smoothing. If NULL then optimal bandwidth is chosen automatically by maximum-likelihood.
 #' @param smoothprogress whether to include a progress spinner.
+#'
+#' @returns A smoothed surface of the binned lon/lat coordinates.
 #'
 #' @references Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density estimation." Proceedings of the Twenty-First Annual Symposium of the Pattern Recognition Association of South Africa. 2010.
 #' @export

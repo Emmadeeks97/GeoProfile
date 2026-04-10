@@ -11,6 +11,9 @@ geoPlotCoallocation(mcmc, cols = NULL)
 
 \item{cols}{colour palette to use. Defaults to viridis palette.}
 }
+\value{
+A \code{ggplot2} plot object.
+}
 \description{
 For all pairs of crimes, calculates the probability that both originate from the same source and plots a coloured half matrix representing these data. The data underlying these calculations can be accessed as the object \verb{$coAllocation} produced by \code{\link[=geoMCMC]{geoMCMC()}}.
 }

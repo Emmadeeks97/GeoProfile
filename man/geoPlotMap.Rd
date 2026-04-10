@@ -74,6 +74,9 @@ geoPlotMap(
 
 \item{gpLegend}{whether or not to add legend to plot.}
 }
+\value{
+A \code{ggplot2} plot object.
+}
 \description{
 Plots geoprofile on map, with various customisable options.
 }

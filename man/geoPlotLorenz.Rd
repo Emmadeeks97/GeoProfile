@@ -20,6 +20,9 @@ geoPlotLorenz(
 
 \item{crimes_col}{colour to plot curve for crimes if crimeNumbers is supplied.}
 }
+\value{
+The Gini values (invisibly)
+}
 \description{
 Produces a Lorenz plot showing the proportion of suspect sites or cimes identified as a function of area and calculates
 the corresponding Gini coefficient using trapezoid rule.

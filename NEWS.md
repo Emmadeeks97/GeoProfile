@@ -14,6 +14,7 @@
 * User-facing messaging is nearly entirely handled by the `cli` package to give nicer, more intuitive package information.
 * Many functions have been migrated to a new S3 class system to pave the way for improved usability and data integrity checking.
   * This has led to the soft-deprecation of various functions. These will be unlikely to be removed
-  * `geoData()` -> `gp.data()`
-  * `geoDataSource()` -> `gp.data(..., is.source = TRUE)`
-  * `geoParams()` -> `gp.params()`
+    * `geoData()` -> `gp.data()`
+    * `geoDataSource()` -> `gp.data(..., is.source = TRUE)`
+    * `geoParams()` -> `gp.params()`
+  * `geoMCMC()` now returns a `gp.profile` object which supports much nicer printing.

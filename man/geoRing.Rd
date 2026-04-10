@@ -15,6 +15,9 @@ geoRing(params, data, source, mcmc)
 
 \item{mcmc}{mcmc object of the form produced by \code{\link[=geoMCMC]{geoMCMC()}}.}
 }
+\value{
+A \code{matrix} containing a surface based on a ring-search strategy.
+}
 \description{
 Produces a surface based on an alternative ring-search strategy (ie searching in an expanding radius out from the 'crimes'). The output from this function can be used with \code{\link[=geoProfile]{geoProfile()}} and \code{\link[=geoReportHitscores]{geoReportHitscores()}} to produce a map and hitscores based on this strategy.
 }

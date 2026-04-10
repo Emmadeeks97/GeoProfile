@@ -56,6 +56,9 @@ geoPlotAllocation(
 
 \item{orderBy}{whether to order segments within each bar by \code{"group"} or by \code{"probability"}. If ordered by group, all segments of a particular group are laid down before moving to the next group. If ordered by probability the segments within each bar are ordered from large to small.}
 }
+\value{
+Nothing (called for plotting)
+}
 \description{
 Produces plot of posterior allocation from output of MCMC.
 }
