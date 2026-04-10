@@ -1,57 +1,15 @@
-#------------------------------------------------
-#' Create Geoprofile data object
-#'
-#' Simple function that ensures that input data is in the correct format required by Rgeoprofile. Takes `longitude` and `latitude` as input vectors and returns these same values in `list` format.
-#'
-#' @param longitude the locations of the observed data in degrees longitude.
-#' @param latitude the locations of the observed data in degrees latitude.
-#' @param call the environment for any checking errors to be emitted from. Only really useful for internal use.
-#'
-#' @export
-#' @examplesIf interactive()
-#' # John Snow cholera data
-#' geoData(Cholera$longitude, Cholera$latitude)
-#'
-#' # simulated data
-#' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
-#' 51.5235505, alpha=1, sigma=1, tau=3)
-#' geoData(sim$longitude, sim$latitude)
-
-geoData <- function(longitude=NULL, latitude=NULL, call = rlang::current_env()) {
-
-  # check input format
-  cli_stopif(is.null(longitude), "Longitude is NULL!", call)
-  cli_stopif(is.null(latitude), "Latitude is NULL!", call)
-  cli_stopifnot(length(longitude)==length(latitude), "Longitude and Latitude are not the same length!", call)
-
-  # combine and return
-  ret <- list(longitude=longitude, latitude=latitude)
-  return(ret)
+#' @rdname gp.data
+geoData <- function(longitude=NULL, latitude=NULL) {
+  cli::cli_warn(c("{.fn GeoProfile::geoData} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} instead."))
+  return(gp.data(longitude, latitude))
 }
 
-#------------------------------------------------
-#' Create sources data object in same format as observations
-#'
-#' Simple function that ensures that sources are in the correct format required by Rgeoprofile. Takes longitude and latitude as input vectors and returns these same values in list format. If no values are input then default values are used.
-#'
-#' @param longitude the locations of the potential sources in degrees longitude.
-#' @param latitude the locations of the potential sources in degrees latitude.
-#' @param call the environment for any checking errors to be emitted from. Only really useful for internal use.
-#'
-#' @export
-#' @examplesIf interactive()
-#' # John Snow cholera data
-#' geoDataSource(WaterPumps$longitude, WaterPumps$latitude)
-#'
-#' # simulated data
-#' sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
-#' 51.5235505, alpha=1, sigma=1, tau=3)
-#' geoDataSource(sim$longitude, sim$latitude)
-
-geoDataSource <- function(longitude=NULL, latitude=NULL, call = rlang::current_env()) {
+#' @rdname gp.data
+geoDataSource <- function(longitude=NULL, latitude=NULL) {
   # FW: This is exactly the same as above so one should be deprecated.
   # For now call the other fn, but pass the current env for messaging purposes
-  geoData(longitude, latitude, call)
+  cli::cli_warn(c("{.fn GeoProfile::geoDataSource} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} with {.arg is.source = TRUE} instead."))
+  return(gp.data(longitude, latitude, is.source = TRUE))
 }
 
 #------------------------------------------------
@@ -59,7 +17,7 @@ geoDataSource <- function(longitude=NULL, latitude=NULL, call = rlang::current_e
 #' @export
 
 geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sigma_squared_shape=NULL, sigma_squared_rate=NULL, priorMean_longitude=NULL, priorMean_latitude=NULL, tau=NULL, alpha_shape=0.1, alpha_rate=0.1, chains=10, burnin=1e3, samples=1e4, burnin_printConsole=100, samples_printConsole=1000, longitude_minMax=NULL, latitude_minMax=NULL, longitude_cells=500, latitude_cells=500, guardRail=0.05) {
-  cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead"))
+  cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead."))
   return(gp.params(data, sources, sigma_mean, sigma_var, sigma_squared_shape, sigma_squared_rate, priorMean_longitude, priorMean_latitude, tau, alpha_shape, alpha_rate, chains, burnin, samples, burnin_printConsole, samples_printConsole, longitude_minMax, latitude_minMax, longitude_cells, latitude_cells, guardRail))
 }
 #------------------------------------------------
@@ -111,8 +69,10 @@ geoShapefile <- function(fileName=NULL) {
 
 geoDataCheck <- function(data, silent=FALSE) {
 
-  # check that data is a list
-  cli_stopifnot(is.list(data), "Data is not a list!")
+  # check that data is a list or a gp.data object
+  if (!inherits(data, "gp.data")) {
+    cli_stopifnot(is.list(data), "Data is not a gp.data object or a list!")
+  }
 
   # check that contains longitude and latitude
   cli_stopifnot("longitude" %in% names(data), "Longitude is not present in data!")
@@ -129,7 +89,7 @@ geoDataCheck <- function(data, silent=FALSE) {
   cli_stopifnot(length(data$longitude)>1, "Fewer than 2 observations!")
 
   # if passed all checks
-  if (!silent) { cli::cli_alert_success("Data file passed all checks!") }
+  if (!silent) { cli::cli_alert_success("Data object passed all checks!") }
 }
 
 #------------------------------------------------
@@ -343,29 +303,16 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
   geoParamsCheck(params)
   cli::cli_rule(left = "MCMC Log")
 
-  # extract ranges etc. from params object
-  min_lon <- params$output$longitude_minMax[1]
-  max_lon <- params$output$longitude_minMax[2]
-  min_lat <- params$output$latitude_minMax[1]
-  max_lat <- params$output$latitude_minMax[2]
-  cells_lon <- params$output$longitude_cells
-  cells_lat <- params$output$latitude_cells
-  cellSize_lon <- (max_lon-min_lon)/cells_lon
-  cellSize_lat <- (max_lat-min_lat)/cells_lat
-  breaks_lon <- seq(min_lon, max_lon, l=cells_lon+1)
-  breaks_lat <- seq(min_lat, max_lat, l=cells_lat+1)
-  mids_lon <- breaks_lon[-1] - cellSize_lon/2
-  mids_lat <- breaks_lat[-1] - cellSize_lat/2
-  mids_lon_mat <- outer(rep(1,length(mids_lat)), mids_lon)
-  mids_lat_mat <- outer(mids_lat, rep(1,length(mids_lon)))
+  # extract ranges etc. from params$output object
+  ranges_list <- extract_mcmc_ranges(params$output)
 
   # transform data to cartesian coordinates relative to centre of prior. After transformation data are defined relative to point 0,0 (i.e. the origin represents the centre of the prior). Add transformed coordinates to data object before feeding into C++ function
-  data_cartesian <-latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, data$latitude, data$longitude)
+  data_cartesian <- latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, data$latitude, data$longitude)
   data$x <- data_cartesian$x
   data$y <- data_cartesian$y
 
   # if using fixed sigma model then change alpha and beta from NULL to -1. This value will be ignored, but needs to be numeric before feeding into the C++ function.
-  if (params$model$sigma_var==0) {
+  if (params$model$sigma_var == 0) {
     params$model$sigma_squared_shape <- -1
     params$model$sigma_squared_rate <- -1
   }
@@ -380,13 +327,13 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
   mu_draws <- cartesian_to_latlon(params$model$priorMean_latitude, params$model$priorMean_longitude, rawOutput$mu_x, rawOutput$mu_y)
 
   # produce smoothed surface
-  mu_smooth <- geoSmooth(mu_draws$longitude, mu_draws$latitude, breaks_lon, breaks_lat, lambda, smoothprogress)
+  mu_smooth <- geoSmooth(mu_draws$longitude, mu_draws$latitude, ranges_list$breaks_lon, ranges_list$breaks_lat, lambda, smoothprogress)
 
   # calculate coordinates of lat/lon matrix in original cartesian coordinates
-  cart <-latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, mids_lat_mat, mids_lon_mat)
+  cart <-latlon_to_cartesian(params$model$priorMean_latitude, params$model$priorMean_longitude, ranges_list$mids_lat_mat, ranges_list$mids_lon_mat)
 
   # produce prior matrix. Note that each cell of this matrix contains the probability density at that point multiplied by the size of that cell, meaning the total sum of the matrix from -infinity to +infinity would equal 1. However, as the matrix is limited to the region specified by the limits, in reality this matrix will usually sum to less than 1.
-  priorMat <- stats::dnorm(cart$x, sd=params$model$tau) * stats::dnorm(cart$y, sd=params$model$tau) * (cellSize_lon*cellSize_lat)
+  priorMat <- stats::dnorm(cart$x, sd=params$model$tau) * stats::dnorm(cart$y, sd=params$model$tau) * (ranges_list$cellSize_lon*ranges_list$cellSize_lat)
 
   # combine prior surface with stored posterior surface (the prior never fully goes away under the DPM model)
   n <- length(data$longitude)
@@ -410,17 +357,18 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
   coAllocation[row(coAllocation)>col(coAllocation)] <- NA
 
   # finalise output format
-  output <- list()
-  output$priorSurface <-  priorMat
-  output$posteriorSurface <-  posteriorMat
-  output$geoProfile <-  gp
-  output$midpoints_longitude <- mids_lon
-  output$midpoints_latitude <- mids_lat
-  output$sigma <- rawOutput$sigma
-  output$alpha <- alpha
-  output$allocation <- allocation
-  output$bestGrouping <- bestGrouping
-  output$coAllocation <- coAllocation
+  output <- list(
+    priorSurface = priorMat,
+    posteriorSurface = posteriorMat,
+    geoProfile = gp,
+    midpoints_longitude = ranges_list$mids_lon,
+    midpoints_latitude = ranges_list$mids_lat,
+    sigma = rawOutput$sigma,
+    alpha = alpha,
+    allocation = allocation,
+    bestGrouping = bestGrouping,
+    coAllocation = coAllocation
+    )
   return(output)
 }
 

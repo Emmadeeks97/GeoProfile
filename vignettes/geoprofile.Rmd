@@ -31,8 +31,10 @@ library(GeoProfile)
 d <- LondonExample_crimes
 s <- LondonExample_sources
 
-d <- geoData(d$longitude, d$latitude)
-s <- geoDataSource(s$longitude, s$latitude)
+d <- gp.data(d)
+
+# Source data should be loaded with is.source = TRUE
+s <- gp.data(s, is.source = TRUE)
 ```
 
 ### Explaining the data

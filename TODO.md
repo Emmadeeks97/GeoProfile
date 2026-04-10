@@ -128,12 +128,15 @@
 ## 09/04/26
 
 - Started to move functionality over to an [S3 class system](https://adv-r.hadley.nz/s3.html).
-  - All parameter objects have been moved across to a new `gp.params` class
-  - This is a drop-in replacement for the old list returned by geoParams.
-  
-- Fixed unspecified behaviour around log arg in dts and dRIG
-  - These likely only worked due to the way that R calls primitives vs regular r variables
+  - All parameter objects have been moved across to a new `gp.params` class.
+  - All data objects have been moved across to a new `gp.data` class.
+  - These are drop-in replacements for the old lists.
+  - The old functions currently redirect to the new classes with a warning.
+  - Soft-deprecated `geoData()`, `geoDataSource()` and `geoParams()`
+- Fixed unspecified behaviour around log arg in `dts()` and `dRIG()`
+  - These likely only worked due to the way that R calls primitives vs regular R variables
   - Looks like it didn't actually have an effect on the code, but the functionality is now more explicit (by replacing the `log` arg with a `logspace` arg).
+- Minor changes to `geoMCMC()` to make maintenance easier.
 
 # Questions/things to investigate
 

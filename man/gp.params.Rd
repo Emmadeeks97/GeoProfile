@@ -3,7 +3,7 @@
 \name{gp.params}
 \alias{gp.params}
 \alias{geoParams}
-\title{Create Rgeoprofile parameters object}
+\title{Create a new parameters object}
 \usage{
 gp.params(
   data = NULL,
@@ -95,6 +95,9 @@ geoParams(
 \item{latitude_cells}{number of cells in the final geoprofile (latitude direction). Higher values generate smoother distributions, but take longer to run.}
 
 \item{guardRail}{when data input is used, \code{longitude_minMax} and \code{latitude_minMax} default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of \code{0.05} would give an extra 5 percent on the range of the data.}
+}
+\value{
+A \code{gp.params} object containing the model, MCMC, and output parameters.
 }
 \description{
 This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.

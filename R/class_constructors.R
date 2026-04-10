@@ -45,10 +45,24 @@ new_gp.params.output <- function(data = NULL, sources = NULL, longitude_minMax=N
   structure(out, class = c("gp.params.output", "list"))
 }
 
+new_gp.data <- function(longitude, latitude = NULL, lonname = "longitude", latname = "latitude", is.source = FALSE) {
+  if (is.null(latitude)) {
+    data <- longitude
+    longitude <- data[[lonname]]
+    latitude <- data[[latname]]
+  }
+  cli_stopifnot(length(longitude)==length(latitude), "Longitude and Latitude are not the same length!")
+  out <- data.frame(longitude = longitude, latitude = latitude)
+  out <- structure(out, class = c("gp.data", "data.frame"))
+  attr(out, "is.source") <- is.source
+  # FW: Should call geoDataCheck prior to return, to validate
+  out
+}
+
 # --- User-facing constructors
 
 #------------------------------------------------
-#' Create Rgeoprofile parameters object
+#' Create a new parameters object
 #'
 #' This function can be used to generate parameters in the format required by other Rgeoprofile functions. Parameter values can be specified as input arguments to this function, or alternatively if data is input as an argument then some parameters can take default values directly from the data.
 #'
@@ -75,6 +89,9 @@ new_gp.params.output <- function(data = NULL, sources = NULL, longitude_minMax=N
 #' @param guardRail when data input is used, `longitude_minMax` and `latitude_minMax` default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of `0.05` would give an extra 5 percent on the range of the data.
 #'
 #' @rdname gp.params
+#'
+#' @returns A `gp.params` object containing the model, MCMC, and output parameters.
+#'
 #' @export
 #' @examplesIf interactive()
 #' # John Snow cholera data
@@ -148,3 +165,32 @@ gp.params <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sig
   ret <- new_gp.params(model=model, MCMC=MCMC, output=output)
   return(ret)
 }
+
+
+#' Create a new data object
+#'
+#' @param longitude the locations of the observed data in degrees longitude (or alternatively a `data.frame` or `list` with latitude and longitude as columns).
+#' @param latitude the locations of the observed data in degrees latitude or `NULL` if `longitude` contains the data in full.
+#' @param lonname the name of the longitude column if `longitude` contains the data in full.
+#' @param latname the name of the latitude column if `longitude` contains the data in full.
+#' @param is.source `TRUE` if the data is to be considered a source.
+#'
+#' @returns A `gp.data` dataframe containing the data.
+#'
+#' @rdname gp.data
+#'
+#' @export
+#'
+#' @examples
+#' # John Snow cholera data
+#' gp.data(WaterPumps$longitude, WaterPumps$latitude)
+#'
+#' # Loading all-in-one
+#' gp.data(WaterPumps)
+#'
+#' # Loading as source data
+#' gp.data(WaterPumps, is.source = TRUE)
+gp.data <- function(longitude, latitude = NULL, lonname = "longitude", latname = "latitude", is.source = FALSE) {
+  new_gp.data(longitude, latitude, lonname, latname, is.source)
+}
+

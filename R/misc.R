@@ -472,3 +472,21 @@ calc_sigma_params <- function(sigma_mean=1, sigma_var=NULL, sigma_squared_shape=
 format_printstr <- function(..., .envir = parent.frame()) {
   cli::pluralize(..., .envir = .envir)
 }
+
+extract_mcmc_ranges <- function(outputparams) {
+  lon_data <- .extract_mcmc_ranges_internal(outputparams$longitude_minMax, outputparams$longitude_cells, "lon")
+  lat_data <- .extract_mcmc_ranges_internal(outputparams$latitude_minMax, outputparams$latitude_cells, "lat")
+  outlist <- c(lon_data, lat_data)
+  mids_lon_mat <- outer(rep(1,length(outlist$mids_lat)), outlist$mids_lon)
+  mids_lat_mat <- outer(outlist$mids_lat, rep(1,length(outlist$mids_lon)))
+  c(outlist, list(mids_lon_mat = mids_lon_mat, mids_lat_mat = mids_lat_mat))
+}
+
+.extract_mcmc_ranges_internal <- function(minmax, cells, suffix = "lon") {
+  cellSize <- (minmax[2] - minmax[1]) / cells
+  breaks <- seq(minmax[1], minmax[2], length.out = cells+1)
+  mids <- breaks[-1] - cellSize/2
+  out <- list(cellSize, breaks, mids)
+  names(out) <- c(paste(c("cellSize", "breaks", "mids"), suffix, sep = "_"))
+  out
+}
