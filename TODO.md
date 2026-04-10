@@ -137,6 +137,7 @@
   - These likely only worked due to the way that R calls primitives vs regular R variables
   - Looks like it didn't actually have an effect on the code, but the functionality is now more explicit (by replacing the `log` arg with a `logspace` arg).
 - Minor changes to `geoMCMC()` to make maintenance easier.
+- Reformatting of the pkgdown site setup to group topics into categories.
 
 # Questions/things to investigate
 

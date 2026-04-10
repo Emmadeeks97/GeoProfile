@@ -14,7 +14,7 @@ reference:
 - title: Plotting
   desc: Methods of visualising geoprofiles.
 - contents:
-  - has_concept("plotting)
+  - has_concept("plotting")
 - title: Data
   desc: Provided datasets.
 - contents:
