@@ -36,6 +36,10 @@ geoRing(params, data, source, mcmc)
   mcmc object of the form produced by
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md).
 
+## Value
+
+A `matrix` containing a surface based on a ring-search strategy.
+
 ## Examples
 
 ``` r

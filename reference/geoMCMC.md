@@ -32,6 +32,12 @@ geoMCMC(data, params, lambda = NULL, smoothprogress = TRUE)
 
   whether to include a progress spinner for the smoothing stage.
 
+## Value
+
+A `gp.profile` object containing the fit geoprofile, prior/posterior
+rasters, allocations, groupings, and other parameters/outputs of the
+model.
+
 ## Examples
 
 ``` r

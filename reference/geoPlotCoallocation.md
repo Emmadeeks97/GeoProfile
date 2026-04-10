@@ -23,6 +23,10 @@ geoPlotCoallocation(mcmc, cols = NULL)
 
   colour palette to use. Defaults to viridis palette.
 
+## Value
+
+A `ggplot2` plot object.
+
 ## Examples
 
 ``` r

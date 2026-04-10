@@ -47,6 +47,10 @@ unknownPleasures(
 
   line weight
 
+## Value
+
+Nothing (called for plotting)
+
 ## Examples
 
 ``` r

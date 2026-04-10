@@ -20,6 +20,10 @@ geoDataCheck(data, silent = FALSE)
 
   whether to report if data passes checks to console.
 
+## Value
+
+Nothing (throws an error if check fails)
+
 ## Examples
 
 ``` r

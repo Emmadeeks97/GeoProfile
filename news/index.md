@@ -29,11 +29,14 @@
   way for improved usability and data integrity checking.
   - This has led to the soft-deprecation of various functions. These
     will be unlikely to be removed
-  - [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
-    -\>
-    [`gp.data()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
-  - [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
-    -\> `gp.data(..., is.source = TRUE)`
-  - [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
-    -\>
-    [`gp.params()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+    - [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+      -\>
+      [`gp.data()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+    - [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+      -\> `gp.data(..., is.source = TRUE)`
+    - [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+      -\>
+      [`gp.params()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+  - [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
+    now returns a `gp.profile` object which supports much nicer
+    printing.

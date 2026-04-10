@@ -20,6 +20,10 @@ geoParamsCheck(params, silent = FALSE)
 
   whether to report passing check to console.
 
+## Value
+
+Nothing (throws an error if check fails)
+
 ## Examples
 
 ``` r

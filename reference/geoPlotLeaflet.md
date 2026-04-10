@@ -95,6 +95,10 @@ geoPlotLeaflet(
 
   whether or not to add legend to plot.
 
+## Value
+
+A `leaflet` plot object.
+
 ## Examples
 
 ``` r

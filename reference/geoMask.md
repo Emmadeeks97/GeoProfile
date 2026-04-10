@@ -65,6 +65,11 @@ geoMask(
   mathematical operation used to combine the new spatial data with the
   geoprofile when `operation = "continuous"`.
 
+## Value
+
+A `list` of the probability and scale of the reprocessed probability
+surface
+
 ## Examples
 
 ``` r

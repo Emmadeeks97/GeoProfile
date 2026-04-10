@@ -77,7 +77,8 @@ OS-specific steps:
   library(GeoProfile)
   ```
 
-  Once installed, run ??GeoProfile to open the help for the package,
+  Once installed, go to \[the package documentation\]
+  (<https://emmadeeks97.github.io/GeoProfile/articles/geoprofile.html>),
   which contains a number of worked examples.
 
 # References

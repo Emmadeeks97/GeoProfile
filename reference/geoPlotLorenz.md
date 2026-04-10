@@ -39,6 +39,10 @@ geoPlotLorenz(
 
   colour to plot curve for crimes if crimeNumbers is supplied.
 
+## Value
+
+The Gini values (invisibly)
+
 ## Examples
 
 ``` r

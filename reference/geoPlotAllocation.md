@@ -99,6 +99,10 @@ geoPlotAllocation(
   probability the segments within each bar are ordered from large to
   small.
 
+## Value
+
+Nothing (called for plotting)
+
 ## Examples
 
 ``` r

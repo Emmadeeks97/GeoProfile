@@ -49,6 +49,10 @@ geoSmooth(
 
   whether to include a progress spinner.
 
+## Value
+
+A smoothed surface of the binned lon/lat coordinates.
+
 ## References
 
 Barnard, Etienne. "Maximum leave-one-out likelihood for kernel density

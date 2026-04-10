@@ -50,6 +50,11 @@ rDPM(
   implies many distinct sources, while small alpha implies only a few
   sources.
 
+## Value
+
+A `list` containing the latlongs of events and sources alongside their
+groupings.
+
 ## Details
 
 Output includes the lat/long locations of the points drawn from the DPM

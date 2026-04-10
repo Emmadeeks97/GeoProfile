@@ -47,6 +47,10 @@ geoPersp(
   value of theta to pass to
   [`graphics::persp()`](https://rdrr.io/r/graphics/persp.html).
 
+## Value
+
+Nothing (called for plotting)
+
 ## Examples
 
 ``` r

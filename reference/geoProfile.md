@@ -14,6 +14,10 @@ geoProfile(surface)
 
   matrix to convert to geoprofile
 
+## Value
+
+A `matrix` of the geoprofile of the surface
+
 ## Examples
 
 ``` r

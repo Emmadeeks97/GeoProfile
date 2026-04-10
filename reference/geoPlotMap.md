@@ -136,6 +136,10 @@ geoPlotMap(
 
   whether or not to add legend to plot.
 
+## Value
+
+A `ggplot2` plot object.
+
 ## Examples
 
 ``` r

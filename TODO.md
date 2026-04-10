@@ -331,6 +331,7 @@
   now returns a `gp.profile` object
 - Added nice printing for `gp.profile` objects to make for nicer
   summaries.
+- Added return values to the docs of (hopefully) all exported functions.
 
 # Questions/things to investigate
 

@@ -28,6 +28,11 @@ geoReportHitscores(params, source, surface)
   produced by
   [`geoProfile()`](https://emmadeeks97.github.io/GeoProfile/reference/geoProfile.md).
 
+## Value
+
+A `data.frame` of hitscored of the input sources given the input
+surface.
+
 ## Examples
 
 ``` r

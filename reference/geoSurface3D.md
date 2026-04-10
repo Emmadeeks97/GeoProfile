@@ -22,6 +22,10 @@ geoSurface3D(surface, surface_type = "gp")
   type of surface; should be either `"gp"` for geoprofile or `"prob"`
   for posteriorSurface.
 
+## Value
+
+Nothing (called for plotting)
+
 ## Note
 
 Generally speaking 3D plots are not particularly useful for static data

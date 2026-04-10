@@ -27,6 +27,10 @@ geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
 
   maximum x-axis range to plot. Leave as `NULL` to use default settings.
 
+## Value
+
+Nothing (called for plotting)
+
 ## Examples
 
 ``` r
