@@ -52,6 +52,11 @@
 <p>Carries out a DPM mixture model of geographic profiling (and associated functions) as described in Verity et al. (2014) For links to papers see http:/www.sbcs.qmul.ac.uk/staff/stevenlecomber.html or contact Steven Le Comber (s.c.lecomber@qmul.ac.uk). Created and maintained by Bob Verity (r.verity@imperial.ac.uk).</p>
     </div>
     <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p>Useful links:</p><ul><li><p><a href="https://emmadeeks97.github.io/GeoProfile/">https://emmadeeks97.github.io/GeoProfile/</a></p></li>
+</ul></div>
+    </div>
+    <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p><strong>Maintainer</strong>: Emma Deeks <a href="mailto:e.deeks@qmul.ac.uk">e.deeks@qmul.ac.uk</a> (<a href="https://orcid.org/0000-0003-2552-7848" class="external-link">ORCID</a>) [copyright holder]</p>
 <p>Authors:</p><ul><li><p>Robert Verity</p></li>
@@ -77,11 +82,11 @@
 <span class="r-in"><span><span class="co"># format; these steps are only relevant if for example d and s are</span></span></span>
 <span class="r-in"><span><span class="co"># imported as two-column matrices. They are included here for</span></span></span>
 <span class="r-in"><span><span class="co"># completeness)</span></span></span>
-<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoData.html">geoData</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">d</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoDataSource.html">geoDataSource</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">s</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoData</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">d</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoDataSource</a></span><span class="op">(</span><span class="va">s</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">s</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># set model and MCMC parameters</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span>, chains <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">=</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span>, chains <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                burnin <span class="op">=</span> <span class="fl">1e3</span>, samples <span class="op">=</span> <span class="fl">1e4</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#------------------------------------------------------------------</span></span></span>

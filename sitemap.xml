@@ -14,13 +14,10 @@
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/cli_stopif.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/cli_stopifnot.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/dot-ignore_unused_imports.html</loc></url>
-<url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoData.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoDataCheck.html</loc></url>
-<url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoDataSource.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoMask.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoModelSources.html</loc></url>
-<url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoParams.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoParamsCheck.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoPersp.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoPlotAllocation.html</loc></url>
@@ -35,6 +32,8 @@
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoShapefile.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoSmooth.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/geoSurface3D.html</loc></url>
+<url><loc>https://emmadeeks97.github.io/GeoProfile/reference/gp.data.html</loc></url>
+<url><loc>https://emmadeeks97.github.io/GeoProfile/reference/gp.params.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/index.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/latlon_to_bearing.html</loc></url>
 <url><loc>https://emmadeeks97.github.io/GeoProfile/reference/rDPM.html</loc></url>

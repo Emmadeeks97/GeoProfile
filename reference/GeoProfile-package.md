@@ -17,6 +17,12 @@ http:/www.sbcs.qmul.ac.uk/staff/stevenlecomber.html or contact Steven Le
 Comber (s.c.lecomber@qmul.ac.uk). Created and maintained by Bob Verity
 (r.verity@imperial.ac.uk).
 
+## See also
+
+Useful links:
+
+- <https://emmadeeks97.github.io/GeoProfile/>
+
 ## Author
 
 **Maintainer**: Emma Deeks <e.deeks@qmul.ac.uk>

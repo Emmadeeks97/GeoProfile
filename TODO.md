@@ -26,8 +26,6 @@
 
 ## Obvious code changes
 
-- dRIG & dts take a bool log as an argument but then use the `log`
-  function. This could well cause a bug either way round!!!
 - rDPM might be able to be optimised
 
 ------------------------------------------------------------------------
@@ -274,9 +272,34 @@
 - geoSurface3D plot now represents a heavily downsampled surface to
   avoid bloating the package too much.
 - Overall change in dependencies thusfar: 2 removed (`utils` and
-  `raster`), 2 added (`rlang` and `cli`).
-  - These are both very sensible dependencies for a modern package to
-    have, particularly when it comes to messaging
+  `raster`), 3 added (`rlang` , and `cli`).
+  - These are all very sensible dependencies for a modern package to
+    have, particularly when it comes to messaging.
+
+## 09/04/26
+
+- Started to move functionality over to an [S3 class
+  system](https://adv-r.hadley.nz/s3.html).
+  - All parameter objects have been moved across to a new `gp.params`
+    class.
+  - All data objects have been moved across to a new `gp.data` class.
+  - These are drop-in replacements for the old lists.
+  - The old functions currently redirect to the new classes with a
+    warning.
+  - Soft-deprecated
+    [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md),
+    [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+    and
+    [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+- Fixed unspecified behaviour around log arg in `dts()` and `dRIG()`
+  - These likely only worked due to the way that R calls primitives vs
+    regular R variables
+  - Looks like it didn’t actually have an effect on the code, but the
+    functionality is now more explicit (by replacing the `log` arg with
+    a `logspace` arg).
+- Minor changes to
+  [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
+  to make maintenance easier.
 
 # Questions/things to investigate
 

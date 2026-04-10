@@ -55,7 +55,7 @@
 
 
 <dl><dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
-<dd><p>a list of parameters, as defined by <code><a href="geoParams.html">geoParams()</a></code>.</p></dd>
+<dd><p>a list of parameters, as defined by <code><a href="gp.params.html">geoParams()</a></code>.</p></dd>
 
 
 <dt id="arg-silent">silent<a class="anchor" aria-label="anchor" href="#arg-silent"></a></dt>
@@ -67,15 +67,15 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
 <span class="r-in"><span><span class="co"># John Snow cholera data</span></span></span>
-<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoData.html">geoData</a></span><span class="op">(</span><span class="va">Cholera</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">Cholera</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoData</a></span><span class="op">(</span><span class="va">Cholera</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">Cholera</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geoParamsCheck</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># simulated data</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span><span class="fu"><a href="rDPM.html">rDPM</a></span><span class="op">(</span><span class="fl">50</span>, priorMean_longitude <span class="op">=</span> <span class="op">-</span><span class="fl">0.04217491</span>, priorMean_latitude <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="fl">51.5235505</span>, alpha<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span>, tau<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoData.html">geoData</a></span><span class="op">(</span><span class="va">Cholera</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">Cholera</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_var<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoData</a></span><span class="op">(</span><span class="va">Cholera</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">Cholera</span><span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_var<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">geoParamsCheck</span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>

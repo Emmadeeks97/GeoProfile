@@ -14,13 +14,13 @@ geoReportHitscores(params, source, surface)
 - params:
 
   input parameters in the format defined by
-  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md).
+  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md).
 
 - source:
 
   longitude and latitude of one or more source locations in the format
   defined by
-  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataSource.md).
+  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 - surface:
 

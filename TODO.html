@@ -65,8 +65,7 @@
 </ul></div>
 <div class="section level2">
 <h2 id="obvious-code-changes">Obvious code changes<a class="anchor" aria-label="anchor" href="#obvious-code-changes"></a></h2>
-<ul><li>dRIG &amp; dts take a bool log as an argument but then use the <code>log</code> function. This could well cause a bug either way round!!!</li>
-<li>rDPM might be able to be optimised</li>
+<ul><li>rDPM might be able to be optimised</li>
 </ul><hr></div>
 </div>
 <div class="section level1">
@@ -238,9 +237,25 @@
 <li>I feel they should give a much more thorough report on what is wrong with the data, rather than just the first wrong thing they encounter.</li>
 </ul></li>
 <li>geoSurface3D plot now represents a heavily downsampled surface to avoid bloating the package too much.</li>
-<li>Overall change in dependencies thusfar: 2 removed (<code>utils</code> and <code>raster</code>), 2 added (<code>rlang</code> and <code>cli</code>).
-<ul><li>These are both very sensible dependencies for a modern package to have, particularly when it comes to messaging</li>
+<li>Overall change in dependencies thusfar: 2 removed (<code>utils</code> and <code>raster</code>), 3 added (<code>rlang</code> , and <code>cli</code>).
+<ul><li>These are all very sensible dependencies for a modern package to have, particularly when it comes to messaging.</li>
 </ul></li>
+</ul></div>
+<div class="section level2">
+<h2 id="id_090426">09/04/26<a class="anchor" aria-label="anchor" href="#id_090426"></a></h2>
+<ul><li>Started to move functionality over to an <a href="https://adv-r.hadley.nz/s3.html" class="external-link">S3 class system</a>.
+<ul><li>All parameter objects have been moved across to a new <code>gp.params</code> class.</li>
+<li>All data objects have been moved across to a new <code>gp.data</code> class.</li>
+<li>These are drop-in replacements for the old lists.</li>
+<li>The old functions currently redirect to the new classes with a warning.</li>
+<li>Soft-deprecated <code><a href="reference/gp.data.html">geoData()</a></code>, <code><a href="reference/gp.data.html">geoDataSource()</a></code> and <code><a href="reference/gp.params.html">geoParams()</a></code>
+</li>
+</ul></li>
+<li>Fixed unspecified behaviour around log arg in <code>dts()</code> and <code>dRIG()</code>
+<ul><li>These likely only worked due to the way that R calls primitives vs regular R variables</li>
+<li>Looks like it didn’t actually have an effect on the code, but the functionality is now more explicit (by replacing the <code>log</code> arg with a <code>logspace</code> arg).</li>
+</ul></li>
+<li>Minor changes to <code><a href="reference/geoMCMC.html">geoMCMC()</a></code> to make maintenance easier.</li>
 </ul></div>
 </div>
 <div class="section level1">

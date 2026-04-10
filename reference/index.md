@@ -14,14 +14,8 @@
 - [`WaterPumps`](https://emmadeeks97.github.io/GeoProfile/reference/WaterPumps.md)
   : Cholera sources
 
-- [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md)
-  : Create Geoprofile data object
-
 - [`geoDataCheck()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataCheck.md)
   : Check data
-
-- [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataSource.md)
-  : Create sources data object in same format as observations
 
 - [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
   : MCMC under Rgeoprofile model
@@ -34,9 +28,6 @@
 
   Extract latitude and longitude of points identified as sources by
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
-
-- [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md)
-  : Create Rgeoprofile parameters object
 
 - [`geoParamsCheck()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParamsCheck.md)
   : Check parameters
@@ -79,6 +70,15 @@
 
 - [`geoSurface3D()`](https://emmadeeks97.github.io/GeoProfile/reference/geoSurface3D.md)
   : Interactive 3D plot of geoprofile or raw probabilities
+
+- [`gp.data()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+  : Create a new data object
+
+- [`gp.params()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
+  : Create a new parameters object
 
 - [`latlon_to_bearing()`](https://emmadeeks97.github.io/GeoProfile/reference/latlon_to_bearing.md)
   : Convert lat-lon to bearing

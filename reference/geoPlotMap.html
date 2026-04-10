@@ -78,15 +78,15 @@
 
 
 <dl><dt id="arg-params">params<a class="anchor" aria-label="anchor" href="#arg-params"></a></dt>
-<dd><p>parameters list in the format defined by <code><a href="geoParams.html">geoParams()</a></code>.</p></dd>
+<dd><p>parameters list in the format defined by <code><a href="gp.params.html">geoParams()</a></code>.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>data object in the format defined by <code><a href="geoData.html">geoData()</a></code>.</p></dd>
+<dd><p>data object in the format defined by <code><a href="gp.data.html">geoData()</a></code>.</p></dd>
 
 
 <dt id="arg-source">source<a class="anchor" aria-label="anchor" href="#arg-source"></a></dt>
-<dd><p>potential sources object in the format defined by <code><a href="geoDataSource.html">geoDataSource()</a></code>.</p></dd>
+<dd><p>potential sources object in the format defined by <code><a href="gp.data.html">geoDataSource()</a></code>.</p></dd>
 
 
 <dt id="arg-surface">surface<a class="anchor" aria-label="anchor" href="#arg-surface"></a></dt>
@@ -173,7 +173,7 @@
 <span class="r-in"><span><span class="co"># London example data</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">LondonExample_crimes</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">LondonExample_sources</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoMCMC.html">geoMCMC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, params <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># produce simple map</span></span></span>
 <span class="r-in"><span><span class="fu">geoPlotMap</span><span class="op">(</span>params <span class="op">=</span> <span class="va">p</span>, data <span class="op">=</span> <span class="va">d</span>, source <span class="op">=</span> <span class="va">s</span>, surface <span class="op">=</span> <span class="va">m</span><span class="op">$</span><span class="va">geoProfile</span>,</span></span>
@@ -183,7 +183,7 @@
 <span class="r-in"><span><span class="co"># John Snow cholera data</span></span></span>
 <span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">Cholera</span></span></span>
 <span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">WaterPumps</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoMCMC.html">geoMCMC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, params <span class="op">=</span> <span class="va">p</span>, lambda<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># produce simple map</span></span></span>
 <span class="r-in"><span><span class="fu">geoPlotMap</span><span class="op">(</span>params <span class="op">=</span> <span class="va">p</span>, data <span class="op">=</span> <span class="va">d</span>, source <span class="op">=</span> <span class="va">s</span>, surface <span class="op">=</span> <span class="va">m</span><span class="op">$</span><span class="va">geoProfile</span>,</span></span>
@@ -193,9 +193,9 @@
 <span class="r-in"><span><span class="co"># simulated data</span></span></span>
 <span class="r-in"><span><span class="va">sim</span> <span class="op">&lt;-</span><span class="fu"><a href="rDPM.html">rDPM</a></span><span class="op">(</span><span class="fl">50</span>, priorMean_longitude <span class="op">=</span> <span class="op">-</span><span class="fl">0.04217491</span>, priorMean_latitude <span class="op">=</span></span></span>
 <span class="r-in"><span><span class="fl">51.5235505</span>, alpha<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span>, tau<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoData.html">geoData</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">sim</span> <span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoDataSource.html">geoDataSource</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">source_lon</span>, <span class="va">sim</span><span class="op">$</span><span class="va">source_lat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoParams.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoData</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">longitude</span>, <span class="va">sim</span> <span class="op">$</span><span class="va">latitude</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.data.html">geoDataSource</a></span><span class="op">(</span><span class="va">sim</span><span class="op">$</span><span class="va">source_lon</span>, <span class="va">sim</span><span class="op">$</span><span class="va">source_lat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="gp.params.html">geoParams</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, sigma_mean <span class="op">=</span> <span class="fl">1.0</span>, sigma_squared_shape <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="geoMCMC.html">geoMCMC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">d</span>, params <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># change colour palette, map type, opacity and range of geoprofile and omit legend</span></span></span>
 <span class="r-in"><span><span class="fu">geoPlotMap</span><span class="op">(</span>params <span class="op">=</span> <span class="va">p</span>, data <span class="op">=</span> <span class="va">d</span>, source <span class="op">=</span> <span class="va">s</span>, surface <span class="op">=</span> <span class="va">m</span><span class="op">$</span><span class="va">geoProfile</span>,</span></span>

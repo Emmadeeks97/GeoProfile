@@ -1,0 +1,197 @@
+# Create a new parameters object
+
+This function can be used to generate parameters in the format required
+by other Rgeoprofile functions. Parameter values can be specified as
+input arguments to this function, or alternatively if data is input as
+an argument then some parameters can take default values directly from
+the data.
+
+## Usage
+
+``` r
+gp.params(
+  data = NULL,
+  sources = NULL,
+  sigma_mean = 1,
+  sigma_var = NULL,
+  sigma_squared_shape = NULL,
+  sigma_squared_rate = NULL,
+  priorMean_longitude = NULL,
+  priorMean_latitude = NULL,
+  tau = NULL,
+  alpha_shape = 0.1,
+  alpha_rate = 0.1,
+  chains = 10,
+  burnin = 1000,
+  samples = 10000,
+  burnin_printConsole = 100,
+  samples_printConsole = 1000,
+  longitude_minMax = NULL,
+  latitude_minMax = NULL,
+  longitude_cells = 500,
+  latitude_cells = 500,
+  guardRail = 0.05
+)
+
+geoParams(
+  data = NULL,
+  sources = NULL,
+  sigma_mean = 1,
+  sigma_var = NULL,
+  sigma_squared_shape = NULL,
+  sigma_squared_rate = NULL,
+  priorMean_longitude = NULL,
+  priorMean_latitude = NULL,
+  tau = NULL,
+  alpha_shape = 0.1,
+  alpha_rate = 0.1,
+  chains = 10,
+  burnin = 1000,
+  samples = 10000,
+  burnin_printConsole = 100,
+  samples_printConsole = 1000,
+  longitude_minMax = NULL,
+  latitude_minMax = NULL,
+  longitude_cells = 500,
+  latitude_cells = 500,
+  guardRail = 0.05
+)
+```
+
+## Arguments
+
+- data:
+
+  observations in the format defined by
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
+
+- sources:
+
+  observations in the format defined by
+  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
+
+- sigma_mean:
+
+  the mean of the prior on sigma (sigma = standard deviation of the
+  dispersal distribution) in km.
+
+- sigma_var:
+
+  the variance of the prior on sigma in km^2.
+
+- sigma_squared_shape:
+
+  as an alternative to defining the prior mean and variance of sigma, it
+  is possible to directly define the parameters of the inverse-gamma
+  prior on sigma^2. If so, this is the shape parameter of the
+  inverse-gamma prior.
+
+- sigma_squared_rate:
+
+  the rate parameter of the inverse-gamma prior on sigma^2.
+
+- priorMean_longitude:
+
+  the mean longitude of the normal prior on source locations (in
+  degrees). If `NULL` then defaults to the midpoint of the range of the
+  data, or `-0.1277` if no data provided.
+
+- priorMean_latitude:
+
+  the mean latitude of the normal prior on source locations (in
+  degrees). If `NULL` then defaults to the midpoint of the range of the
+  data, or `51.5074` if no data provided.
+
+- tau:
+
+  the standard deviation of the normal prior on source locations, i.e.
+  how far we expect sources to lie from the centre. If `NULL` then
+  defaults to the maximum distance of any observation from the prior
+  mean, or `10.0` if no data provided.
+
+- alpha_shape:
+
+  shape parameter of the gamma prior on the parameter alpha.
+
+- alpha_rate:
+
+  rate parameter of the gamma prior on the parameter alpha.
+
+- chains:
+
+  number of MCMC chains to use in the burn-in step.
+
+- burnin:
+
+  number of burn-in iterations to be discarded at start of MCMC.
+
+- samples:
+
+  number of sampling iterations. These iterations are used to generate
+  final posterior distribution.
+
+- burnin_printConsole:
+
+  how frequently (in iterations) to report progress to the console
+  during the burn-in phase.
+
+- samples_printConsole:
+
+  how frequently (in iterations) to report progress to the console
+  during the sampling phase.
+
+- longitude_minMax:
+
+  vector containing minimum and maximum longitude over which to generate
+  geoprofile. If `NULL` then defaults to the range of the data plus a
+  guard rail on either side, or `c(-0.1377,-0.1177)` if no data
+  provided.
+
+- latitude_minMax:
+
+  vector containing minimum and maximum latitude over which to generate
+  geoprofile. If `NULL` then defaults to the range of the data plus a
+  guard rail on either side, or `c(51.4974, 51.5174)` if no data
+  provided.
+
+- longitude_cells:
+
+  number of cells in the final geoprofile (longitude direction). Higher
+  values generate smoother distributions, but take longer to run.
+
+- latitude_cells:
+
+  number of cells in the final geoprofile (latitude direction). Higher
+  values generate smoother distributions, but take longer to run.
+
+- guardRail:
+
+  when data input is used, `longitude_minMax` and `latitude_minMax`
+  default to the range of the data plus a guard rail. This parameter
+  defines the size of the guard rail as a proportion of the range. For
+  example, a value of `0.05` would give an extra 5 percent on the range
+  of the data.
+
+## Value
+
+A `gp.params` object containing the model, MCMC, and output parameters.
+
+## Examples
+
+``` r
+if (FALSE) { # interactive()
+# John Snow cholera data
+d <- geoData(Cholera$longitude, Cholera$latitude)
+# define parameters such that the model fits sigma from the data
+gp.params(data = d, sigma_mean = 1.0, sigma_squared_shape = 2,
+chains = 10, burnin = 1000, samples = 10000, guardRail = 0.1)
+
+# simulated data
+sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
+51.5235505, alpha=1, sigma=1, tau=3)
+d <- gp.params(sim$longitude, sim $latitude)
+# use a fixed value of sigma
+gp.params(data = d, sigma_mean = 1.0, sigma_var = 0,
+chains=10, burnin=1000, samples = 10000, guardRail = 0.1)
+}
+```

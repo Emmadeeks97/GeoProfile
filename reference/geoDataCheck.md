@@ -14,7 +14,7 @@ geoDataCheck(data, silent = FALSE)
 - data:
 
   a data list object, as defined by
-  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md).
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 - silent:
 

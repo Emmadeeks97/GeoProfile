@@ -30,7 +30,7 @@ geoMask(
 - params:
 
   an object produced by
-  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md).
+  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md).
 
 - mask:
 

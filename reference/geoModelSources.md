@@ -22,7 +22,7 @@ geoModelSources(mcmc, data)
 - data:
 
   Crime site data, in the format produced by
-  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md).
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 ## Examples
 

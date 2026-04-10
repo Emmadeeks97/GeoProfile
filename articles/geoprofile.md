@@ -10,7 +10,7 @@
 ## Loading data
 
 First we must load the data and format it correctly for use in the
-[`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md)
+[`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
 function. Here we will use the example data of crime in North London.
 
 In the case of the example data these are actually already in the
@@ -21,8 +21,10 @@ library(GeoProfile)
 d <- LondonExample_crimes
 s <- LondonExample_sources
 
-d <- geoData(d$longitude, d$latitude)
-s <- geoDataSource(s$longitude, s$latitude)
+d <- gp.data(d)
+
+# Source data should be loaded with is.source = TRUE
+s <- gp.data(s, is.source = TRUE)
 ```
 
 ### Explaining the data
@@ -50,7 +52,7 @@ in that hideout.
 
 Once the data is loaded, we must set up the model and MCMC (Monte Carlo
 Markov Chain) parameters (for full details see the
-[`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md)
+[`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md)
 help file).
 
 For this run let’s set up with some sensible sigma settings (sigma
@@ -78,7 +80,7 @@ distribution.
 
 ``` r
 # set model and MCMC parameters
-p = geoParams(
+p = gp.params(
   data = d,
   sigma_mean = 1,
   sigma_squared_shape = 2,
@@ -87,6 +89,28 @@ p = geoParams(
   samples = 1e4
   )
 #> ℹ Using sigma_mean and sigma_squared_shape to define prior on sigma
+```
+
+And let’s just check to see what our full parameters object looks like:
+
+``` r
+p
+#> Geoprofile Parameters (to 4 dp):
+#> 
+#> === Model ===
+#> Sigma: mean = 1, var = 0.2732, squared_shape = 2, squared_rate = 1.2732
+#> Prior: Mean longitude = -0.1038°, Mean latitude = 51.5175°
+#> Tau: 6.5177
+#> Alpha: shape = 0.1, rate = 0.1
+#> 
+#> === MCMC ===
+#> Burnin: 5 chains @ 1000 iterations (print every 100)
+#> Sampling: 10000 iterations (print every 1000)
+#> 
+#> === Output ===
+#> Longitude range: -0.2061°:-0.0014°
+#> Latitude range:  51.4915°:51.5435°
+#> Cells: 500x500
 ```
 
 ## Running the MCMC model
@@ -104,8 +128,8 @@ under the variable-sigma model.
 m = geoMCMC(data = d, params = p)
 ```
 
-    #> ✔ Data file passed all checks!
-    #> ✔ Params file passed all checks!
+    #> ✔ Data object passed all checks!
+    #> ✔ Params object passed all checks!
     #> ── MCMC Log ────────────────────────────────────────────────────────────────────
     #> Initiating burn-in phase (5 chains)
     #>   iteration: 100
@@ -133,7 +157,7 @@ m = geoMCMC(data = d, params = p)
     #>   iteration: 9000
     #>   iteration: 10000
     #> 
-    #> MCMC completed in 0.469 seconds
+    #> MCMC completed in 0.468 seconds
     #> ── MCMC Log End ────────────────────────────────────────────────────────────────
     #> ℹ Smoothing posterior surface...
     #> ✔ Maximum-Likelihood lambda = 0.069
@@ -150,7 +174,7 @@ value is more varied dispersal in the data.
 geoPlotSigma(params = p, mcmc = m)
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-5-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-6-1.png)
 
 ## Plotting
 
@@ -188,7 +212,7 @@ And here is a Lorenz plot for the same data.
 Gini <- geoPlotLorenz(hit_scores = hs, crimeNumbers = NULL)
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-8-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-9-1.png)
 
 ``` r
 Gini
@@ -214,14 +238,14 @@ We can also plot posterior allocation and co-allocation
 geoPlotAllocation(mcmc = m)
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-10-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-11-1.png)
 
 ``` r
 # plot co-allocation
 geoPlotCoallocation(mcmc = m)
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-11-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-12-1.png)
 
 3D plots are almost entirely unhelpful from a data-communication
 standpoint (unless interactive and animated), however they can look nice
@@ -236,14 +260,14 @@ You can create these using
 geoPersp(surface = m$posteriorSurface, aggregate_size = 3, surface_type = "prob")
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-12-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-13-1.png)
 
 ``` r
 # ranked surface
 geoPersp(surface = m$geoProfile, aggregate_size = 3)
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-13-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-14-1.png)
 
 A better way of visualising data in 3D is to use an interactive plot
 using the
@@ -297,7 +321,7 @@ the famous Unknown Pleasures album cover by Joy Division.
 unknownPleasures(m$geoProfile, paper_ref = "RgeoProfile 2.1.0")
 ```
 
-![](geoprofile_files/figure-html/unnamed-chunk-18-1.png)
+![](geoprofile_files/figure-html/unnamed-chunk-19-1.png)
 
 ## Benchmarking
 

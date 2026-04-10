@@ -16,12 +16,12 @@ geoMCMC(data, params, lambda = NULL, smoothprogress = TRUE)
 - data:
 
   input data in the format defined by
-  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md).
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 - params:
 
   input parameters in the format defined by
-  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md).
+  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md).
 
 - lambda:
 

@@ -30,12 +30,12 @@ geoPlotLeaflet(
 - params:
 
   parameters list in the format defined by
-  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/geoParams.md).
+  [`geoParams()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.params.md).
 
 - data:
 
   data object in the format defined by
-  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/geoData.md).
+  [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 - surface:
 
@@ -46,7 +46,7 @@ geoPlotLeaflet(
 - source:
 
   potential sources object in the format defined by
-  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/geoDataSource.md).
+  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
 - surfaceCols:
 
