@@ -24,6 +24,10 @@ geoModelSources(mcmc, data)
   Crime site data, in the format produced by
   [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
+## Value
+
+A `data.frame` of the centroids of the data split by best grouping
+
 ## Examples
 
 ``` r

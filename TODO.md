@@ -300,8 +300,37 @@
 - Minor changes to
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
   to make maintenance easier.
+
+## 10/04/26
+
 - Reformatting of the pkgdown site setup to group topics into
   categories.
+- Added params & data to output of geoMCMC
+  - This is in preparation for a more in-depth rework of how data is
+    passed to post-processing and plotting functions.
+  - It keeps together all the information used to make a geoprofile,
+    which should lead to easier and more reliable plotting, especially
+    when performing multiple geoprofiles at once.
+  - I will either add an argument for sources to geoMCMC, or add
+    appropriate functions to add source data to a gp.profile object.
+  - This does lead to larger geoprofile objects in general, but point
+    data is always going to be smaller than rasters, so this should be
+    fine.
+- Move functions to R files with more reasonable groupings.
+- [`geoModelSources()`](https://emmadeeks97.github.io/GeoProfile/reference/geoModelSources.md)
+  now returns a data.frame (as longitude and latitude should always be
+  the same length, and dfs are much easier to work with downstream than
+  lists.)
+- [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md),
+  `geoDataSources()` and
+  [`gp.data()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md)
+  now return data.frame objects rather than lists. This should be a more
+  sensible approach that should fail earlier if data is not in the
+  correct format.
+- [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
+  now returns a `gp.profile` object
+- Added nice printing for `gp.profile` objects to make for nicer
+  summaries.
 
 # Questions/things to investigate
 

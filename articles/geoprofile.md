@@ -157,7 +157,7 @@ m = geoMCMC(data = d, params = p)
     #>   iteration: 9000
     #>   iteration: 10000
     #> 
-    #> MCMC completed in 0.513 seconds
+    #> MCMC completed in 0.468 seconds
     #> ── MCMC Log End ────────────────────────────────────────────────────────────────
     #> ℹ Smoothing posterior surface...
     #> ✔ Maximum-Likelihood lambda = 0.069
@@ -295,13 +295,11 @@ This is a coarse indication of best-guess source locations.
 # find centroids of data split by best grouping (placeholder for more thorough method)
 ms <- geoModelSources(mcmc = m, data = d)
 ms
-#> $longitude
-#>           1           2           3           5 
-#> -0.03983748 -0.14466651 -0.11555298 -0.18306789 
-#> 
-#> $latitude
-#>        1        2        3        5 
-#> 51.52633 51.50410 51.53351 51.51804
+#>     longitude latitude
+#> 1 -0.03983748 51.52633
+#> 2 -0.14466651 51.50410
+#> 3 -0.11555298 51.53351
+#> 5 -0.18306789 51.51804
 ```
 
 ``` r
