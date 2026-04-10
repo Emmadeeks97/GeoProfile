@@ -59,6 +59,26 @@ new_gp.data <- function(longitude, latitude = NULL, lonname = "longitude", latna
   out
 }
 
+new_gp.profile <- function(method, priorSurface, posteriorSurface, geoProfile, midpoints_longitude, midpoints_latitude, sigma, alpha, allocation, bestGrouping, coAllocation, params, data, sources = NULL) {
+  out <- list(
+    method = method,
+    priorSurface = priorSurface,
+    posteriorSurface = posteriorSurface,
+    geoProfile = geoProfile,
+    midpoints_longitude = midpoints_longitude,
+    midpoints_latitude = midpoints_latitude,
+    sigma = sigma,
+    alpha = alpha,
+    allocation = allocation,
+    bestGrouping = bestGrouping,
+    coAllocation = coAllocation,
+    params = params,
+    data = data,
+    sources = sources
+  )
+  out <- structure(out, class = c("gp.profile", "list"))
+}
+
 # --- User-facing constructors
 
 #------------------------------------------------

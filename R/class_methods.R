@@ -45,3 +45,31 @@ print.gp.data <- function(x, ...) {
   print.data.frame(x)
   invisible(x)
 }
+
+#' @export
+print.gp.profile <- function(x, ..., digits = 6) {
+  cat("----- Geoprofile -----\n")
+  cat(format_printstr("\n\nMethod: {x$method}"))
+  cat(format_printstr("\n\nPrint dp: {digits}"))
+  cat("\n\n=== Surfaces ===\n")
+  cat(paste("\nPrior surface:", format_print_raster(x$priorSurface, 15)))
+  cat(paste("\nPosterior surface:", format_print_raster(x$posteriorSurface, digits)))
+  cat(paste("\ngeoProfile:", format_print_raster(x$geoProfile, digits)))
+  cat("\n\n=== Other information ===\n")
+  cat(format_printstr("\n\nMidpoints (longitude): {length(x$midpoints_longitude)} row{?s}, range = {round(min(x$midpoints_longitude, na.rm = TRUE), digits)}\u00B0 - {round(max(x$midpoints_longitude, na.rm = TRUE), digits)}\u00B0"))
+  cat(format_printstr("\n\nMidpoints (latitude): {length(x$midpoints_latitude)} row{?s}, range = {round(min(x$midpoints_latitude, na.rm = TRUE), digits)}\u00B0 - {round(max(x$midpoints_latitude, na.rm = TRUE), digits)}\u00B0"))
+  cat(format_printstr("\n\nSigma: {length(x$sigma)} entr{?y/ies}, range = {round(min(x$sigma, na.rm = TRUE), digits)} - {round(max(x$sigma, na.rm = TRUE), digits)}"))
+  cat(format_printstr("\n\nAlpha: {length(x$alpha)} entr{?y/ies}, range = {round(min(x$alpha, na.rm = TRUE), digits)} - {round(max(x$alpha, na.rm = TRUE), digits)}"))
+  cat(format_printstr("\n\nAllocation: {ncol(x$allocation)} group{?s}"))
+  cat(format_printstr("\n\nBest grouping:"))
+  print(table(x$bestGrouping))
+  cat(format_printstr("\nData: {nrow(x$data)} row{?s}"))
+  if (!is.null(x$sources)) {
+    cat(format_printstr("\n\nSources: {nrow(x$sources)} row{?s}"))
+  } else {
+    cat(format_printstr("\n\nSources not present"))
+  }
+  cat("\n\n----- Params -----\n\n")
+  print(x$params, digits = digits)
+  invisible(x)
+}
