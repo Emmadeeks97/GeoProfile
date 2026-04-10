@@ -300,6 +300,8 @@
 - Minor changes to
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md)
   to make maintenance easier.
+- Reformatting of the pkgdown site setup to group topics into
+  categories.
 
 # Questions/things to investigate
 
