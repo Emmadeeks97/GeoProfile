@@ -36,7 +36,7 @@ Finally, install the RgeoProfile package directly from GitHub by running
 pak::pak("Emmadeeks97/GeoProfile")
 library(GeoProfile)
 ```
-Once installed, go to [the package documentation] (https://emmadeeks97.github.io/GeoProfile/articles/geoprofile.html), which contains a number of worked examples.
+Once installed, go to [the package documentation](https://emmadeeks97.github.io/GeoProfile/articles/geoprofile.html), which contains a number of worked examples.
 
 # References
 <sup>1</sup> Rossmo, D.K., 1999. Geographic profiling. CRC press.
