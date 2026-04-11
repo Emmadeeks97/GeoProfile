@@ -3,7 +3,7 @@
   [![R-CMD-check](https://github.com/Emmadeeks97/GeoProfile/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Emmadeeks97/GeoProfile/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 Carries out geographic profiling in R using a Dirichlet process mixture model. 
-This package is an updated version of the R package *RgeoProfile*, originally developed by (https://github.com/bobverity/Rgeoprofile). Other versions, with associated tutorials, have been developed in alternative packages (https://github.com/Michael-Stevens-27/silverblaze). 
+This package is an updated version of the R package [RgeoProfile](https://github.com/bobverity/Rgeoprofile), originally developed by Bob Verity. Other versions, with associated tutorials, have been developed in [alternative packages](https://github.com/Michael-Stevens-27/silverblaze). 
 This version of the package, developed under the supervision of Sally Faulkner, improves usability by only requiring open access/source dependancies. 
 
 # Background of RgeoProfile and GeoProfile
