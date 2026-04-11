@@ -29,29 +29,7 @@ gp.params(
   guardRail = 0.05
 )
 
-geoParams(
-  data = NULL,
-  sources = NULL,
-  sigma_mean = 1,
-  sigma_var = NULL,
-  sigma_squared_shape = NULL,
-  sigma_squared_rate = NULL,
-  priorMean_longitude = NULL,
-  priorMean_latitude = NULL,
-  tau = NULL,
-  alpha_shape = 0.1,
-  alpha_rate = 0.1,
-  chains = 10,
-  burnin = 1000,
-  samples = 10000,
-  burnin_printConsole = 100,
-  samples_printConsole = 1000,
-  longitude_minMax = NULL,
-  latitude_minMax = NULL,
-  longitude_cells = 500,
-  latitude_cells = 500,
-  guardRail = 0.05
-)
+geoParams(...)
 }
 \arguments{
 \item{data}{observations in the format defined by \code{\link[=geoData]{geoData()}}.}
@@ -95,6 +73,8 @@ geoParams(
 \item{latitude_cells}{number of cells in the final geoprofile (latitude direction). Higher values generate smoother distributions, but take longer to run.}
 
 \item{guardRail}{when data input is used, \code{longitude_minMax} and \code{latitude_minMax} default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of \code{0.05} would give an extra 5 percent on the range of the data.}
+
+\item{...}{arguments to pass to \code{\link[=gp.params]{gp.params()}}}
 }
 \value{
 A \code{gp.params} object containing the model, MCMC, and output parameters.

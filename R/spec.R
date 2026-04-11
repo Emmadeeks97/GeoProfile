@@ -1,24 +1,25 @@
+#' @param ... arguments to pass to [gp.data()]
 #' @rdname gp.data
-geoData <- function(longitude=NULL, latitude=NULL) {
+geoData <- function(...) {
   cli::cli_warn(c("{.fn GeoProfile::geoData} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} instead."), .frequency = "regularly", .frequency_id = "geoData_deprecation")
-  return(gp.data(longitude, latitude))
+  return(gp.data(...))
 }
 
 #' @rdname gp.data
-geoDataSource <- function(longitude=NULL, latitude=NULL) {
+geoDataSource <- function(...) {
   # FW: This is exactly the same as above so one should be deprecated.
   # For now call the other fn, but pass the current env for messaging purposes
   cli::cli_warn(c("{.fn GeoProfile::geoDataSource} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.data} with {.arg is.source = TRUE} instead."), .frequency = "regularly", .frequency_id = "geoDataSource_deprecation")
-  return(gp.data(longitude, latitude, is.source = TRUE))
+  return(gp.data(..., is.source = TRUE))
 }
 
 #------------------------------------------------
+#' @param ... arguments to pass to [gp.params()]
 #' @rdname gp.params
 #' @export
-
-geoParams <- function(data=NULL, sources=NULL, sigma_mean=1, sigma_var=NULL, sigma_squared_shape=NULL, sigma_squared_rate=NULL, priorMean_longitude=NULL, priorMean_latitude=NULL, tau=NULL, alpha_shape=0.1, alpha_rate=0.1, chains=10, burnin=1e3, samples=1e4, burnin_printConsole=100, samples_printConsole=1000, longitude_minMax=NULL, latitude_minMax=NULL, longitude_cells=500, latitude_cells=500, guardRail=0.05) {
+geoParams <- function(...) {
   cli::cli_warn(c("{.fn GeoProfile::geoParams} will be deprecated in future versions.", "i" = "Use {.fn GeoProfile::gp.params} instead."), .frequency = "regularly", .frequency_id = "geoParams_deprecation")
-  return(gp.params(data, sources, sigma_mean, sigma_var, sigma_squared_shape, sigma_squared_rate, priorMean_longitude, priorMean_latitude, tau, alpha_shape, alpha_rate, chains, burnin, samples, burnin_printConsole, samples_printConsole, longitude_minMax, latitude_minMax, longitude_cells, latitude_cells, guardRail))
+  return(gp.params(...))
 }
 #------------------------------------------------
 #' Import shapefile

@@ -14,9 +14,9 @@ gp.data(
   is.source = FALSE
 )
 
-geoData(longitude = NULL, latitude = NULL)
+geoData(...)
 
-geoDataSource(longitude = NULL, latitude = NULL)
+geoDataSource(...)
 }
 \arguments{
 \item{longitude}{the locations of the observed data in degrees longitude (or alternatively a \code{data.frame} or \code{list} with latitude and longitude as columns).}
@@ -28,6 +28,8 @@ geoDataSource(longitude = NULL, latitude = NULL)
 \item{latname}{the name of the latitude column if \code{longitude} contains the data in full.}
 
 \item{is.source}{\code{TRUE} if the data is to be considered a source.}
+
+\item{...}{arguments to pass to \code{\link[=gp.data]{gp.data()}}}
 }
 \value{
 A \code{gp.data} dataframe containing the data.
