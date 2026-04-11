@@ -72,29 +72,7 @@
 <span>  guardRail <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">geoParams</span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sources <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sigma_mean <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  sigma_var <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sigma_squared_shape <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  sigma_squared_rate <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  priorMean_longitude <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  priorMean_latitude <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  tau <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  alpha_shape <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>  alpha_rate <span class="op">=</span> <span class="fl">0.1</span>,</span>
-<span>  chains <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>  burnin <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  samples <span class="op">=</span> <span class="fl">10000</span>,</span>
-<span>  burnin_printConsole <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  samples_printConsole <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  longitude_minMax <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  latitude_minMax <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  longitude_cells <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  latitude_cells <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  guardRail <span class="op">=</span> <span class="fl">0.05</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">geoParams</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -183,6 +161,10 @@
 
 <dt id="arg-guardrail">guardRail<a class="anchor" aria-label="anchor" href="#arg-guardrail"></a></dt>
 <dd><p>when data input is used, <code>longitude_minMax</code> and <code>latitude_minMax</code> default to the range of the data plus a guard rail. This parameter defines the size of the guard rail as a proportion of the range. For example, a value of <code>0.05</code> would give an extra 5 percent on the range of the data.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>arguments to pass to <code>gp.params()</code></p></dd>
 
 </dl></div>
     <div class="section level2">

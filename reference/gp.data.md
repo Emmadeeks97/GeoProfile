@@ -13,9 +13,9 @@ gp.data(
   is.source = FALSE
 )
 
-geoData(longitude = NULL, latitude = NULL)
+geoData(...)
 
-geoDataSource(longitude = NULL, latitude = NULL)
+geoDataSource(...)
 ```
 
 ## Arguments
@@ -44,6 +44,10 @@ geoDataSource(longitude = NULL, latitude = NULL)
 - is.source:
 
   `TRUE` if the data is to be considered a source.
+
+- ...:
+
+  arguments to pass to `gp.data()`
 
 ## Value
 
