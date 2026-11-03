@@ -66,6 +66,7 @@ OS-specific steps:
   Next, ensure that you have `pak` installed by running
 
   ``` r
+
   install.packages("pak")
   ```
 
@@ -73,6 +74,7 @@ OS-specific steps:
   running
 
   ``` r
+
   pak::pak("Emmadeeks97/GeoProfile")
   library(GeoProfile)
   ```

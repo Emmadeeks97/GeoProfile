@@ -1,6 +1,7 @@
 # Plot a map and overlay data and/or geoprofile via leaflet
 
-Plots geoprofile on map, with various customisable options.
+Plots geoprofile on map, with various customisable options. Interactive
+and static map options available.
 
 ## Usage
 
@@ -8,20 +9,37 @@ Plots geoprofile on map, with various customisable options.
 geoPlotLeaflet(
   params = NULL,
   data = NULL,
-  surface = NULL,
   source = NULL,
+  surface = NULL,
   surfaceCols = c("#F0F921FF", "#FDC926FF", "#FA9E3BFF", "#ED7953FF", "#D8576BFF",
     "#BD3786FF", "#9C179EFF", "#7301A8FF", "#47039FFF", "#0D0887FF"),
+  threshold = 0.1,
+  smoothing = 1,
+  opacity = 0.8,
+  plotContours = FALSE,
+  contourBreaks = seq(0, 100, length.out = 11),
+  contourCol = "grey50",
+  contourWeight = 1,
+  contourOpacity = 1,
   crimeCex = 1.5,
   crimeCol = "red",
   sourceCex = 1.5,
   sourceCol = "blue",
-  map_type = "CartoDB.Positron",
-  threshold = 0.1,
-  opacity = 0.8,
   colOpacity = 1,
-  smoothing = 1,
-  gpLegend = FALSE
+  mapType = "Esri.WorldImagery",
+  apiKey = NULL,
+  showBoundary = TRUE,
+  boundaryWeight = 2,
+  boundaryCol = grDevices::grey(0.2),
+  gpLegend = FALSE,
+  legendPosition = "bottomright",
+  legendScale = 1,
+  saveFile = NULL,
+  cropToBoundary = TRUE,
+  mapZoom = 5,
+  saveWidth = 1200,
+  saveHeight = 1200,
+  saveZoom = 2
 )
 ```
 
@@ -37,21 +55,58 @@ geoPlotLeaflet(
   data object in the format defined by
   [`geoData()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
 
+- source:
+
+  potential sources object in the format defined by
+  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
+
 - surface:
 
   a surface to overlay onto the map, typically a geoprofile obtained
   from the output of
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md).
 
-- source:
-
-  potential sources object in the format defined by
-  [`geoDataSource()`](https://emmadeeks97.github.io/GeoProfile/reference/gp.data.md).
-
 - surfaceCols:
 
   vector of two or more colours to plot surface. Defaults to viridis
   palette.
+
+- threshold:
+
+  what level of the geoprofile to display. 1 = the whole geoprofile
+  surface. 0.1 = the top 10% of the surface.
+
+- smoothing:
+
+  smoothing affects the plotted resolution of the colour heatmaps.
+  Higher values = more pixels, smoother colour gradients but increased
+  plotting time.
+
+- opacity:
+
+  value between `0` and `1` giving the opacity of surface colours.
+
+- plotContours:
+
+  Another way of viewing the geoprofile surface which uses contour lines
+  to represent the surface as a heightmap.
+
+- contourBreaks:
+
+  hitscore % levels, as in breakPercent. Set the range and bins of the
+  geoprofile surface the contours will represent.
+
+- contourCol:
+
+  colour of contour lines.
+
+- contourWeight:
+
+  thickness of contour lines.
+
+- contourOpacity:
+
+  opacity of contour lines.
 
 - crimeCex:
 
@@ -69,31 +124,75 @@ geoPlotLeaflet(
 
   colour of suspect sites symbols.
 
-- map_type:
+- colOpacity:
+
+  opacity of crime and source colours.
+
+- mapType:
 
   the specific type of map to plot. See
   [leaflet::providers](https://rstudio.github.io/leaflet/reference/providers.html)
   for options.
 
-- threshold:
+- apiKey:
 
-  what level of the geoprofile to display
+  API keys may be required for some maptypes. Note: API keys for Carto
+  maps will not work with the current leaflet package version available
+  on CRAN.
 
-- opacity:
+- showBoundary:
 
-  value between `0` and `1` giving the opacity of surface colours.
+  plot a bounding box that encompasses the extent of the geoprofile
+  surface.
 
-- colOpacity:
+- boundaryWeight:
 
-  opacity of crime and source colours
+  thickness of the bounding box.
 
-- smoothing:
+- boundaryCol:
 
-  smooth profile
+  colour of the boundary box.
 
 - gpLegend:
 
   whether or not to add legend to plot.
+
+- legendPosition:
+
+  "bottomright", \# "topright", "bottomright", "bottomleft", "topleft".
+
+- legendScale:
+
+  size of the legend.
+
+- saveFile:
+
+  take a static screenshot of the plot for figures. UI such as the zoom
+  options are automatically removed. Set by inputting a name for the
+  resulting file.
+
+- cropToBoundary:
+
+  crop so that the saved figure matches the extent of the geoprofile
+  surface.
+
+- mapZoom:
+
+  control the zoom of the plot. Ignored if cropToBoundary = TRUE.
+
+- saveWidth:
+
+  set the width of the resulting saved image.
+
+- saveHeight:
+
+  set the height of the resulting saved image.
+
+- saveZoom:
+
+  does not affect the zoom of the map but instead affects the resolution
+  of the saved image. Affects the zoom option of the function
+  [webshot2::webshot](https://rstudio.github.io/webshot2/reference/webshot.html).
 
 ## Value
 
@@ -114,7 +213,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                crimeCol = "black",
                crimeCex = 2,
                sourceCol = "red",
@@ -130,7 +228,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                crimeCol = "black",
                crimeCex = 2,
                sourceCol = "red",
@@ -148,7 +245,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                surfaceCols = c("blue","white"),
                crimeCol = "black",
                crimeCex = 2,

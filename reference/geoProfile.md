@@ -5,7 +5,12 @@ Converts surface to hitscore percentage
 ## Usage
 
 ``` r
-geoProfile(surface)
+geoProfile(
+  surface,
+  equalRanks = TRUE,
+  warnDuplicates = TRUE,
+  zeroesAsNAs = TRUE
+)
 ```
 
 ## Arguments
@@ -13,6 +18,24 @@ geoProfile(surface)
 - surface:
 
   matrix to convert to geoprofile
+
+- equalRanks:
+
+  if true, equal values are given equal hit scroe ranks.
+
+- warnDuplicates:
+
+  this option allows muting of the duplicate values warning message.
+  This message only appears if there are duplicate values and rankings
+  are not set to equal, as doing so can cause artefacts in the
+  geoprofile surface.
+
+- zeroesAsNAs:
+
+  if true, zero values from the posterior (not referring to hitscores
+  yet) are treated as NAs and are unranked. If false, zeros are still
+  given ranks and will appear on the output geoprofile surface. This is
+  mostly relevant when using masks and setting the transform to 0.
 
 ## Value
 

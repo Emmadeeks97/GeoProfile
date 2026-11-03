@@ -54,6 +54,8 @@ Methods of visualising geoprofiles.
   : Perspective plot of geoprofile or raw probabilities
 - [`geoPlotAllocation()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotAllocation.md)
   : Plot posterior allocation
+- [`geoPlotAlpha()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotAlpha.md)
+  : Plot prior and posterior distributions of alpha
 - [`geoPlotCoallocation()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotCoallocation.md)
   : Calculate and plot probability of coallocation
 - [`geoPlotLeaflet()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPlotLeaflet.md)

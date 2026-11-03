@@ -7,7 +7,7 @@ sigma.
 ## Usage
 
 ``` r
-geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
+geoPlotSigma(params, mcmc = NULL, xlim = NULL, ylim = NULL)
 ```
 
 ## Arguments
@@ -23,9 +23,15 @@ geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
   [`geoMCMC()`](https://emmadeeks97.github.io/GeoProfile/reference/geoMCMC.md).
   Leave as `NULL` to plot prior only.
 
-- plotMax:
+- xlim:
 
-  maximum x-axis range to plot. Leave as `NULL` to use default settings.
+  numeric vector of length 2 giving the x-axis range (must be
+  non-negative). Leave as `NULL` to use default settings.
+
+- ylim:
+
+  numeric vector of length 2 giving the y-axis range. Leave as `NULL` to
+  use default settings.
 
 ## Value
 
@@ -47,6 +53,6 @@ sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 d <- geoData(sim$longitude, sim$latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
-geoPlotSigma(params = p, mcmc = m)
+geoPlotSigma(params = p, mcmc = m, xlim = c(0,3), ylim = c(0,6))
 }
 ```

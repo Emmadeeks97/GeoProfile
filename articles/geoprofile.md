@@ -17,6 +17,7 @@ In the case of the example data these are actually already in the
 correct format, however the relevant code is included for completeness.
 
 ``` r
+
 library(GeoProfile)
 d <- LondonExample_crimes
 s <- LondonExample_sources
@@ -68,17 +69,27 @@ As an example, if using `sigma_mean` and `sigma_squared_shape` to
 parameterise, the exact value of `sigma_var` derived here is calculated
 as follows:
 
-$$\alpha = \ \text{sigma\_squared\_shape}$$
+``` math
+\alpha = \: \text{sigma_squared_shape}
+```
 
-$$\beta = \exp\left( 2\ln\bar{\sigma} + 2\ln\left| \,\Gamma(\alpha) \right| + 2\ln\left| \,\Gamma(\alpha - 0.5) \right| \right)$$
+``` math
+\beta = \exp{{\left(2\ln{\bar{\sigma}} + 2\ln{|\,\Gamma(\alpha)|} + 2\ln{|\,\Gamma(\alpha - 0.5)|}\right)}}
+```
 
-$$\epsilon = \sqrt{\beta}\ \frac{\Gamma(\alpha - 0.5)}{\Gamma(\alpha)}$$$$\text{sigma\_var} = \frac{\beta}{(\alpha - 1) - \epsilon^{2}}$$
+``` math
+\epsilon = \sqrt{\beta} \:\frac{\Gamma(\alpha - 0.5)}{\Gamma(\alpha)}
+```
+``` math
+\text{sigma_var} = \frac{\beta}{(\alpha - 1) - \epsilon^2}
+```
 
 For the MCMC we’ll use 5 chains, discarding 1,000 iterations of burnin
 and sampling 10,000 iterations to generate the final posterior
 distribution.
 
 ``` r
+
 # set model and MCMC parameters
 p = gp.params(
   data = d,
@@ -94,6 +105,7 @@ p = gp.params(
 And let’s just check to see what our full parameters object looks like:
 
 ``` r
+
 p
 #> Geoprofile Parameters (to 4 dp):
 #> 
@@ -125,6 +137,7 @@ The outputs of this function include posterior draws of alpha and sigma
 under the variable-sigma model.
 
 ``` r
+
 m = geoMCMC(data = d, params = p)
 ```
 
@@ -157,7 +170,7 @@ m = geoMCMC(data = d, params = p)
     #>   iteration: 9000
     #>   iteration: 10000
     #> 
-    #> MCMC completed in 0.468 seconds
+    #> MCMC completed in 0.389 seconds
     #> ── MCMC Log End ────────────────────────────────────────────────────────────────
     #> ℹ Smoothing posterior surface...
     #> ✔ Maximum-Likelihood lambda = 0.069
@@ -171,6 +184,7 @@ standard deviation of the dispersal distribution, so a larger posterior
 value is more varied dispersal in the data.
 
 ``` r
+
 geoPlotSigma(params = p, mcmc = m)
 ```
 
@@ -185,6 +199,7 @@ Here the red dots are crime reports, the blue dots are potential
 sources, and the heatmap is the posterior probability surface.
 
 ``` r
+
 # plot profile on map
 mapGP <- geoPlotLeaflet(params = p, data = d, source = s, surface = m$geoProfile)
 mapGP
@@ -195,19 +210,21 @@ how likely a potential source is to be the actual source of observed
 events).
 
 ``` r
+
 # get hitscores
 hs <- geoReportHitscores(params = p, source = s, surface =m$geoProfile)
 hs
-#>   latitude longitude     hs
-#> 1  51.5252   -0.0418 0.1156
-#> 2  51.5012   -0.1421 1.2908
-#> 3  51.5175   -0.1731 4.3052
-#> 4  51.5321   -0.1238 2.3436
+#>   latitude longitude        hs
+#> 1  51.5252   -0.0418 0.1152005
+#> 2  51.5012   -0.1421 1.2904052
+#> 3  51.5175   -0.1731 4.3048172
+#> 4  51.5321   -0.1238 2.3432094
 ```
 
 And here is a Lorenz plot for the same data.
 
 ``` r
+
 # produce Lorenz plot
 Gini <- geoPlotLorenz(hit_scores = hs, crimeNumbers = NULL)
 ```
@@ -215,12 +232,14 @@ Gini <- geoPlotLorenz(hit_scores = hs, crimeNumbers = NULL)
 ![](geoprofile_files/figure-html/unnamed-chunk-9-1.png)
 
 ``` r
+
 Gini
 #> G_sources 
 #>      0.97
 ```
 
 ``` r
+
 # zoom
 # FW: Currently does not work due to incorrect arguments
 
@@ -234,6 +253,7 @@ Gini
 We can also plot posterior allocation and co-allocation
 
 ``` r
+
 # plot allocation
 geoPlotAllocation(mcmc = m)
 ```
@@ -241,6 +261,7 @@ geoPlotAllocation(mcmc = m)
 ![](geoprofile_files/figure-html/unnamed-chunk-11-1.png)
 
 ``` r
+
 # plot co-allocation
 geoPlotCoallocation(mcmc = m)
 ```
@@ -255,6 +276,7 @@ You can create these using
 [`geoPersp()`](https://emmadeeks97.github.io/GeoProfile/reference/geoPersp.md)function.
 
 ``` r
+
 # produce perspective plots
 # probabilities
 geoPersp(surface = m$posteriorSurface, aggregate_size = 3, surface_type = "prob")
@@ -263,6 +285,7 @@ geoPersp(surface = m$posteriorSurface, aggregate_size = 3, surface_type = "prob"
 ![](geoprofile_files/figure-html/unnamed-chunk-13-1.png)
 
 ``` r
+
 # ranked surface
 geoPersp(surface = m$geoProfile, aggregate_size = 3)
 ```
@@ -285,6 +308,7 @@ This particular representation has been downsampled for this example to
 save on resources.
 
 ``` r
+
 geoSurface3D(m$geoProfile, "gp")
 ```
 
@@ -292,6 +316,7 @@ We can also get the centroids of the data split by the posterior groups.
 This is a coarse indication of best-guess source locations.
 
 ``` r
+
 # find centroids of data split by best grouping (placeholder for more thorough method)
 ms <- geoModelSources(mcmc = m, data = d)
 ms
@@ -303,6 +328,7 @@ ms
 ```
 
 ``` r
+
 # add peaks to map
 # NB requires ggplot2
 # FW: mapGP is no longer a ggplot object (as it is now a leaflet object!) This needs a fix.
@@ -315,6 +341,7 @@ Finally (just for fun) we can plot the posterior surface in the style of
 the famous Unknown Pleasures album cover by Joy Division.
 
 ``` r
+
 # plot surface in style of 'unknown pleasures', for fun
 unknownPleasures(m$geoProfile, paper_ref = "RgeoProfile 2.1.0")
 ```
@@ -334,12 +361,14 @@ function, which can be plotted in the same manner as
 output.
 
 ``` r
+
 #------------------------------------------------------------------
 # compare to alternative ring search strategy
 #------------------------------------------------------------------
 # compare to geoprofile based on ring search strategy
 surface_ring <- geoRing(params = p, data = d, source = s, mcmc = m)
 gp_ring <- geoProfile(surface = surface_ring)
+#> geoProfile: 209/250000 cells (0.1%) share a value with another cell; 249791 unique values.
 # map of ring search geoprofile
 mapRing <- geoPlotLeaflet(params = p, data = d, source = s, surface = gp_ring,
                 surfaceCols = c("red", "white"))
@@ -347,14 +376,15 @@ mapRing
 ```
 
 ``` r
+
 # hitscores of ring search geoprofile
 hs_ring <- geoReportHitscores(params = p, source = s, surface = gp_ring)
 hs_ring
-#>   latitude longitude      hs
-#> 1  51.5252   -0.0418  3.8832
-#> 2  51.5012   -0.1421  8.4788
-#> 3  51.5175   -0.1731 33.9140
-#> 4  51.5321   -0.1238 27.6544
+#>   latitude longitude        hs
+#> 1  51.5252   -0.0418  3.882816
+#> 2  51.5012   -0.1421  8.478434
+#> 3  51.5175   -0.1731 33.913736
+#> 4  51.5321   -0.1238 27.654111
 ```
 
 ## Incorporating GIS data
@@ -368,6 +398,7 @@ We can do this using the
 function.
 
 ``` r
+
 #------------------------------------------------------------------
 # incorporate GIS data
 #------------------------------------------------------------------
@@ -382,6 +413,7 @@ gp_masked <- geoProfile(prob_masked$prob)
 ```
 
 ``` r
+
 # plot new surface
 mapMask <- geoPlotLeaflet(params = p, data = d, source = s, surface = gp_masked)
 
@@ -392,12 +424,13 @@ mapMask
 
 ``` r
 
+
 # hs of masked surface
 hs_mask <- geoReportHitscores(params = p, source = s, surface = gp_masked)
 hs_mask
-#>   latitude longitude      hs
-#> 1  51.5252   -0.0418  0.1156
-#> 2  51.5012   -0.1421 23.3780
-#> 3  51.5175   -0.1731 25.8692
-#> 4  51.5321   -0.1238 24.2344
+#>   latitude longitude         hs
+#> 1  51.5252   -0.0418  0.1152005
+#> 2  51.5012   -0.1421 23.3776935
+#> 3  51.5175   -0.1731 25.8689035
+#> 4  51.5321   -0.1238 24.2340969
 ```
