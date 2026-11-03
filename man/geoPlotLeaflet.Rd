@@ -7,20 +7,37 @@
 geoPlotLeaflet(
   params = NULL,
   data = NULL,
-  surface = NULL,
   source = NULL,
+  surface = NULL,
   surfaceCols = c("#F0F921FF", "#FDC926FF", "#FA9E3BFF", "#ED7953FF", "#D8576BFF",
     "#BD3786FF", "#9C179EFF", "#7301A8FF", "#47039FFF", "#0D0887FF"),
+  threshold = 0.1,
+  smoothing = 1,
+  opacity = 0.8,
+  plotContours = FALSE,
+  contourBreaks = seq(0, 100, length.out = 11),
+  contourCol = "grey50",
+  contourWeight = 1,
+  contourOpacity = 1,
   crimeCex = 1.5,
   crimeCol = "red",
   sourceCex = 1.5,
   sourceCol = "blue",
-  map_type = "CartoDB.Positron",
-  threshold = 0.1,
-  opacity = 0.8,
   colOpacity = 1,
-  smoothing = 1,
-  gpLegend = FALSE
+  mapType = "Esri.WorldImagery",
+  apiKey = NULL,
+  showBoundary = TRUE,
+  boundaryWeight = 2,
+  boundaryCol = grDevices::grey(0.2),
+  gpLegend = FALSE,
+  legendPosition = "bottomright",
+  legendScale = 1,
+  saveFile = NULL,
+  cropToBoundary = TRUE,
+  mapZoom = 5,
+  saveWidth = 1200,
+  saveHeight = 1200,
+  saveZoom = 2
 )
 }
 \arguments{
@@ -28,11 +45,27 @@ geoPlotLeaflet(
 
 \item{data}{data object in the format defined by \code{\link[=geoData]{geoData()}}.}
 
-\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of \code{\link[=geoMCMC]{geoMCMC()}}.}
-
 \item{source}{potential sources object in the format defined by \code{\link[=geoDataSource]{geoDataSource()}}.}
 
+\item{surface}{a surface to overlay onto the map, typically a geoprofile obtained from the output of \code{\link[=geoMCMC]{geoMCMC()}}.}
+
 \item{surfaceCols}{vector of two or more colours to plot surface. Defaults to viridis palette.}
+
+\item{threshold}{what level of the geoprofile to display. 1 = the whole geoprofile surface. 0.1 = the top 10\% of the surface.}
+
+\item{smoothing}{smoothing affects the plotted resolution of the colour heatmaps. Higher values = more pixels, smoother colour gradients but increased plotting time.}
+
+\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
+
+\item{plotContours}{Another way of viewing the geoprofile surface which uses contour lines to represent the surface as a heightmap.}
+
+\item{contourBreaks}{hitscore \% levels, as in breakPercent. Set the range and bins of the geoprofile surface the contours will represent.}
+
+\item{contourCol}{colour of contour lines.}
+
+\item{contourWeight}{thickness of contour lines.}
+
+\item{contourOpacity}{opacity of contour lines.}
 
 \item{crimeCex}{relative size of symbols showing crimes.}
 
@@ -42,23 +75,41 @@ geoPlotLeaflet(
 
 \item{sourceCol}{colour of suspect sites symbols.}
 
-\item{map_type}{the specific type of map to plot. See \link[leaflet:providers]{leaflet::providers} for options.}
+\item{colOpacity}{opacity of crime and source colours.}
 
-\item{threshold}{what level of the geoprofile to display}
+\item{mapType}{the specific type of map to plot. See \link[leaflet:providers]{leaflet::providers} for options.}
 
-\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
+\item{apiKey}{API keys may be required for some maptypes. Note: API keys for Carto maps will not work with the current leaflet package version available on CRAN.}
 
-\item{colOpacity}{opacity of crime and source colours}
+\item{showBoundary}{plot a bounding box that encompasses the extent of the geoprofile surface.}
 
-\item{smoothing}{smooth profile}
+\item{boundaryWeight}{thickness of the bounding box.}
+
+\item{boundaryCol}{colour of the boundary box.}
 
 \item{gpLegend}{whether or not to add legend to plot.}
+
+\item{legendPosition}{"bottomright", # "topright", "bottomright", "bottomleft", "topleft".}
+
+\item{legendScale}{size of the legend.}
+
+\item{saveFile}{take a static screenshot of the plot for figures. UI such as the zoom options are automatically removed. Set by inputting a name for the resulting file.}
+
+\item{cropToBoundary}{crop so that the saved figure matches the extent of the geoprofile surface.}
+
+\item{mapZoom}{control the zoom of the plot. Ignored if cropToBoundary = TRUE.}
+
+\item{saveWidth}{set the width of the resulting saved image.}
+
+\item{saveHeight}{set the height of the resulting saved image.}
+
+\item{saveZoom}{does not affect the zoom of the map but instead affects the resolution of the saved image. Affects the zoom option of the function \link[webshot2:webshot]{webshot2::webshot}.}
 }
 \value{
 A \code{leaflet} plot object.
 }
 \description{
-Plots geoprofile on map, with various customisable options.
+Plots geoprofile on map, with various customisable options. Interactive and static map options available.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
@@ -73,7 +124,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                crimeCol = "black",
                crimeCex = 2,
                sourceCol = "red",
@@ -89,7 +139,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                crimeCol = "black",
                crimeCex = 2,
                sourceCol = "red",
@@ -107,7 +156,6 @@ geoPlotLeaflet(params = p,
                data = d,
                source = s,
                surface = m$geoProfile,
-               map_type = 110,
                surfaceCols = c("blue","white"),
                crimeCol = "black",
                crimeCex = 2,

@@ -24,7 +24,10 @@ Imports:
     terra,
     viridis,
     rlang,
-    cli
+    cli,
+    dplyr,
+    htmlwidgets,
+    webshot2
 Depends: 
     R (>= 4.1.0)
 LinkingTo: Rcpp, RcppArmadillo

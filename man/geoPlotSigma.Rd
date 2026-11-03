@@ -4,14 +4,18 @@
 \alias{geoPlotSigma}
 \title{Plot prior and posterior distributions of sigma.}
 \usage{
-geoPlotSigma(params, mcmc = NULL, plotMax = NULL)
+geoPlotSigma(params, mcmc = NULL, xlim = NULL, ylim = NULL)
 }
 \arguments{
 \item{params}{a list of parameters as defined by \code{\link[=geoParams]{geoParams()}}.}
 
 \item{mcmc}{stored output obtained by running \code{\link[=geoMCMC]{geoMCMC()}}. Leave as \code{NULL} to plot prior only.}
 
-\item{plotMax}{maximum x-axis range to plot. Leave as \code{NULL} to use default settings.}
+\item{xlim}{numeric vector of length 2 giving the x-axis range (must be
+non-negative). Leave as \code{NULL} to use default settings.}
+
+\item{ylim}{numeric vector of length 2 giving the y-axis range. Leave as
+\code{NULL} to use default settings.}
 }
 \value{
 Nothing (called for plotting)
@@ -33,7 +37,7 @@ sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
 d <- geoData(sim$longitude, sim$latitude)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
-geoPlotSigma(params = p, mcmc = m)
+geoPlotSigma(params = p, mcmc = m, xlim = c(0,3), ylim = c(0,6))
 \dontshow{\}) # examplesIf}
 }
 \concept{plotting}

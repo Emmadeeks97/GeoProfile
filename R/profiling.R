@@ -113,6 +113,9 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
 #' Converts surface to hitscore percentage
 #'
 #' @param surface matrix to convert to geoprofile
+#' @param equalRanks if true, equal values are given equal hit scroe ranks.
+#' @param zeroesAsNAs if true, zero values from the posterior (not referring to hitscores yet) are treated as NAs and are unranked. If false, zeros are still given ranks and will appear on the output geoprofile surface. This is mostly relevant when using masks and setting the transform to 0.
+#' @param warnDuplicates this option allows muting of the duplicate values warning message. This message only appears if there are duplicate values and rankings are not set to equal, as doing so can cause artefacts in the geoprofile surface.
 #'
 #' @returns A `matrix` of the geoprofile of the surface
 #'
@@ -135,15 +138,74 @@ geoMCMC <- function(data, params, lambda=NULL, smoothprogress = TRUE) {
 #' m <- geoMCMC(data = d, params = p)
 #' gp <- geoProfile(m$posteriorSurface)
 
-geoProfile <- function(surface) {
 
-  # check that surface is in correct format
-  cli_stopifnot(is.matrix(surface), "Surface is not a matrix!")
+geoProfile <- function(
+    surface,
+    equalRanks = TRUE,
+    warnDuplicates = TRUE,
+    zeroesAsNAs = TRUE
+) {
 
-  # create geoprofile from surface
-  ret <- matrix(rank(surface, ties.method="first"), nrow=nrow(surface), byrow=FALSE)
-  ret[is.na(surface)] <- NA
-  ret <- 100 * (1 - (ret-1)/max(ret, na.rm=TRUE))
+  cli_stopifnot(is.matrix(surface), "Surface is not a matrix.")
+
+  ret <- matrix(NA_real_, nrow(surface), ncol(surface))
+
+  # Identify values to include in ranking
+  if (zeroesAsNAs) {
+    idx <- !is.na(surface) & surface != 0
+  } else {
+    idx <- !is.na(surface)
+  }
+
+  values <- surface[idx]
+
+  # Diagnostics
+  n <- length(values)
+  n_unique <- length(unique(values))
+  n_duplicates <- n - n_unique
+
+  if (warnDuplicates && n_duplicates > 0) {
+
+    duplicate_fraction <- n_duplicates / n
+
+    message(sprintf(
+      "geoProfile: %d/%d cells (%.1f%%) share a value with another cell; %d unique values.",
+      n_duplicates,
+      n,
+      100 * duplicate_fraction,
+      n_unique
+    ))
+
+    if (!equalRanks) {
+      warning(
+        "equalRanks = FALSE: tied values will receive different ranks. ",
+        "This may introduce artificial spatial patterns. ",
+        "Check your assumptions and inspect the underlying matrix objects before continuing."
+      )
+    }
+  }
+
+  # Rank values
+  ties_method <- if (equalRanks) "min" else "first"
+
+  ret[idx] <- rank(
+    values,
+    ties.method = ties_method
+  )
+
+  # Convert ranks to 0-100
+  if (length(values) > 0) {
+
+    max_rank <- max(ret[idx], na.rm = TRUE)
+
+    if (max_rank == 1) {
+      ret[idx] <- 100
+    } else {
+      ret[idx] <- 100 * (
+        1 - (ret[idx] - 1) / (max_rank - 1)
+      )
+    }
+  }
 
   return(ret)
 }

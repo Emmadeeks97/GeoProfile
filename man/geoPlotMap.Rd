@@ -10,23 +10,32 @@ geoPlotMap(
   source = NULL,
   surface = NULL,
   surfaceCols = NULL,
+  smoothScale = TRUE,
+  hitscoreType = c("percentage", "absolute"),
+  gpLegend = TRUE,
+  opacity = 0.4,
+  threshold = 1,
+  removeNAs = TRUE,
+  breakPercent = seq(0, 100, length.out = 11),
+  xbreaks = 100,
+  ybreaks = 100,
+  plotContours = FALSE,
+  contoursMatchResolution = TRUE,
+  contourCol = "grey50",
+  contourWeight = 0.3,
+  contourOpacity = 1,
   zoom = NULL,
   latLimits = NULL,
   lonLimits = NULL,
   mapSource = "google",
   mapType = "hybrid",
-  opacity = 0.6,
-  plotContours = TRUE,
-  breakPercent = seq(0, 100, l = 11),
-  contourCol = "grey50",
-  smoothScale = TRUE,
   crimeCex = 1.5,
   crimeCol = "red",
   crimeBorderCol = "white",
   crimeBorderWidth = 0.5,
   sourceCex = 1.5,
   sourceCol = "blue",
-  gpLegend = TRUE
+  colOpacity = 1
 )
 }
 \arguments{
@@ -40,25 +49,43 @@ geoPlotMap(
 
 \item{surfaceCols}{vector of two or more colours to plot surface. Defaults to viridis palette.}
 
+\item{smoothScale}{should plot legend show continuous (\code{TRUE}) or discrete (\code{FALSE}) colours.}
+
+\item{hitscoreType}{\code{"percentage"} = hit score percentage (0-100); \code{"absolute"} = absolute hit score (0-1, i.e. not multiplied by 100).}
+
+\item{gpLegend}{whether or not to add the legend to the plot. \code{TRUE} shows the legend, \code{FALSE} removes it.}
+
+\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
+
+\item{threshold}{defines the range of hitscores plotted. i.e., 1 includes all hitscore values (100-0) and should cover the entire map (unless a mask has been applied). Lower values restrict the plot to particular hitscores i.e., 0.1 = the top 10\%.}
+
+\item{removeNAs}{\code{TRUE} removes bins with NA hitscores from the plot, \code{FALSE} leaves them in and they are plotted as grey.}
+
+\item{breakPercent}{only relevant when \code{smoothScale} is \code{FALSE}, defines the band edges for discrete colour coding and contours. Always given on the 0-100 scale, regardless of \code{hitscoreType}.}
+
+\item{xbreaks}{assigns the resolution of the plotted geoprofile surface for the x axis. Larger numbers take longer to process. Test at low values initially. Select values that divide cleanly into the surface cell count. Do not choose values greater than the geoprofile surface cell count.}
+
+\item{ybreaks}{assigns the resolution of the plotted geoprofile surface for the y axis. Larger numbers take longer to process. Test at low values initially. Select values that divide cleanly into the surface cell count. Do not choose values greater than the geoprofile surface cell count.}
+
+\item{plotContours}{whether or not to add contours to the surface plot.}
+
+\item{contoursMatchResolution}{if \code{TRUE}, contours are drawn from the binned (\code{xbreaks} / \code{ybreaks}) surface so they match the rectangles, \code{FALSE} draws them from the full resolution surface.}
+
+\item{contourCol}{single colour to plot contour lines showing boundaries on surface.}
+
+\item{contourWeight}{contour line width.}
+
+\item{contourOpacity}{contour line opacity, a value between \code{0} and \code{1}.}
+
 \item{zoom}{zoom level of map. If \code{NULL} then choose optimal zoom from params.}
 
 \item{latLimits}{optional vector setting min and max latitude for zoom view.}
 
 \item{lonLimits}{optional vector setting min and max longitude for zoom view.}
 
-\item{mapSource}{which online source to use when downloading the map. Options include Google Maps (\code{"google"}), OpenStreetMap (\code{"osm"}), Stamen Maps (\code{"stamen"}) and CloudMade maps (\code{"cloudmade"}).}
+\item{mapSource}{which online source to use when downloading the map. Options include Google Maps (\code{"google"}), OpenStreetMap (\code{"osm"}), Stamen Maps (\code{"stamen"}) and CloudMade maps (\code{"cloudmade"}). An API key is required for using Google Maps and potentially some of the other sources. Register your key before running this function by using the \code{register_google()} function.}
 
 \item{mapType}{the specific type of map to plot. Options available are \code{"terrain"}, \code{"satellite"}, \code{"roadmap"} and \code{"hybrid"} (google maps), \code{"terrain-background"}, \code{"terrain"}, \code{"watercolor"} and \code{"toner"} (stamen maps) or a positive integer for cloudmade maps (see \code{\link[ggmap:get_cloudmademap]{ggmap::get_cloudmademap()}} for details).}
-
-\item{opacity}{value between \code{0} and \code{1} giving the opacity of surface colours.}
-
-\item{plotContours}{whether or not to add contours to the surface plot.}
-
-\item{breakPercent}{vector of values between \code{0} and \code{100} describing where in the surface contours appear.}
-
-\item{contourCol}{single colour to plot contour lines showing boundaries on surface.}
-
-\item{smoothScale}{should plot legend show continuous (\code{TRUE}) or discrete (\code{FALSE}) colours.}
 
 \item{crimeCex}{relative size of symbols showing crimes.}
 
@@ -72,50 +99,74 @@ geoPlotMap(
 
 \item{sourceCol}{colour of suspect sites symbols.}
 
-\item{gpLegend}{whether or not to add legend to plot.}
+\item{colOpacity}{opacity of the crime and source points, a value between \code{0} and \code{1}.}
 }
 \value{
 A \code{ggplot2} plot object.
 }
 \description{
-Plots geoprofile on map, with various customisable options.
+Plots geoprofile on map, with various customisable options. Warning: google maps requires an API key. For a faster plotting method that has more API free options, use the \code{\link[=geoPlotLeaflet]{geoPlotLeaflet()}} function.
 }
 \examples{
 \dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 \dontrun{
-# London example data
+# London example data, all options shown
 d <- LondonExample_crimes
 s <- LondonExample_sources
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
-# produce simple map
 geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
-                breakPercent = seq(0, 50, 5), mapType = "hybrid",
-                crimeCol = "black", crimeCex = 2, sourceCol = "red", sourceCex = 2)
+           surfaceCols = c("blue", "white"),
+           smoothScale = TRUE,
+           hitscoreType = "percentage",
+           gpLegend = TRUE,
+           opacity = 0.4,
+           threshold = 0.1,
+           removeNAs = TRUE,
+           breakPercent = seq(0, 100, length.out = 11),
+           xbreaks = 50, ybreaks = 50,
+           plotContours = FALSE,
+           contoursMatchResolution = TRUE,
+           contourCol = "grey50", contourWeight = 0.3, contourOpacity = 1,
+           zoom = NULL, latLimits = NULL, lonLimits = NULL,
+           mapSource = "google", mapType = "hybrid",
+           crimeCex = 2, crimeCol = "black",
+           crimeBorderCol = "white", crimeBorderWidth = 0.5,
+           sourceCex = 2, sourceCol = "red",
+           colOpacity = 1)
 
-# John Snow cholera data
+# John Snow cholera data, discrete colours, contours and absolute hit scores
 d <- Cholera
 s <- WaterPumps
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
-m <- geoMCMC(data = d, params = p, lambda=0.05)
-# produce simple map
+m <- geoMCMC(data = d, params = p, lambda = 0.05)
 geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
-                breakPercent = seq(0, 50, 5), mapType = "hybrid",
-                crimeCol = "black", crimeCex = 2, sourceCol = "red", sourceCex = 2)
+           smoothScale = FALSE,
+           hitscoreType = "absolute",
+           threshold = 0.5,
+           breakPercent = seq(0, 50, 5),
+           xbreaks = 50, ybreaks = 50,
+           plotContours = TRUE,
+           contoursMatchResolution = TRUE,
+           contourCol = "white", contourWeight = 0.5, contourOpacity = 0.8,
+           mapType = "hybrid",
+           crimeCol = "black", crimeCex = 2,
+           sourceCol = "red", sourceCex = 2)
 
-# simulated data
-sim <-rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
-51.5235505, alpha=1, sigma=1, tau=3)
-d <- geoData(sim$longitude, sim $latitude)
+# simulated data, change colour palette, map type, opacity and range of geoprofile
+sim <- rDPM(50, priorMean_longitude = -0.04217491, priorMean_latitude =
+51.5235505, alpha = 1, sigma = 1, tau = 3)
+d <- geoData(sim$longitude, sim$latitude)
 s <- geoDataSource(sim$source_lon, sim$source_lat)
 p <- geoParams(data = d, sigma_mean = 1.0, sigma_squared_shape = 2)
 m <- geoMCMC(data = d, params = p)
-# change colour palette, map type, opacity and range of geoprofile and omit legend
 geoPlotMap(params = p, data = d, source = s, surface = m$geoProfile,
-                breakPercent = seq(0, 30, 5), mapType = "terrain",
-                surfaceCols = c("blue","white"), crimeCol = "black",
-                crimeBorderCol = "white",crimeCex = 2, sourceCol = "red", sourceCex = 2,
-                opacity = 0.7, gpLegend = FALSE)
+           surfaceCols = c("blue", "white"),
+           opacity = 0.7,
+           breakPercent = seq(0, 30, 5),
+           mapType = "terrain",
+           crimeCol = "black", crimeBorderCol = "white", crimeCex = 2,
+           sourceCol = "red", sourceCex = 2)
 }
 \dontshow{\}) # examplesIf}
 }
